@@ -4,7 +4,9 @@
   "description": "A package containing a modding api for GDevelop games and a loader to load them.",
   "main": "./cli/cli.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+	"electron": "./node_modules/.bin/electron ./gui/main.js",
+	"electron-win": ".\node_modules\.bin\electron.cmd .\gui\main.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +24,8 @@
     "asar": "^2.0.3",
     "chalk": "^3.0.0",
     "commander": "^4.1.0"
+  },
+  "devDependencies": {
+    "electron": "^7.1.10"
   }
 }
