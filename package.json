@@ -1,0 +1,26 @@
+{
+  "name": "gdmod",
+  "version": "1.0.0",
+  "description": "A package containing a modding api for GDevelop games and a loader to load them.",
+  "main": "./cli/cli.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/arthuro555/gdmod"
+  },
+  "keywords": [
+    "mod",
+    "modding",
+    "GDevelop",
+    "asar"
+  ],
+  "author": "Arthur Pacaud (arthuro555)",
+  "license": "MIT",
+  "dependencies": {
+    "asar": "^2.0.3",
+    "chalk": "^3.0.0",
+    "commander": "^4.1.0"
+  }
+}
