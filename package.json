@@ -5,8 +5,8 @@
   "main": "./cli/cli.js",
   "scripts": {
     "test": "test",
-	"electron": "./node_modules/.bin/electron ./gui/main.js",
-	"electron-win": ".\node_modules\.bin\electron.cmd .\gui\main.js"
+    "electron": "./node_modules/.bin/electron ./gui/main.js",
+    "electron-win": ".\\node_modules\\.bin\\electron.cmd .\\gui\\main.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,8 @@
   "dependencies": {
     "asar": "^2.0.3",
     "chalk": "^3.0.0",
-    "commander": "^4.1.0"
+    "commander": "^4.1.0",
+    "jsondiffpatch": "^0.4.1"
   },
   "devDependencies": {
     "electron": "^7.1.10"
