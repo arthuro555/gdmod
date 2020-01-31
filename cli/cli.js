@@ -1,9 +1,11 @@
+#! /usr/bin/env node
+
 const program = require("commander");
 var chalk = require('chalk');
 const GDJSPatcher = require("../Loader/patcher")
 
 program
-    .name("GDMod CLI")
+    .name("gdmodCli")
     .version('0.0.1')
     .description("A CLI for installing the mod loader or a mod")
 
@@ -21,6 +23,7 @@ program
     .action((directory, additionalPatches) => {
         GDJSPatcher(directory, additionalPatches);
     })
+
 program
     .command('install-mod-asar <asarFile>')
     .description('Install a mod in a GDevelop game with the loader')
@@ -28,6 +31,7 @@ program
         //TODO
         console.warn(chalk.redBright(chalk.bold("Error: Not Implemented")))
     })
+
 program
     .command('install-loader-asar <asarFile>')
     .description('Install the loader in a GDevelop game')
@@ -35,5 +39,9 @@ program
         //TODO
         console.warn(chalk.redBright(chalk.bold("Error: Not Implemented")))
     })
+
+program
+    .command("*")
+    .outputHelp()
 
 program.parse(process.argv);
