@@ -2,7 +2,7 @@
 
 const program = require("commander");
 var chalk = require('chalk');
-const GDJSPatcher = require("../Loader/patcher")
+const GDJSPatcher = require("../Loader/patchUtils/patcher")
 
 program
     .name("gdmodCli")
