@@ -13,13 +13,17 @@ const patcher = function(directory, additionalPatchesDir) {
     if(typeof directory !== "string") throw new Error(String(chalk.bold(chalk.redBright("[ERROR]: ") + chalk.red("Invalid Directory name passed: Not a string"))));
     additionalPatchesDir ? additionalPatchesDir : false;
     
-    let directoryStructure = fs.readdirSync(directory).map(name => path.join(directory, name));
     const patchsSource = path.join(path.dirname(module.filename), "Patches");
-    let sourceStruture = fs.readdirSync(patchsSource).map(name => path.join(patchsSource, name));
+    console.info(chalk.yellow("[Info] Patches directory: " + patchsSource));
+
+    let patchsStruture = fs.readdirSync(patchsSource).map(name => path.join(patchsSource, name));
+
     if (additionalPatchesDir) {
-        sourceStruture.concat(fs.readdirSync(additionalPatchesDir).map(name => path.join(additionalPatchesDir, name)));
+        patchsStruture.concat(fs.readdirSync(additionalPatchesDir).map(name => path.join(additionalPatchesDir, name)));
     }
-    console.log(sourceStruture, directory)
+
+    console.info(chalk.yellow("[Info] Patches: ", patchsStruture.toString()));
+    console.info(chalk.greenBright("[Debug] App Directory: ", directory));
 }
 
 module.exports = patcher;
