@@ -1,4 +1,6 @@
 # gdmod
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Farthuro555%2Fgdmod.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Farthuro555%2Fgdmod?ref=badge_shield)
+
 A modding API for GDevelop games
 
 THIS SOFTWARE IS STILL A WIP, DO NOT USE IT YET!
@@ -23,3 +25,7 @@ This project will be separated in 3 Modules.
   It will be the part that will inject the API into the game and apply patches to the core to enable modding.
 
 This structure will probably change in the future.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Farthuro555%2Fgdmod.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Farthuro555%2Fgdmod?ref=badge_large)
