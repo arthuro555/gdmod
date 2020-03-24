@@ -49,7 +49,7 @@ GDAPI.currentScene = null;
  */
 GDAPI.game = null;
 
-// Polyfill Object registration to support Older games
+// Polyfill Object registration to support older games
 gdjs.RuntimeScene.prototype.registerObject = gdjs.RuntimeScene.prototype.registerObject || function(objectData) {
     this._objects.put(objectData.name, objectData);
     this._instances.put(objectData.name, []); //Also reserve an array for the instances

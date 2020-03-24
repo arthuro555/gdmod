@@ -7,8 +7,11 @@ GDAPI.SceneTools = {}
 
 /**
  * Add an object to the Scene and take care of registration.
- * @param {gdjs.RuntimeObject} - The object to add to the scene.
+ * @param {gdjs.RuntimeObject} runtimeObject - The object to add to the scene.
  */
 GDAPI.SceneTools.addObjectToScene = function (runtimeObject) {
-    //TODO
+    if(!GDAPI.currentScene._objects.containsKey(runtimeObject.getName())) {
+        GDAPI.currentScene.registerObject(runtimeObject.data);
+    }
+    GDAPI.currentScene.addObject(runtimeObject);
 }
