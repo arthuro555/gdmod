@@ -15,7 +15,7 @@ window.gdjs = {
    * Contains functions used by events (this is a convention only, functions can actually
    * by anywhere).
    * @namespace
-   * @memberOf gdjs
+   * @memberof gdjs
    */
   evtTools: {},
   callbacksFirstRuntimeSceneLoaded: [],
