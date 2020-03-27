@@ -2,5 +2,5 @@
     "compilerOptions": {
         "module": "none"
     },
-    "include": ["./gdjs/*", "./*"]
+    "include": ["./**/*"]
 }
