@@ -149,5 +149,5 @@ const addPatch = function(patch) {
 
 createPatch("C:\\Users\\Eliseflo\\AppData\\Local\\Programs\\miko_39s_32adventures\\resources\\app\\app", "C:\\Users\\Eliseflo\\AppData\\Local\\Programs\\miko_39s_32adventures\\resources\\app\\appm")
 
-module.exports = createPatch
+module.exports = createPatch;
 module.exports.addPatch = addPatch;
