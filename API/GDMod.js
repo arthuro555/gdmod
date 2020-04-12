@@ -22,4 +22,4 @@ GDAPI.Mod.prototype.preEvent = function(runtimeScene) {}
  * Function called after the scene's event sheet.
  * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
  */
-GDApi.Mod.prototype.postEvent = function(runtimeScene) {}
+GDAPI.Mod.prototype.postEvent = function(runtimeScene) {}
