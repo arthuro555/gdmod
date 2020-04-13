@@ -23,7 +23,9 @@
   "dependencies": {
     "asar": "^2.0.3",
     "chalk": "^3.0.0",
-    "commander": "^4.1.0",
+    "commander": "^4.1.0"
+  },
+  "optionalDependencies": {
     "dir-compare": "^2.0.1",
     "jsondiffpatch": "^0.4.1"
   },
