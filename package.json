@@ -21,9 +21,10 @@
   "author": "Arthur Pacaud (arthuro555)",
   "license": "MIT",
   "dependencies": {
-    "asar": "^2.0.3",
+    "asar": "^3.0.3",
     "chalk": "^3.0.0",
-    "commander": "^4.1.0"
+    "commander": "^4.1.0",
+    "memfs": "^3.1.2"
   },
   "optionalDependencies": {
     "dir-compare": "^2.0.1",
