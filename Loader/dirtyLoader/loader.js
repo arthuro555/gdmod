@@ -1,4 +1,3 @@
-const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
 
@@ -13,9 +12,21 @@ let insertLine = function(line, position, text) {
     return newText;
 }
 
-module.exports = function(outputDir) {
+/**
+ * Applies patches to a GD game
+ * @param {string} outputDir - The directory of the GDevelop game.
+ * @param {any} [fs] - The filesystem object to use.
+ */
+module.exports = function(outputDir, fs) {
+    if(!fs) {
+        const fs = require("fs");
+    }
+
     // Basic check for a GDevelop game
-    if (!fs.readdirSync(outputDir).includes("gd.js")) { console.error("The given output path is not a GDevelop game!") }
+    if (!fs.readdirSync(outputDir).includes("gd.js")) { console.error(chalk.redBright("The given output path is not a GDevelop game!")); return; }
+
+    // Basic check for an existing patch
+    if (!fs.readdirSync(outputDir).includes("GDApi.js")) { console.error(chalk.redBright("The given output path contains an already patched game!")); return; }
 
     // List recursively all API files
     let allfiles = [];
@@ -70,5 +81,3 @@ module.exports = function(outputDir) {
         console.log(chalk.greenBright("[BASE PATCHER] ") + chalk.magenta("Applied dependency includes patch to index.html."));
     });
 }
-
-module.exports(path.join(".", "h"));
