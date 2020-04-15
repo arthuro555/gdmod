@@ -26,15 +26,15 @@ GDAPI.CALLBACKS = {
  * @param {Function} callback - The callback to register.
  */
 GDAPI.registerCallback = function(callbackType, callback) {
-    if(callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED) { callbacksFirstRuntimeSceneLoaded.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.SCENE_LOADED) { callbacksRuntimeSceneLoaded.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.PRE_EVENTS) { callbacksRuntimeScenePreEvents.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.POST_EVENTS) { callbacksRuntimeScenePostEvents.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.SCENE_PAUSED) { callbacksRuntimeScenePaused.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.SCENE_RESUMED) { callbacksRuntimeSceneResumed.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.SCENE_UNLOADING) { callbacksRuntimeSceneUnloading.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.SCENE_UNLOADED) { callbacksRuntimeSceneUnloaded.push(callback); }
-    if(callbackType === GDAPI.CALLBACKS.OBJECT_DELETED_FROM_SCENE) { callbacksObjectDeletedFromScene.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED) { gdjs.callbacksFirstRuntimeSceneLoaded.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.SCENE_LOADED) { gdjs.callbacksRuntimeSceneLoaded.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.PRE_EVENTS) { gdjs.callbacksRuntimeScenePreEvents.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.POST_EVENTS) { gdjs.callbacksRuntimeScenePostEvents.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.SCENE_PAUSED) { gdjs.callbacksRuntimeScenePaused.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.SCENE_RESUMED) { gdjs.callbacksRuntimeSceneResumed.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.SCENE_UNLOADING) { gdjs.callbacksRuntimeSceneUnloading.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.SCENE_UNLOADED) { gdjs.callbacksRuntimeSceneUnloaded.push(callback); }
+    if(callbackType === GDAPI.CALLBACKS.OBJECT_DELETED_FROM_SCENE) { gdjs.callbacksObjectDeletedFromScene.push(callback); }
 }
 
 /**
