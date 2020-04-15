@@ -15,7 +15,7 @@ window.loadModder = function() {
     /* Actual Code here */
     js.onload = function () {
         // Initialize Variables
-        let GDJSContexts = [];
+        window.GDJSContexts = [];
         window.GDJSContext = null;
         window.GDModDocument = document.implementation.createHTMLDocument("GDMod Menu");
         window.menuIFrames = [];
@@ -32,6 +32,10 @@ window.loadModder = function() {
         GDModDocument.head.appendChild(uikitcss);
         GDModDocument.head.appendChild(uikitjs);
         GDModDocument.head.appendChild(uikiticons);
+
+        window.setGDJSContext = (id) => {
+            GDJSContext = GDJSContexts[id];
+        }
 
         /* Add modifications to every IFrame on modification of the Document */
         new MutationObserver(() => {
@@ -69,6 +73,7 @@ window.loadModder = function() {
                 iframe.contentDocument.replaceChild(node, iframe.contentDocument.documentElement);
             }
             
+            /* Make sure the IFrame is responsive */
             iframe.style = "position: absolute; top: 0; left: 0; border: 0; width: 100%; height: 100%;" // Make responsive
             menu.modalBox.firstChild.style = "overflow: hidden; padding-top: 56.25%; position: relative;"
             
@@ -85,6 +90,8 @@ window.loadModder = function() {
         <h6 class="uk-text-emphasis uk-text-bolder">By Arthur Pacaud (arthuro555)</h6>
         <p class="uk-text-center"> This loader is a big WIP. It is not functional ATM. </p>
         `);
+
+        let menu2 = createMenu("Loading...", ['overlay', 'button', 'escape']);
         
         menu.addFooterBtn('Search for GDevelop game', 'tingle-btn tingle-btn--primary', function() {
             menu.close();
@@ -97,14 +104,47 @@ window.loadModder = function() {
                     GDJSContexts.push(iframeContext);
                 }
             }
+            
+            if(GDJSContexts.length === 0) {
+                menu2.baseContent = `<h3 class="uk-heading-medium">Sorry, no GDevelop game found on this webpage :/`
+                menu2.addFooterBtn('Close', 'tingle-btn tingle-btn--danger', function() {
+                    menu2.close();
+                });
+            } else {
+                menu2.baseContent = `
+                <h4>Choose the GDevelop Game you want to mod from this list of found games:</h2>
+                <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
+                `
+                let i = 0
+                for(let context of GDJSContexts) {
+                    let gameName = context.gdjs.projectData.properties.name;
+                    let gameAuthor = context.gdjs.projectData.properties.author;
+                    menu2.baseContent += `
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">${gameName}</h3>
+                            <p> By: ${gameAuthor} </p>
+                        </div>
+                        <div class="uk-card-footer">
+                            <button onclick="window.parent.setGDJSContext(${i++})" class="uk-button uk-button-text">Select This Game</a>
+                        </div>
+                    </div>
+                    `
+                }
+                menu2.baseContent += `
+                </div>
+                `
+                menu2.addFooterBtn('Patch Game', 'tingle-btn tingle-btn--primary', function() {
+                    // TODO
+                });
+            }
+
             menu2.open();
         });
         
         menu.addFooterBtn('Cancel Mod Loading', 'tingle-btn tingle-btn--danger', function() {
             menu.close();
         });
-
-        var menu2 = createMenu("Not Implemented", ['overlay', 'button', 'escape']);
         
         /* Open main modal */
         menu.open();
