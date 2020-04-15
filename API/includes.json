@@ -1,4 +1,5 @@
 [
+    "jszip.min.js",
     "GDApi.js",
     "GDMod.js",
     "SceneTools.js"
