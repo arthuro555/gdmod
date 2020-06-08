@@ -1,7 +1,7 @@
 # gdmod
 A modding API for GDevelop games
 
-THIS SOFTWARE IS STILL A WIP, DO NOT USE IT YET!
+THIS SOFTWARE IS STILL A WIP, EVEN THO SOME FEATURES WORK, DO NOT EXPECT TOO MUCH!
 
 Do NOT use this on games who requires accepting a lisence prohibiting game code decompilation, modification or anything like that.
 
