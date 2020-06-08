@@ -34,7 +34,7 @@ GDAPI.Mod.prototype.onGameStart = function(runtimeScene) {}
  * @param {Buffer | ArrayBuffer | Blob} modAsZip - The Mod file.
  */
 GDAPI.loadZipMod = function(modAsZip) {
-    let mainfests = {};
+    let manifests = {};
 
     return new Promise((resolve, reject) => {
         new JSZip().loadAsync(modAsZip)
@@ -81,7 +81,7 @@ GDAPI.loadZipMod = function(modAsZip) {
             });
 
         }).then(() => {
-            console.log(mainfests);
+            console.log(manifests);
             resolve();
         });
     }).catch((error) => {
