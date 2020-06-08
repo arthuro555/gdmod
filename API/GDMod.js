@@ -45,7 +45,7 @@ GDAPI.Mod.prototype.onGameStart = function(runtimeScene) {}
  * @namespace
  */
 GDAPI.ModManager = {
-    mods = {}
+    mods: {}
 };
 
 /**
