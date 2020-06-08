@@ -52,8 +52,21 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
         }
     });
 
+    const fileElement = document.getElementById("fileInput");
+    fileElement.addEventListener('change', function () {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            chrome.tabs.sendMessage(tabs[0].id, {message: "loadMod", mod: reader.result});
+        }
+        reader.readAsDataURL(fileElement.files[0]); 
+    });
+
     document.getElementById('mods').addEventListener('show', function () {
         chrome.tabs.sendMessage(tabs[0].id, {message: "installAPI"});
+    });
+
+    document.getElementById('selectMod').addEventListener('click', function() {
+        fileElement.click();
     });
 
     // Now that we opened the mod loader install the API into the game (the API is not crucial and is therefore only loaded when needed)
