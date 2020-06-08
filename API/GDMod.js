@@ -2,7 +2,19 @@
  * An interface descibing a Mod.
  * @interface
  */
-GDAPI.Mod = function() {};
+GDAPI.Mod = function() {
+    /** 
+     * The mod's name
+     * @type {string}
+     */
+    this.name = "";
+
+    /** 
+     * The mod's uid
+     * @type {string}
+     */
+    this.uid = "";
+};
 
 /**
  * Function called while the mod is loading.
@@ -27,6 +39,27 @@ GDAPI.Mod.prototype.postEvent = function(runtimeScene) {};
  * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
  */
 GDAPI.Mod.prototype.onGameStart = function(runtimeScene) {}
+
+/**
+ * A Manager for mods.
+ * @class
+ */
+GDAPI.ModManager = function() {
+    this.mods = {};
+};
+
+/**
+ * Adds a mod to the manager.
+ * @param {GDAPI.Mod} mod - The mod to add to the manager.
+ * @returns {boolean} - Was the adding successful?
+ */
+GDAPI.ModManager.add = function(mod) {
+    if(mod.uid in this.mods) {
+        return false;
+    }
+    this.mods[mod.uid] = mod;
+    return true;
+}
 
 /**
  * Loads a mod from a zip.
@@ -72,11 +105,17 @@ GDAPI.loadZipMod = function(modAsZip) {
                     reject("The manifest resources.json cannot be parsed! Is it valid JSON?")
                 })
                 .then(resolver);
+            })
+            .then(() => {
+                let promises = [];
+                for (let include of manifests.includes) {
+                    promises.push(
+                        zip.file("js/"+include).async("string")
+                        .then(jsFile => eval(jsFile))
+                    )
+                }
+                return Promise.all(promises);
             });
-
-        }).then(() => {
-            console.log(manifests);
-            resolve();
         });
     }).catch((error) => {
         console.error("Error while loading mod file: " + error.toString());
@@ -89,6 +128,7 @@ GDAPI.loadZipMod = function(modAsZip) {
  * @param {GDAPI.Mod} mod - The {@link GDAPI.Mod} instance.
  */
 GDAPI.loadMod = function(mod) {
+    if(!GDAPI.ModManager.add(mod)) return;
     GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, mod.preEvent);
     GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, mod.postEvent);
     GDAPI.registerCallback(GDAPI.CALLBACKS.FIRST_SCENE_LOADED, mod.onGameStart);
