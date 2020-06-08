@@ -39,45 +39,39 @@ GDAPI.loadZipMod = function(modAsZip) {
     return new Promise((resolve, reject) => {
         new JSZip().loadAsync(modAsZip)
         .then((zip) => {
-            // First we need to verify if the manifests are correct
-            // Verify their presence
-            if(zip.file("data/GDMod.json") == undefined || zip.file("data/includes.json") == undefined || zip.file("data/resources.json") == undefined) {
-                reject("A manifest file is missing! Is this a GDMod mod?");
-                return;
-            }
+            return new Promise((resolver, rejecter) => {
+                // First we need to verify if the manifests are correct
+                // Verify their presence
+                if(zip.file("data/GDMod.json") == undefined || zip.file("data/includes.json") == undefined || zip.file("data/resources.json") == undefined) {
+                    reject("A manifest file is missing! Is this a GDMod mod?");
+                    return;
+                }
 
-            // Verify their basic validity and store them in an object
-            zip.file("data/GDMod.json").async("string")
-            .then((GDMod) => {
-                return new Promise((resolver) => {
+                // Verify their basic validity and store them in an object
+                zip.file("data/GDMod.json").async("string")
+                .then((GDMod) => {
                     manifests.main = JSON.parse(GDMod);
-                    resolver();
-                });
-            })
-            .catch(() => {
-                reject("The manifest GDMod.json cannot be parsed! Is it valid JSON?")
-            })
+                })
+                .catch(() => {
+                    reject("The manifest GDMod.json cannot be parsed! Is it valid JSON?")
+                })
 
-            .then(zip.file("data/includes.json").async("string"))
-            .then((includes) => {
-                return new Promise((resolver) => {
+                .then(() => zip.file("data/includes.json").async("string"))
+                .then((includes) => {
                     manifests.includes = JSON.parse(includes);
-                    resolver();
-                });
-            })
-            .catch(() => {
-                reject("The manifest includes.json cannot be parsed! Is it valid JSON?")
-            })
+                })
+                .catch(() => {
+                    reject("The manifest includes.json cannot be parsed! Is it valid JSON?")
+                })
 
-            .then(zip.file("data/resources.json").async("string"))
-            .then((resources) => {
-                return new Promise((resolver) => {
+                .then(() => zip.file("data/resources.json").async("string"))
+                .then((resources) => {
                     manifests.resources = JSON.parse(resources);
-                    resolver();
-                });
-            })
-            .catch(() => {
-                reject("The manifest resources.json cannot be parsed! Is it valid JSON?")
+                })
+                .catch(() => {
+                    reject("The manifest resources.json cannot be parsed! Is it valid JSON?")
+                })
+                .then(resolver);
             });
 
         }).then(() => {
