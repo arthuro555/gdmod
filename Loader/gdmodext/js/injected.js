@@ -1,6 +1,5 @@
 /**
- * This is a file injected into HTML documents by GDMod patcher.
- * It is for supporting patching games in IFrames bypassing the cross-origin policy.
+ * This is the file injected into HTML documents by GDMod patcher.
  * @fileoverview
  */
 
@@ -12,7 +11,7 @@ const debug = false;
 /**
  * The CDN to fetch the GDAPI files from
  */
-const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@8ec6b07e41cedc8c23b5708d8ed468bffbe6fb0c/API/";
+const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod/API/";
 
 /**
  * Flag telling if that page got patched already.
@@ -20,9 +19,26 @@ const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@8ec6b07e41cedc8c23b570
 let isPatched = false;
 
 /**
+ * Flag telling if that page has loaded the API already.
+ */
+let isAPILoaded = false;
+
+
+/**
+ * Send an object to the Popup
+ * @param {string} id The identifier of the payload (tells the popup what to do with the data)
+ * @param {any} payload The message to post to the Popup
+ */
+function postToPopup(id, payload) {
+    window.postMessage({forwardTo: "GDMod", payload: {id: id, payload: payload}}, "*");
+}
+
+/**
  * Installs the modding API.
  */
 function installGDModAPI() {
+    if(isAPILoaded) return;
+
     return fetch(CDN + "includes.json")
     .then(req => req.json())
     .then(includes => {
@@ -34,6 +50,8 @@ function installGDModAPI() {
                 script.src = CDN + include;
                 script.onload = function() {
                     if (++loaded === includes.length) {
+                        isAPILoaded = true;
+                        postToPopup("installedAPI", true);
                         resolve();
                     }
                     if(!debug) document.body.removeChild(script); // Cleanup document after loading API.
@@ -70,15 +88,6 @@ function patchSceneCode() {
     }
 }
 
-/**
- * Send an object to the Popup
- * @param {string} id The identifier of the payload (tells the popup what to do with the data)
- * @param {any} payload The message to post to the Popup
- */
-function postToPopup(id, payload) {
-    window.postMessage({forwardTo: "GDMod", payload: {id: id, payload: payload}}, "*");
-}
-
 
 // First we verify if the game is a GDevelop game
 if(window.gdjs !== undefined) {
@@ -90,12 +99,13 @@ if(window.gdjs !== undefined) {
                        * it still executes the original code and we won't have access until the scene switches
                        * once. This comment is here because we used to patch only on request by the user.
                        */
-    installGDModAPI(); // We install the modding API.
 
     window.addEventListener("message", function(event) {
         if(typeof event.data["message"] !== "undefined") {
             if(event.data["message"] === "ping") {
                 postToPopup("pong", true);
+            } else if(event.data["message"] === "installAPI") {
+                installGDModAPI();
             } else if(event.data["message"] === "listScenes") {
                 let allScenes = [];
                 for (let scene of gdjs.projectData.layouts) allScenes.push(scene.name);
