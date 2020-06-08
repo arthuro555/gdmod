@@ -37,10 +37,11 @@ GDAPI.loadZipMod = function(modAsZip) {
     let mainfests = {};
 
     return new Promise((resolve, reject) => {
-        new JSZip().loadAsync(modAsZip).then((zip) => {
+        new JSZip().loadAsync(modAsZip)
+        .then((zip) => {
             // First we need to verify if the manifests are correct
             // Verify their presence
-            if(zip.file("data/GDMod.json") === undefined || zip.file("data/includes.json") === undefined || zip.file("data/resources.json") === undefined) {
+            if(zip.file("data/GDMod.json") == undefined || zip.file("data/includes.json") == undefined || zip.file("data/resources.json") == undefined) {
                 reject("A manifest file is missing! Is this a GDMod mod?");
                 return;
             }
@@ -77,9 +78,7 @@ GDAPI.loadZipMod = function(modAsZip) {
             })
             .catch(() => {
                 reject("The manifest resources.json cannot be parsed! Is it valid JSON?")
-            })
-
-            .then(resolve);
+            });
 
         }).then(() => {
             console.log(mainfests);
