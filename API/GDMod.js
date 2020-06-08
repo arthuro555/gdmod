@@ -30,14 +30,69 @@ GDAPI.Mod.prototype.onGameStart = function(runtimeScene) {}
 
 /**
  * Loads a mod from a zip.
- * @param {any} modAsZip - The Mod file.
+ * This is what is used to actually load a modfile.
+ * @param {Buffer | ArrayBuffer | Blob} modAsZip - The Mod file.
  */
 GDAPI.loadZipMod = function(modAsZip) {
-    // TODO
+    let mainfests = {};
+
+    return new Promise((resolve, reject) => {
+        new JSZip().loadAsync(modAsZip).then((zip) => {
+            // First we need to verify if the manifests are correct
+            // Verify their presence
+            if(zip.file("data/GDMod.json") === undefined || zip.file("data/includes.json") === undefined || zip.file("data/resources.json") === undefined) {
+                reject("A manifest file is missing! Is this a GDMod mod?");
+                return;
+            }
+
+            // Verify their basic validity and store them in an object
+            zip.file("data/GDMod.json").async("string")
+            .then((GDMod) => {
+                return new Promise((resolver) => {
+                    manifests.main = JSON.parse(GDMod);
+                    resolver();
+                });
+            })
+            .catch(() => {
+                reject("The manifest GDMod.json cannot be parsed! Is it valid JSON?")
+            })
+
+            .then(zip.file("data/includes.json").async("string"))
+            .then((includes) => {
+                return new Promise((resolver) => {
+                    manifests.includes = JSON.parse(includes);
+                    resolver();
+                });
+            })
+            .catch(() => {
+                reject("The manifest includes.json cannot be parsed! Is it valid JSON?")
+            })
+
+            .then(zip.file("data/resources.json").async("string"))
+            .then((resources) => {
+                return new Promise((resolver) => {
+                    manifests.resources = JSON.parse(resources);
+                    resolver();
+                });
+            })
+            .catch(() => {
+                reject("The manifest resources.json cannot be parsed! Is it valid JSON?")
+            })
+
+            .then(resolve);
+
+        }).then(() => {
+            console.log(mainfests);
+            resolve();
+        });
+    }).catch((error) => {
+        console.error("Error while loading mod file: " + error.toString());
+    });
 };
 
 /**
  * Loads a {@link GDAPI.Mod} instance.
+ * This is used only to initialize a Mod interface implementation.
  * @param {GDAPI.Mod} mod - The {@link GDAPI.Mod} instance.
  */
 GDAPI.loadMod = function(mod) {
