@@ -110,7 +110,7 @@ GDAPI.loadZipMod = function(modAsZip) {
                 let promises = [];
                 for (let include of manifests.includes) {
                     promises.push(
-                        zip.file("js/"+include).async("string")
+                        zip.file("code/"+include).async("string")
                         .then(jsFile => eval(jsFile))
                     )
                 }
