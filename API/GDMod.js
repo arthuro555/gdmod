@@ -42,10 +42,10 @@ GDAPI.Mod.prototype.onGameStart = function(runtimeScene) {}
 
 /**
  * A Manager for mods.
- * @class
+ * @namespace
  */
-GDAPI.ModManager = function() {
-    this.mods = {};
+GDAPI.ModManager = {
+    mods = {}
 };
 
 /**
