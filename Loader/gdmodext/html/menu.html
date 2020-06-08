@@ -6,11 +6,41 @@
 	</head>
 	
 	<body>
-        <h1 class="uk-heading-medium" id="connecting">Connecting...</h1>
-        <h4>Choose the scene you want to load:</h2>
-        <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" id="scenes" uk-grid>
-            <p>Loading...</p>
-        </div>
+        <h1 class="uk-heading-medium" id="connecting">Connecting to game...</h1>
+		<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+			<li><a href="#">Overview</a></li>
+			<li><a href="#">Mod Loader</a></li>
+			<li><a href="#">Scene switcher</a></li>
+			<li><a href="#">Settings</a></li>
+		</ul>
+		<ul class="uk-switcher uk-margin" uk-switcher="animation: uk-animation-fade">
+			<li id="overview">
+				<h2 class="uk-heading-small">Overview</h2>
+				<p class="uk-text-lead">
+					Welcome to the dashboard! Here you can control the game like you want.
+					Keep in mind that this tool is for modding, and the other tools are made for 
+					<b>debugging mods</b>. You can use them for other purpose but 
+					while using them keep in mind that their main purpose is modding.
+				</p>
+			</li>
+			<li id="mods">
+				<h2 class="uk-heading-small">Mod Loader</h2>
+				<p class="uk-text-lead">Nothing here yet ;)</p>
+				<a href="#" uk-switcher-item="next">Go to Scene Switcher</a>
+			</li>
+			<li id="scenes">
+				<h2 class="uk-heading-small">Scene switcher</h2>
+				<h4>Chose the scene you want to load:</h2>
+				<div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" id="scenelist" uk-grid>
+					<h5 class="uk-text-meta">Loading...</h5>
+				</div>
+			</li>
+			<li id="settings">
+				<h2 class="uk-heading-small">Settings</h2>
+				<p class="uk-text-lead">Nothing to configure yet ;)</p>
+				<a href="#" uk-switcher-item="previous">Go to Scene Switcher</a>
+			</li>
+		</ul>
 		
 		<!-- Additional Scripts -->
 		<script src="../vendor/uikit.min.js"></script>

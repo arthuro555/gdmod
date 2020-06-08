@@ -36,20 +36,26 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
             if(event["id"] === "pong") {
                 console.log("pong")
             } else if(event["id"] === "listScenes") {
-                const scenes = document.getElementById("scenes");
+                const scenes = document.getElementById("scenelist");
                 scenes.innerHTML = "";
                 for(let sceneName of event.payload) {
                     scenes.appendChild(createCard(sceneName));
                 }
             } else if(event["id"] === "installedAPI") {
+                // TODO
+            } else if(event["id"] === "connected") {
                 // This means the game is connected and ready
                 document.title = "GDmod Scene Selector";
-                document.getElementById("connecting").innerHTML = "Connected!";
+                document.getElementById("connecting").innerHTML = "Dashboard for GD game " + event.payload.name;
                 chrome.tabs.sendMessage(tabs[0].id, {message: "listScenes"}); // Get list of scenes (will be moved)
             }
         }
     });
 
+    document.getElementById('mods').addEventListener('show', function () {
+        chrome.tabs.sendMessage(tabs[0].id, {message: "installAPI"});
+    });
+
     // Now that we opened the mod loader install the API into the game (the API is not crucial and is therefore only loaded when needed)
-    chrome.tabs.sendMessage(tabs[0].id, {message: "installAPI"});
+    chrome.tabs.sendMessage(tabs[0].id, {message: "connect"});
 });

@@ -2,10 +2,6 @@ let patcherButton = document.getElementById("patcher-button");
 
 patcherButton.addEventListener("click", function() {
     if (!patcherButton.hasAttribute("disabled")) {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {message: "patch"});
-        });
-        patcherButton.setAttribute("disabled", true);
         chrome.windows.create({
             url: chrome.runtime.getURL("html/menu.html"),
             type: "popup"
