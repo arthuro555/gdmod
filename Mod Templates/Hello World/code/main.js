@@ -13,10 +13,10 @@ window.MyAwesomeMod = {};
 class HelloWorldMod extends GDAPI.Mod {
     initialize() {
         MyAwesomeMod.message = "Hello World!";
-    },
+    };
     preEvent(runtimeScene) {
         console.log(MyAwesomeMod.message);
-    }
+    };
 }
 
 MyAwesomeMod.HelloWorldMod = HelloWorldMod;
