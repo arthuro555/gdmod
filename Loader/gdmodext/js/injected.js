@@ -11,7 +11,7 @@ const debug = false;
 /**
  * The CDN to fetch the GDAPI files from
  */
-const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod/API/";
+const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.1-preview/API/";
 
 /**
  * Flag telling if that page got patched already.
