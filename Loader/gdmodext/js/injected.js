@@ -10,6 +10,11 @@
 const debug = false;
 
 /**
+ * The CDN to fetch the GDAPI files from
+ */
+const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@8ec6b07e41cedc8c23b5708d8ed468bffbe6fb0c/API/";
+
+/**
  * Flag telling if that page got patched already.
  */
 let isPatched = false;
@@ -18,7 +23,7 @@ let isPatched = false;
  * Installs the modding API.
  */
 function installGDModAPI() {
-    return fetch("https://cdn.jsdelivr.net/gh/arthuro555/gdmod/API/includes.json")
+    return fetch(CDN + "includes.json")
     .then(req => req.json())
     .then(includes => {
         return new Promise((resolve) => {
@@ -26,12 +31,12 @@ function installGDModAPI() {
             for(let include of includes) {
                 if(debug) console.log(`Loading ${include}`);
                 const script = document.createElement("script");
-                script.src = `https://cdn.jsdelivr.net/gh/arthuro555/gdmod/API/${include}`;
+                script.src = CDN + include;
                 script.onload = function() {
                     if (++loaded === includes.length) {
                         resolve();
                     }
-                    document.body.removeChild(script); // Cleanup document after loading API.
+                    if(!debug) document.body.removeChild(script); // Cleanup document after loading API.
                 }
                 document.body.appendChild(script);
             }
