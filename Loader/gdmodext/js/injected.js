@@ -15,6 +15,32 @@ const debug = false;
 let isPatched = false;
 
 /**
+ * Installs the modding API.
+ */
+function installGDModAPI() {
+    return fetch("https://cdn.jsdelivr.net/gh/arthuro555/gdmod/API/includes.json")
+    .then(req => req.json())
+    .then(includes => {
+        return new Promise((resolve) => {
+            let loaded = 0;
+            for(let include of includes) {
+                if(debug) console.log(`Loading ${include}`);
+                const script = document.createElement("script");
+                script.src = `https://cdn.jsdelivr.net/gh/arthuro555/gdmod/API/${include}`;
+                script.onload = function() {
+                    if (++loaded === includes.length) {
+                        resolve();
+                    }
+                    document.body.removeChild(script); // Cleanup document after loading API.
+                }
+                document.body.appendChild(script);
+            }
+        });
+    })
+    .then(() => {if(debug) console.log("Loaded GDAPI")});
+}
+
+/**
  * Loops through GDJS searching for scenes event loop and 
  * patch them to continously set {@link GDAPI.currentScene} 
  * to the current {@link GDJS.RuntimeScene}.
@@ -59,6 +85,7 @@ if(window.gdjs !== undefined) {
                        * it still executes the original code and we won't have access until the scene switches
                        * once. This comment is here because we used to patch only on request by the user.
                        */
+    installGDModAPI(); // We install the modding API.
 
     window.addEventListener("message", function(event) {
         if(typeof event.data["message"] !== "undefined") {
