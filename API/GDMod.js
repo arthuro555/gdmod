@@ -104,9 +104,9 @@ GDAPI.loadZipMod = function(modAsZip) {
                 .catch(() => {
                     reject("The manifest resources.json cannot be parsed! Is it valid JSON?")
                 })
-                .then(resolver);
+                .then(() => resolver(zip));
             })
-            .then(() => {
+            .then((zip) => {
                 let promises = [];
                 for (let include of manifests.includes) {
                     promises.push(
