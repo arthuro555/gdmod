@@ -4,13 +4,13 @@
  * My mods shared data
  * @namespace
  */
-MyAwesomeMod = {};
+window.MyAwesomeMod = {};
 
 /**
  * My Hello World Mod :)
  * @extends {GDAPI.Mod}
  */
-class MyAwesomeMod.HelloWorldMod extends GDAPI.Mod {
+class HelloWorldMod extends GDAPI.Mod {
     initialize() {
         MyAwesomeMod.message = "Hello World!";
     },
@@ -18,5 +18,7 @@ class MyAwesomeMod.HelloWorldMod extends GDAPI.Mod {
         console.log(MyAwesomeMod.message);
     }
 }
+
+MyAwesomeMod.HelloWorldMod = HelloWorldMod;
 
 GDAPI.loadMod(new MyAwesomeMod.HelloWorldMod());
