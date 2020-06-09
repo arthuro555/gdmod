@@ -75,9 +75,9 @@ function patchSceneCode() {
     if(debug) console.log("Patching Game");
 
     for (let i in window.gdjs) {
-        if(i.includes("Code")) { // Find all potential Event Code
+        if(i.includes("Code")) { // Find all potential event code modules
             let module = window.gdjs[i];
-            if (typeof module.func !== "undefined") {
+            if (typeof module.func !== "undefined") { // Check if it really is an event code module
                 module.originalFunc = module.func.bind({});
                 module.func = function(...args) {
                     window.GDAPI.currentScene = args[0]; // First arg is runtimeScene.
