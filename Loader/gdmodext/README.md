@@ -1,6 +1,7 @@
 ## Installation
 
 Install me by extracting that folder to a fixed location, opening chrome://extensions, activating Developer mode (top right), and clicking "Load unpacked Extension". Then just select the folder. 
+For Firefox go on about:debugger then open unpacked extension and select that directory.
 
 ## Usage
 
@@ -35,7 +36,3 @@ With access to the current Scene, we control the whole game.
 We pass messages through the forwarding we have set up between the injected script and te extension to send messages between the UI and the injected script. 
 The injected script will then do predefined actions to `GDAPI.currentScene` depending on the message sent by the UI.
 
-## Potential Risk
-
-You can see this as a potential risk or not, but other (maybe trust unworthy) extensions can also send messages to the content script (injected script).
-It can also be seen as a way to have other UIs and making the extension extendable.

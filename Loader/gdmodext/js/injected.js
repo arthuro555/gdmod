@@ -79,9 +79,11 @@ function patchSceneCode() {
             let module = window.gdjs[i];
             if (typeof module.func !== "undefined") {
                 module.originalFunc = module.func.bind({});
-                module.func = function(runtimeScene) {
-                    window.GDAPI.currentScene = runtimeScene;
-                    module.originalFunc(runtimeScene);
+                module.func = function(...args) {
+                    window.GDAPI.currentScene = args[0]; // First arg is runtimeScene.
+                                                         // We accept multiple args for compatibility with older games 
+                                                         // who had other args (context).
+                    module.originalFunc.apply(module, args);
                 }
             }
         }
