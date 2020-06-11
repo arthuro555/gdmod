@@ -1,5 +1,9 @@
 let patcherButton = document.getElementById("patcher-button");
 
+// Firefox popups look weird with custom size style, so we remove it on that browser.
+if(typeof InstallTrigger !== 'undefined')
+    document.body.style = "";
+
 patcherButton.addEventListener("click", function() {
     if (!patcherButton.hasAttribute("disabled")) {
         chrome.windows.create({
