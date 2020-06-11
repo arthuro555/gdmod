@@ -1,4 +1,5 @@
 // This is the main code file. It declares the Mods namespace, the mod, etc.
+// It returns the new Mod created.
 
 /**
  * My mods shared data
@@ -21,4 +22,4 @@ class HelloWorldMod extends GDAPI.Mod {
 
 MyAwesomeMod.HelloWorldMod = HelloWorldMod;
 
-GDAPI.loadMod(new MyAwesomeMod.HelloWorldMod());
+return MyAwesomeMod.HelloWorldMod;

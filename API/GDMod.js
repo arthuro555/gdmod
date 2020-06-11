@@ -7,13 +7,38 @@ GDAPI.Mod = function() {
      * The mod's name
      * @type {string}
      */
-    this.name = "";
+    this.name = "NO_NAME";
 
     /** 
      * The mod's uid
      * @type {string}
      */
-    this.uid = "";
+    this.uid = "NO_UID";
+
+    /** 
+     * The mod's version
+     * @type {string}
+     */
+    this.version = "0.0.0";
+
+    /** 
+     * The mod's description
+     * @type {string}
+     */
+    this.description = "NO_DESC";
+
+    /** 
+     * The mod's author
+     * @type {string}
+     */
+    this.author = "NO_AUTHOR";
+
+    /**
+     * Used to verify if an object is a mod
+     * @type {boolean}
+     * @private
+     */
+    this._isMod = true;
 };
 
 /**
@@ -108,10 +133,32 @@ GDAPI.loadZipMod = function(modAsZip) {
             })
             .then((zip) => {
                 let promises = [];
+                let modLoaded = false;
                 for (let include of manifests.includes) {
                     promises.push(
                         zip.file("code/"+include).async("string")
-                        .then(jsFile => eval(jsFile))
+                        .then(jsFile => {
+                            const potentialMod = eval(`(function() {${jsFile}}())`);
+                            // If a mod is returned
+                            if(typeof potentialMod === "function" && !modLoaded) {
+                                const mod = new potentialMod(); // Instanciate it
+                                if(mod._isMod) {
+                                    function setAttribute(attribute) {
+                                        if(typeof manifests.main[attribute] === "undefined") {
+                                            console.warn(`Missing Atrribute '${attribute}' in GDMod.json!`);
+                                        } else mod[attribute] = manifests.main[attribute];
+                                    }
+                                    // Now that we are pretty sure this is a mod, we set it's properties and load it
+                                    setAttribute("name");
+                                    setAttribute("uid");
+                                    setAttribute("author");
+                                    setAttribute("description");
+                                    setAttribute("version");
+                                    GDAPI.loadMod(mod);
+                                    modLoaded = true; // Only allow one mod to load (else there would be multiple mods with same metadata).
+                                }
+                            }
+                        })
                     )
                 }
                 return Promise.all(promises);
@@ -128,7 +175,7 @@ GDAPI.loadZipMod = function(modAsZip) {
  * @param {GDAPI.Mod} mod - The {@link GDAPI.Mod} instance.
  */
 GDAPI.loadMod = function(mod) {
-    if(!GDAPI.ModManager.add(mod)) return;
+    if(!GDAPI.ModManager.add(mod)) return console.error(`Tryed to load already loaded mod '${mod.name}'!`);
     GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, mod.preEvent);
     GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, mod.postEvent);
     GDAPI.registerCallback(GDAPI.CALLBACKS.FIRST_SCENE_LOADED, mod.onGameStart);
