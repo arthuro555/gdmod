@@ -12,10 +12,12 @@ patcherButton.addEventListener("click", function() {
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.runtime.onMessage.addListener(function(event) {
         if(typeof event["id"] !== "undefined") {
-            if(event["id"] === "pong") {
-                patcherButton.removeAttribute("disabled");
-                patcherButton.innerText = "Open Control Pannel";
-                document.getElementById("searching").innerText = "GD game found!";
+            if(event["origin"] === "loader") {
+                if(event["id"] === "pong") {
+                    patcherButton.removeAttribute("disabled");
+                    patcherButton.innerText = "Open Control Pannel";
+                    document.getElementById("searching").innerText = "GD game found!";
+                }
             }
         }
     });

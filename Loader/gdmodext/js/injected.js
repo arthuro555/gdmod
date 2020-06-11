@@ -31,7 +31,7 @@ let isAPILoaded = false;
  * @param {any} payload The message to post to the Popup
  */
 function postToPopup(id, payload) {
-    window.postMessage({forwardTo: "GDMod", payload: {id: id, payload: payload}}, "*");
+    window.postMessage({forwardTo: "GDMod", payload: {id: id, origin:"loader", payload: payload}}, "*");
 }
 
 /**
@@ -63,7 +63,9 @@ function installGDModAPI() {
     })
     .then(() => {
         // Overwrite GDAPI.messageUI to let the modding API interract with this UI.
-        GDAPI.messageUI = postToPopup;
+        GDAPI.messageUI = function(id, extraData) {
+            window.postMessage({forwardTo: "GDMod", payload: {id: id, origin:"GDAPI", payload: extraData}}, "*");
+        }
     })
     .then(() => {if(debug) console.log("Loaded GDAPI")});
 }

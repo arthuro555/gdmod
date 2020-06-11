@@ -33,21 +33,23 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
 
     chrome.runtime.onMessage.addListener(function(event) {
         if(typeof event["id"] !== "undefined") {
-            if(event["id"] === "pong") {
-                console.log("pong")
-            } else if(event["id"] === "listScenes") {
-                const scenes = document.getElementById("scenelist");
-                scenes.innerHTML = "";
-                for(let sceneName of event.payload) {
-                    scenes.appendChild(createCard(sceneName));
+            if(event["origin"] === "loader") {
+                if(event["id"] === "pong") {
+                    console.log("pong")
+                } else if(event["id"] === "listScenes") {
+                    const scenes = document.getElementById("scenelist");
+                    scenes.innerHTML = "";
+                    for(let sceneName of event.payload) {
+                        scenes.appendChild(createCard(sceneName));
+                    }
+                } else if(event["id"] === "installedAPI") {
+                    // TODO
+                } else if(event["id"] === "connected") {
+                    // This means the game is connected and ready
+                    document.title = "GDmod Scene Selector";
+                    document.getElementById("connecting").innerHTML = "Dashboard for GD game " + event.payload.name;
+                    chrome.tabs.sendMessage(tabs[0].id, {message: "listScenes"}); // Get list of scenes (will be moved)
                 }
-            } else if(event["id"] === "installedAPI") {
-                // TODO
-            } else if(event["id"] === "connected") {
-                // This means the game is connected and ready
-                document.title = "GDmod Scene Selector";
-                document.getElementById("connecting").innerHTML = "Dashboard for GD game " + event.payload.name;
-                chrome.tabs.sendMessage(tabs[0].id, {message: "listScenes"}); // Get list of scenes (will be moved)
             }
         }
     });

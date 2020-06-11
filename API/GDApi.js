@@ -49,14 +49,6 @@ GDAPI.currentScene = null;
  */
 GDAPI.game = null;
 
-// Polyfill Object registration to support older games
-gdjs.RuntimeScene.prototype.registerObject = gdjs.RuntimeScene.prototype.registerObject || function(objectData) {
-    this._objects.put(objectData.name, objectData);
-    this._instances.put(objectData.name, []); //Also reserve an array for the instances
-    this._instancesCache.put(objectData.name, []); //and for cached instances
-    this._objectsCtor.put(objectData.name, gdjs.getObjectConstructor(objectData.type)); //And cache the constructor for the performance sake
-}
-
 /**
  * This is a function overriden by the loader that lets you send
  * @function
@@ -64,3 +56,11 @@ gdjs.RuntimeScene.prototype.registerObject = gdjs.RuntimeScene.prototype.registe
  * @param {any} extraData - An object to pass to the UI with the message.
  */
 GDAPI.messageUI = function(id, extraData) {};
+
+// Polyfill Object registration to support older games
+gdjs.RuntimeScene.prototype.registerObject = gdjs.RuntimeScene.prototype.registerObject || function(objectData) {
+    this._objects.put(objectData.name, objectData);
+    this._instances.put(objectData.name, []); //Also reserve an array for the instances
+    this._instancesCache.put(objectData.name, []); //and for cached instances
+    this._objectsCtor.put(objectData.name, gdjs.getObjectConstructor(objectData.type)); //And cache the constructor for the performance sake
+}
