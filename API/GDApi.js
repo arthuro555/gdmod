@@ -56,3 +56,11 @@ gdjs.RuntimeScene.prototype.registerObject = gdjs.RuntimeScene.prototype.registe
     this._instancesCache.put(objectData.name, []); //and for cached instances
     this._objectsCtor.put(objectData.name, gdjs.getObjectConstructor(objectData.type)); //And cache the constructor for the performance sake
 }
+
+/**
+ * This is a function overriden by the loader that lets you send
+ * @function
+ * @param {string} id - The Identifier, aka the main message. This tells the IDE what you want to do.
+ * @param {any} extraData - An object to pass to the UI with the message.
+ */
+GDAPI.messageUI = function(id, extraData) {};

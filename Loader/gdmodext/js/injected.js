@@ -12,6 +12,7 @@ const debug = false;
  * The CDN to fetch the GDAPI files from
  */
 const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.1-preview/API/";
+//const CDN = "http://localhost:5000/";
 
 /**
  * Flag telling if that page got patched already.
@@ -59,6 +60,10 @@ function installGDModAPI() {
                 document.body.appendChild(script);
             }
         });
+    })
+    .then(() => {
+        // Overwrite GDAPI.messageUI to let the modding API interract with this UI.
+        GDAPI.messageUI = postToPopup;
     })
     .then(() => {if(debug) console.log("Loaded GDAPI")});
 }
@@ -118,7 +123,7 @@ function dataURItoBlob(dataURI) {
 // First we verify if the game is a GDevelop game
 if(window.gdjs !== undefined) {
     if (debug) console.log("GD Game Detected!");
-    window.GDAPI = {};
+    window.GDAPI = {}; // We need to define it so that the scene can be stored in it, even if the API isn't loaded yet.
     patchSceneCode(); /* 
                        * We need to do so to patch the scene code before the first scene loaded: when the 
                        * scene starts it takes a reference to the function. So even if we replace it
