@@ -49,6 +49,18 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
                     document.title = "GDmod Scene Selector";
                     document.getElementById("connecting").innerHTML = "Dashboard for GD game " + event.payload.name;
                     chrome.tabs.sendMessage(tabs[0].id, {message: "listScenes"}); // Get list of scenes (will be moved)
+                } else if(event["id"] === "modReceived") {
+                    document.getElementById("modload-currentAction").innerText = "Loading Mod...";
+                    document.getElementById("modload-progress").setAttribute("value","2");
+                }
+            } else if(event["origin"] === "GDAPI") {
+                if(event["id"] === "modLoaded") {
+                    document.getElementById("modload-progress").setAttribute("value","3");
+                    UIkit.modal(document.getElementById("modload-modal")).hide();
+                } else if(event["id"] === "modLoadError") {
+                    UIkit.modal(document.getElementById("modload-modal")).hide();
+                    document.getElementById("modload-error").innerText = event.payload;
+                    UIkit.modal(document.getElementById("modload-error-modal")).show();
                 }
             }
         }
@@ -56,8 +68,12 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
 
     const fileElement = document.getElementById("fileInput");
     fileElement.addEventListener('change', function () {
+        UIkit.modal(document.getElementById("modload-modal")).show();
+
         var reader = new FileReader();
         reader.onloadend = function() {
+            document.getElementById("modload-currentAction").innerText = "Uploading Mod to the game...";
+            document.getElementById("modload-progress").setAttribute("value","1");
             chrome.tabs.sendMessage(tabs[0].id, {message: "loadMod", mod: reader.result});
         }
         reader.readAsDataURL(fileElement.files[0]); 

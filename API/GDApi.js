@@ -50,7 +50,8 @@ GDAPI.currentScene = null;
 GDAPI.game = null;
 
 /**
- * This is a function overriden by the loader that lets you send
+ * This is a function overriden by the loader that lets you send updates to the UI.
+ * Receiving and handling messages from the UI is handled by the loader.
  * @function
  * @param {string} id - The Identifier, aka the main message. This tells the IDE what you want to do.
  * @param {any} extraData - An object to pass to the UI with the message.

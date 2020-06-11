@@ -11,8 +11,8 @@ const debug = false;
 /**
  * The CDN to fetch the GDAPI files from
  */
-const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.1-preview/API/";
-//const CDN = "http://localhost:5000/";
+//const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.1-preview/API/";
+const CDN = "http://localhost:5000/";
 
 /**
  * Flag telling if that page got patched already.
@@ -150,6 +150,7 @@ if(window.gdjs !== undefined) {
                 GDAPI.currentScene.getGame()._sceneStack.replace(event.data.scene, true);
             } else if(event.data["message"] === "loadMod") {
                 const mod = dataURItoBlob(event.data["mod"]);
+                postToPopup("modReceived");
                 GDAPI.loadZipMod(mod);
             }
         }

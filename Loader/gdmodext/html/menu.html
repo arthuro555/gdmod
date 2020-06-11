@@ -18,16 +18,15 @@
 				<h2 class="uk-heading-small">Overview</h2>
 				<p class="uk-text-lead">
 					Welcome to the dashboard! Here you can control the game like you want.
-					Keep in mind that this tool is for modding, and the other tools are made for 
+					Keep in mind that this tool is for <br>modding</br>, and the other tools are made for 
 					<b>debugging mods</b>. You can use them for other purpose but 
 					while using them keep in mind that their main purpose is modding.
 				</p>
 			</li>
 			<li id="mods">
-				<h2 class="uk-heading-small">Mod Loader</h2>
+				<h2 class="uk-heading-small">Mod Manager</h2>
 				<button class="uk-button-primary" id="selectMod">Load Mod</button>
 				<input type="file" id="fileInput" hidden></input>
-				<a href="#" uk-switcher-item="next">Go to Scene Switcher</a>
 			</li>
 			<li id="scenes">
 				<h2 class="uk-heading-small">Scene switcher</h2>
@@ -42,6 +41,38 @@
 				<a href="#" uk-switcher-item="previous">Go to Scene Switcher</a>
 			</li>
 		</ul>
+
+		<!-- Modals For Modloading -->
+		<div id="modload-modal" class="uk-modal-full uk-background-muted" esc-close="false" bg-close="false" uk-modal>
+			<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+				<div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+					<div class="uk-padding-large">
+						<h1>Mod Loading...</h1>
+						<p id="modload-currentAction" class="uk-center">Loading mod...</p>
+						<progress id="modload-progress" class="uk-progress" value="0" max="3"></progress>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="modload-error-modal" class="uk-modal-full uk-background-muted" uk-modal>
+			<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+				<div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+					<div class="uk-padding-large">
+						<h2>Error While Loding Mod</h2>
+						<ul uk-accordion>
+							<li>
+								<a class="uk-accordion-title" href="#">Show Error</a>
+								<div class="uk-accordion-content">
+									<p id="modload-error">Error.</p>
+								</div>
+							</li>
+						</ul>
+						<button class="uk-modal-close">Ok</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		
 		<!-- Additional Scripts -->
 		<script src="../vendor/uikit.min.js"></script>

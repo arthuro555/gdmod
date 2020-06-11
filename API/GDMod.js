@@ -162,10 +162,12 @@ GDAPI.loadZipMod = function(modAsZip) {
                     )
                 }
                 return Promise.all(promises);
-            });
+            })
+            .then(() => GDAPI.messageUI("modLoaded"));
         });
     }).catch((error) => {
         console.error("Error while loading mod file: " + error.toString());
+        GDAPI.messageUI("modLoadError", error);
     });
 };
 
