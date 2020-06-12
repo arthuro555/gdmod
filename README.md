@@ -1,4 +1,5 @@
 # gdmod
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
 A modding API for GDevelop games  
 *Installation instructions on [the wiki](https://github.com/arthuro555/gdmod/wiki)*
 
