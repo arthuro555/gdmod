@@ -1,7 +1,8 @@
 # gdmod
-A modding API for GDevelop games
+A modding API for GDevelop games  
+*Installation instructions on [the wiki](https://github.com/arthuro555/gdmod/wiki)*
 
-THIS SOFTWARE IS STILL A WIP, EVEN THO SOME FEATURES WORK, DO NOT EXPECT TOO MUCH!
+THIS SOFTWARE IS STILL A WIP, SOME FEATURES MIGHT NOT WORK!
 
 Do NOT use this on games who requires accepting a lisence prohibiting game code decompilation, modification or anything like that.
 
