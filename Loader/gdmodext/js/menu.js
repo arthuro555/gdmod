@@ -57,6 +57,7 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
                 if(event["id"] === "modLoaded") {
                     document.getElementById("modload-progress").setAttribute("value","3");
                     UIkit.modal(document.getElementById("modload-modal")).hide();
+                    UIkit.notification({message: 'Mod Loaded successfully!', status: 'success'});
                 } else if(event["id"] === "modLoadError") {
                     UIkit.modal(document.getElementById("modload-modal")).hide();
                     document.getElementById("modload-error").innerText = event.payload;
