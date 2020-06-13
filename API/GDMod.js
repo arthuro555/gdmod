@@ -97,6 +97,7 @@ GDAPI.loadZipMod = function(modAsZip) {
     return new Promise((resolve, reject) => {
         new JSZip().loadAsync(modAsZip)
         .then((zip) => {
+            // Load Manifests
             return new Promise((resolver, rejecter) => {
                 // First we need to verify if the manifests are correct
                 // Verify their presence
@@ -131,7 +132,50 @@ GDAPI.loadZipMod = function(modAsZip) {
                 })
                 .then(() => resolver(zip));
             })
+            .then(zip => {
+                // Notify the UI how many files are to load (to update the progress bar size)
+                GDAPI.messageUI(
+                    "beginLoading", 
+                    [Object.keys(manifests.resources).length, Object.keys(manifests.includes).length]
+                );
+                return zip;
+            })
+            .then(zip => {
+                // Load resources
+                return new Promise(resolver => {
+                    if (Object.keys(manifests.resources).length === 0) {
+                        resolver(zip); //Nothing to load.
+                        return;
+                    }
+
+                    GDAPI.messageUI("beginLoadingResources");
+                    const imageManager = GDAPI.game.getImageManager();
+
+                    let loaders = [];
+                    for(let resource of manifests.resources) {
+                        loaders.push(
+                            zip.file("resources/"+resource.file).async("blob")
+                            .then(resourceFile => {
+                                // Convert blob to dataurl
+                                return new Promise((resolveReader) => {
+                                    const blobURL = URL.createObjectURL(resourceFile);
+                                    var img = new Image();
+                                    img.addEventListener("load", function(event){URL.revokeObjectURL(blobURL);});
+                                    img.src = blobURL;
+                                    imageManager._loadedTextures.put(resource.name, new PIXI.Texture(new PIXI.BaseTexture(img)));
+                                    resolveReader();
+                                });
+                            }));
+                    }
+                    Promise.all(loaders)
+                    .then(() => {
+                        console.log("Loaded All Textures");
+                        resolver(zip);
+                    });
+                });
+            })
             .then((zip) => {
+                // Load the code
                 let promises = [];
                 let modLoaded = false;
                 for (let include of manifests.includes) {
@@ -143,8 +187,10 @@ GDAPI.loadZipMod = function(modAsZip) {
                             if(typeof potentialMod === "function" && !modLoaded) {
                                 const mod = new potentialMod(); // Instanciate it
                                 if(mod._isMod) {
-                                    function setAttribute(attribute) {
-                                        if(typeof manifests.main[attribute] === "undefined") {
+                                    function setAttribute(attribute, optional) {
+                                        optional = optional || false;
+                                        if(typeof manifests.main[attribute] === "undefined" || optional) {
+                                            // There are defaults for everything, but only warn if it isn't meant to be an optional attribute
                                             console.warn(`Missing Atrribute '${attribute}' in GDMod.json!`);
                                         } else mod[attribute] = manifests.main[attribute];
                                     }
