@@ -62,6 +62,14 @@ function installGDModAPI() {
         });
     })
     .then(() => {
+        // Re-Override GDAPI.game with a getter because it got overridden by GDAPI.
+        Object.defineProperty(GDAPI, 'game', { get: function() { 
+            if(GDAPI.currentScene != undefined) {
+                return GDAPI.currentScene.getGame();
+            }; 
+        }});
+    })
+    .then(() => {
         // Overwrite GDAPI.messageUI to let the modding API interract with this UI.
         GDAPI.messageUI = function(id, extraData) {
             window.postMessage({forwardTo: "GDMod", payload: {id: id, origin:"GDAPI", payload: extraData}}, "*");
@@ -95,6 +103,13 @@ function patchSceneCode() {
             }
         }
     }
+
+    // Override GDAPI.game with a getter
+    Object.defineProperty(GDAPI, 'game', { get: function() { 
+        if(GDAPI.currentScene != undefined) {
+            return GDAPI.currentScene.getGame();
+        }; 
+    }});
 }
 
 /** From https://stackoverflow.com/a/12300351/10994662 */
