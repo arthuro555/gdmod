@@ -11,8 +11,8 @@ const debug = false;
 /**
  * The CDN to fetch the GDAPI files from
  */
-const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.2-preview/API/";
-//const CDN = "http://localhost:5000/";
+//const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.2-preview/API/";
+const CDN = "http://localhost:5000/";
 
 /**
  * Flag telling if that page got patched already.
@@ -38,7 +38,10 @@ function postToPopup(id, payload) {
  * Installs the modding API.
  */
 function installGDModAPI() {
-    if(isAPILoaded) return;
+    if(isAPILoaded) {
+        postToPopup("installedAPI", true);
+        return;
+    }
 
     return fetch(CDN + "includes.json")
     .then(req => req.json())
@@ -52,7 +55,6 @@ function installGDModAPI() {
                 script.onload = function() {
                     if (++loaded === includes.length) {
                         isAPILoaded = true;
-                        postToPopup("installedAPI", true);
                         resolve();
                     }
                     if(!debug) document.body.removeChild(script); // Cleanup document after loading API.
@@ -75,6 +77,7 @@ function installGDModAPI() {
             window.postMessage({forwardTo: "GDMod", payload: {id: id, origin:"GDAPI", payload: extraData}}, "*");
         }
     })
+    .then(() => {postToPopup("installedAPI", true);})
     .then(() => {if(debug) console.log("Loaded GDAPI")});
 }
 
@@ -167,6 +170,10 @@ if(window.gdjs !== undefined) {
                 const mod = dataURItoBlob(event.data["mod"]);
                 postToPopup("modReceived");
                 GDAPI.loadZipMod(mod);
+            } else if(event.data["message"] === "listMods") {
+                if(typeof GDAPI.ModManager.getAllMods === undefined) {
+                    postToPopup("listMods", []);
+                } else postToPopup("listMods", GDAPI.ModManager.getAllMods());
             }
         }
     });

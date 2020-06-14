@@ -87,6 +87,27 @@ GDAPI.ModManager.add = function(mod) {
 }
 
 /**
+ * Get a mod by uid.
+ * @param {string} modUID - The mods UID.
+ * @returns {GDAPI.Mod}
+ */
+GDAPI.ModManager.get = function(modUID) {
+    return this.mods[modUID];
+}
+
+/**
+ * Get an array of all loaded mods.
+ * @returns {Array<GDAPI.Mod>}
+ */
+GDAPI.ModManager.getAllMods = function() {
+    let allMods = [];
+    for(let item in this.mods) {
+        allMods.push(this.mods[item]);
+    }
+    return allMods;
+}
+
+/**
  * Loads a mod from a zip.
  * This is what is used to actually load a modfile.
  * @param {Buffer | ArrayBuffer | Blob} modAsZip - The Mod file.
