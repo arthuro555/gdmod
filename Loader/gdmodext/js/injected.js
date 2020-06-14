@@ -182,9 +182,9 @@ if(window.gdjs !== undefined) {
                 postToPopup("modReceived");
                 GDAPI.loadZipMod(mod);
             } else if(event.data["message"] === "listMods") {
-                if(typeof GDAPI === undefined || typeof GDAPI.ModManager === undefined) {
-                    postToPopup("listMods", []);
-                } else postToPopup("listMods", GDAPI.ModManager.getAllMods());
+                if(typeof GDAPI !== "undefined" && typeof GDAPI.ModManager !== "undefined") {
+                    postToPopup("listMods", GDAPI.ModManager.getAllMods())
+                } else postToPopup("listMods", []);;
             }
         }
     });
