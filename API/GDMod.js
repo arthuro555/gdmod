@@ -83,6 +83,7 @@ GDAPI.ModManager.add = function(mod) {
         return false;
     }
     this.mods[mod.uid] = mod;
+    GDAPI.messageUI("listMods", this.getAllMods());
     return true;
 }
 
