@@ -197,8 +197,25 @@ GDAPI.loadZipMod = function(modAsZip) {
             })
             .then((zip) => {
                 // Load the code
+                function setUpMod(mod) {
+                    function setAttribute(attribute, optional) {
+                        optional = optional || false;
+                        if(typeof manifests.main[attribute] === "undefined" || optional) {
+                            // There are defaults for everything, but only warn if it isn't meant to be an optional attribute
+                            console.warn(`Missing Atrribute '${attribute}' in GDMod.json!`);
+                        } else mod[attribute] = manifests.main[attribute];
+                    }
+                    setAttribute("name");
+                    setAttribute("uid");
+                    setAttribute("author");
+                    setAttribute("description");
+                    setAttribute("version");
+                    GDAPI.loadMod(mod);
+                }
+                
                 let promises = [];
                 let modLoaded = false;
+
                 for (let include of manifests.includes) {
                     promises.push(
                         zip.file("code/"+include).async("string")
@@ -208,27 +225,20 @@ GDAPI.loadZipMod = function(modAsZip) {
                             if(typeof potentialMod === "function" && !modLoaded) {
                                 const mod = new potentialMod(); // Instanciate it
                                 if(mod._isMod) {
-                                    function setAttribute(attribute, optional) {
-                                        optional = optional || false;
-                                        if(typeof manifests.main[attribute] === "undefined" || optional) {
-                                            // There are defaults for everything, but only warn if it isn't meant to be an optional attribute
-                                            console.warn(`Missing Atrribute '${attribute}' in GDMod.json!`);
-                                        } else mod[attribute] = manifests.main[attribute];
-                                    }
                                     // Now that we are pretty sure this is a mod, we set it's properties and load it
-                                    setAttribute("name");
-                                    setAttribute("uid");
-                                    setAttribute("author");
-                                    setAttribute("description");
-                                    setAttribute("version");
-                                    GDAPI.loadMod(mod);
+                                    setUpMod(mod);
                                     modLoaded = true; // Only allow one mod to load (else there would be multiple mods with same metadata).
                                 }
                             }
                         })
                     )
                 }
-                return Promise.all(promises);
+                return Promise.all(promises).then(() => {
+                    if(!modLoaded) {
+                        // Load a default mod for the manager
+                        setUpMod(new GDAPI.Mod());
+                    }
+                });
             })
             .then(() => GDAPI.messageUI("modLoaded"));
         });

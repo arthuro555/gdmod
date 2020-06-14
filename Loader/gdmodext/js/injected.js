@@ -22,6 +22,11 @@ let isPatched = false;
 /**
  * Flag telling if that page has loaded the API already.
  */
+let isAPILoading = false;
+
+/**
+ * Flag telling if that page has loaded the API already.
+ */
 let isAPILoaded = false;
 
 
@@ -38,10 +43,13 @@ function postToPopup(id, payload) {
  * Installs the modding API.
  */
 function installGDModAPI() {
-    if(isAPILoaded) {
-        postToPopup("installedAPI", true);
+    if(isAPILoaded || isAPILoading) {
+        if(isAPILoaded)
+            postToPopup("installedAPI", true);
         return;
     }
+
+    isAPILoading = true;
 
     return fetch(CDN + "includes.json")
     .then(req => req.json())
@@ -54,7 +62,6 @@ function installGDModAPI() {
                 script.src = CDN + include;
                 script.onload = function() {
                     if (++loaded === includes.length) {
-                        isAPILoaded = true;
                         resolve();
                     }
                     if(!debug) document.body.removeChild(script); // Cleanup document after loading API.
@@ -77,7 +84,11 @@ function installGDModAPI() {
             window.postMessage({forwardTo: "GDMod", payload: {id: id, origin:"GDAPI", payload: extraData}}, "*");
         }
     })
-    .then(() => {postToPopup("installedAPI", true);})
+    .then(() => {
+        isAPILoading = false;
+        isAPILoaded = true;
+        postToPopup("installedAPI", true);
+    })
     .then(() => {if(debug) console.log("Loaded GDAPI")});
 }
 
@@ -171,7 +182,7 @@ if(window.gdjs !== undefined) {
                 postToPopup("modReceived");
                 GDAPI.loadZipMod(mod);
             } else if(event.data["message"] === "listMods") {
-                if(typeof GDAPI.ModManager.getAllMods === undefined) {
+                if(typeof GDAPI === undefined || typeof GDAPI.ModManager === undefined) {
                     postToPopup("listMods", []);
                 } else postToPopup("listMods", GDAPI.ModManager.getAllMods());
             }
