@@ -127,6 +127,11 @@ GDAPI.loadZipMod = function(modAsZip) {
                     return;
                 }
 
+                if(GDAPI.currentScene == undefined) {
+                    reject("The game seems unpatched or not fully loaded. Please wait for the game to fully load.");
+                    return;
+                }
+
                 // Verify their basic validity and store them in an object
                 zip.file("data/GDMod.json").async("string")
                 .then((GDMod) => {
@@ -190,7 +195,6 @@ GDAPI.loadZipMod = function(modAsZip) {
                     }
                     Promise.all(loaders)
                     .then(() => {
-                        console.log("Loaded All Textures");
                         resolver(zip);
                     });
                 });
