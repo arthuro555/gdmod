@@ -49,6 +49,13 @@ GDAPI.currentScene = null;
  */
 GDAPI.game = null;
 
+// Make a getter for GDAPI.game
+Object.defineProperty(GDAPI, 'game', { get: function() { 
+    if(GDAPI.currentScene != undefined) {
+        return GDAPI.currentScene.getGame();
+    }; 
+}});
+
 /**
  * This is a function overriden by the loader that lets you send updates to the UI.
  * Receiving and handling messages from the UI is handled by the loader.
