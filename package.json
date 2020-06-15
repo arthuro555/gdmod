@@ -4,7 +4,7 @@
   "description": "A package containing a modding api for GDevelop games and a loader to load them.",
   "main": "./cli/cli.js",
   "scripts": {
-    "gdmodCli": "./cli/cli.js",
+    "gdmodcli": "./cli/cli.js",
     "electron": "./node_modules/.bin/electron ./gui/main.js",
     "electron-win": ".\\node_modules\\.bin\\electron.cmd .\\gui\\main.js"
   },
@@ -33,6 +33,6 @@
     "electron": "^7.1.10"
   },
   "bin": {
-    "gdmodCli": "./cli/cli.js"
+    "gdmodcli": "./cli/cli"
   }
 }

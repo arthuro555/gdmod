@@ -17,7 +17,7 @@ let insertLine = function(line, position, text) {
  * Applies patches to a GD game
  * @param {string} outputDir - The directory of the GDevelop game.
  */
-module.exports = function(outputDir) {
+module.exports.installGDMod = function(outputDir) {
     return new Promise((mainResolve, reject) => {
         // Basic check for a GDevelop game
         if (!fs.readdirSync(outputDir).includes("gd.js")) { console.error(chalk.redBright("The given output path is not a GDevelop game!")); reject(); return; }
