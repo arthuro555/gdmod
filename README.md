@@ -1,6 +1,6 @@
 # gdmod
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
-A modding API for GDevelop games  
+A modding API for [GDevelop](https://gdevelop-app.com/) games  
 *Installation instructions on [the wiki](https://github.com/arthuro555/gdmod/wiki)*
 
 **THIS SOFTWARE IS STILL A WIP, SOME FEATURES MIGHT NOT WORK!**
