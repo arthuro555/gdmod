@@ -2,31 +2,30 @@ const path = require("path");
 const chalk = require("chalk");
 const fs = require("fs");
 
-let insertLine = function(line, position, text) {
-    /** @type {Array<string>} */
-    let arrayText = text.split("\n");
-    arrayText.splice(position, 0, line);
-    let newText = "";
-    for(let newLine of arrayText) {
-        newText += newLine + "\n";
-    }
-    return newText;
+let insertInclude = function(text, include) {
+    const n = text.lastIndexOf("<script src=");
+    let originalInclude = text.slice(n).match(/<script src=.*>.*<\/script>/gm);
+    originalInclude = originalInclude[originalInclude.length - 1];
+    return text.slice(0, n) + text.slice(n).replace(
+        /<script src=.*>.*<\/script>/gm, 
+        originalInclude + `\n\t<script src="${include}"></script>`
+    );
 }
 
 /**
- * Applies patches to a GD game
+ * Installs GDAPI in a GDevelop HTML5 game.
  * @param {string} outputDir - The directory of the GDevelop game.
  */
 module.exports.installGDMod = function(outputDir) {
         const outputDirFiles = fs.readdirSync(outputDir);
         
-        // Basic check for a GDevelop game
+        // Check if it is a GDevelop game
         if (!outputDirFiles.includes("gd.js")) { 
             console.error(chalk.redBright("The given output path is not a GDevelop game!")); 
             return Promise.reject("The given output path is not a GDevelop game!"); 
         }
 
-        // Basic check for an existing patch
+        // Check if it already got patched
         if (outputDirFiles.includes("GDApi.js")) { 
             console.error(chalk.redBright("The given output path contains an already patched game!")); 
             return Promise.reject("The given output path contains an already patched game!"); 
@@ -88,10 +87,10 @@ module.exports.installGDMod = function(outputDir) {
             let indexFile = String(fs.readFileSync(path.join(outputDir, "index.html")));
             // An include file is used to determine the loading order and what needs to be loaded.
             let APIFiles = JSON.parse(String(fs.readFileSync(path.join(__dirname, "..", "..", "API", "includes.json"))));
-            for(let include of APIFiles.reverse()) {
-                indexFile = insertLine("	<script src=\"" + include.split(path.sep).slice(-1)[0]  + "\"></script>", 70, indexFile);
+            for(let include of APIFiles) {
+                indexFile = insertInclude(indexFile, include);
             }
-            fs.writeFileSync(path.join(outputDir, "index.html"), indexFile)
+            fs.writeFileSync(path.join(outputDir, "index.html"), indexFile);
             console.log(chalk.greenBright("[BASE PATCHER] ") + chalk.magenta("Applied dependency includes patch to index.html."));
-        })
+        });
 }

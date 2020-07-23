@@ -72,7 +72,7 @@ function editAsar(asarFile, editor, debug) {
 }
 
 program
-    .name("gdmodCli")
+    .name("gdmod-cli")
     .version('0.0.1')
     .description("A CLI for patchimg a game or adding a mod");
 
@@ -89,7 +89,10 @@ program
     .command('install-loader-unpacked <directory>')
     .description('Install the loader and apply patches to an unpacked GDevelop game')
     .action((directory) => {
-        loader.installGDMod(directory);
+        loader.installGDMod(directory)
+        .catch(() => {
+            console.error(chalk.redBright("An error occured, aborting."));
+        });
         return true;
     })
 
