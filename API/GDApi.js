@@ -39,20 +39,20 @@ GDAPI.registerCallback = function(callbackType, callback) {
 
 /**
  * The current Instance of RuntimeScene.
- * @type {gdjs.RuntimeScene}
+ * @type {?gdjs.RuntimeScene}
  */
-GDAPI.currentScene = null;
+GDAPI.currentScene = GDAPI.currentScene || null;
 
 /**
  * The Instance of RuntimeGame.
- * @type {gdjs.RuntimeGame}
+ * @type {?gdjs.RuntimeGame}
  */
-GDAPI.game = null;
+GDAPI.game = GDAPI.game || null;
 
-// Make a getter for GDAPI.game
-Object.defineProperty(GDAPI, 'game', { get: function() { 
-    if(GDAPI.currentScene != undefined) {
-        return GDAPI.currentScene.getGame();
+// Make a getter for GDAPI.currentScene
+Object.defineProperty(GDAPI, 'currentScene', { get: function() { 
+    if(GDAPI.game != undefined) {
+        return GDAPI.game._sceneStack.getCurrentScene();
     }; 
 }});
 

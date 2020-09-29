@@ -4,15 +4,14 @@
  */
 
 /**
- * Debug Mode
+ * Debug Mode.
  */
 const debug = false;
 
 /**
- * The CDN to fetch the GDAPI files from
+ * The CDN to fetch the GDAPI files from.
  */
-const CDN = "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.4-preview/API/";
-//const CDN = "http://localhost:5000/";
+const CDN = debug ? "http://localhost:5000/" : "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.4-preview/API/";
 
 /**
  * Flag telling if that page got patched already.
@@ -31,9 +30,9 @@ let isAPILoaded = false;
 
 
 /**
- * Send an object to the Popup
- * @param {string} id The identifier of the payload (tells the popup what to do with the data)
- * @param {any} payload The message to post to the Popup
+ * Send an object to the Popup.
+ * @param {string} id The identifier of the payload (tells the popup what to do with the data).
+ * @param {any} payload The message to post to the Popup.
  */
 function postToPopup(id, payload) {
     window.postMessage({forwardTo: "GDMod", payload: {id: id, origin:"loader", payload: payload}}, "*");
@@ -101,9 +100,10 @@ function patchSceneCode() {
             if (typeof module.func !== "undefined") { // Check if it really is an event code module
                 module.originalFunc = module.func.bind({});
                 module.func = function(...args) {
-                    window.GDAPI.currentScene = args[0]; // First arg is runtimeScene.
-                                                         // We accept multiple args for compatibility with older games 
-                                                         // who had other args (context).
+                    if(typeof GDAPI === "undefined") window.GDAPI = {};
+                    window.GDAPI.game = args[0].getGame(); // First arg is runtimeScene.
+                                                           // We accept multiple args for compatibility with older games 
+                                                           // who had other args (context).
                     module.originalFunc.apply(module, args);
                 }
             }
