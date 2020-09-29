@@ -1,3 +1,0 @@
-[submodule "API/patched_gdjs"]
-	path = API/patched_gdjs
-	url = https://github.com/arthuro555/gdmod-gdjs.git
