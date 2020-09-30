@@ -110,10 +110,10 @@ function patchSceneCode() {
         }
     }
 
-    // Override GDAPI.game with a getter
-    Object.defineProperty(GDAPI, 'game', { get: function() { 
-        if(GDAPI.currentScene != undefined) {
-            return GDAPI.currentScene.getGame();
+    // Override GDAPI.currentScene with a getter
+    Object.defineProperty(GDAPI, 'currentScene', { get: function() { 
+        if(GDAPI.game != undefined) {
+            return GDAPI.game._sceneStack.getCurrentScene();
         }; 
     }});
 }
