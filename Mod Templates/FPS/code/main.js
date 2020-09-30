@@ -1,54 +1,65 @@
 const FPSObjectData = {
-    // General Object Data
-    name: "FPSModTextObject",
-    type: "TextObject::Text",
-    variables: [],
-    behaviors: [],
-    // Text Onject Data
-    characterSize: 70,
-    font: "Arial",
-    bold: false,
-    italic: false,
-    underlined: false,
-    color: {
-        r: 20,
-        g: 200,
-        b: 20
-    },
-    string: "FPS: "
+  // General Object Data
+  name: "FPSModTextObject",
+  type: "TextObject::Text",
+  variables: [],
+  behaviors: [],
+  // Text Object Data
+  characterSize: 70,
+  font: "Arial",
+  bold: false,
+  italic: false,
+  underlined: false,
+  color: {
+    r: 20,
+    g: 200,
+    b: 20,
+  },
+  string: "FPS: ",
 };
-
-let currentFPSTextObject;
-
-function injectTextObject(runtimeScene) {
-    // Inject Layer
-    runtimeScene._layers.put(
-        "FPSCounterModLayer", 
-        new gdjs.Layer({
-            name: "FPSCounterModLayer",
-            visibility: true
-        }, runtimeScene)
-    );
-    runtimeScene.registerObject(FPSObjectData);
-    currentFPSTextObject = runtimeScene.createObject("FPSModTextObject");
-    currentFPSTextObject.setLayer("FPSCounterModLayer");
-}
 
 /**
  * An FPS Counter.
  * @extends {GDAPI.Mod}
  */
 class FpsCounterMod extends GDAPI.Mod {
-    initialize() {
-        injectTextObject(GDAPI.currentScene);
-    };
-    postEvent(runtimeScene) {
-        currentFPSTextObject.setString("FPS: " + Math.round(1/gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)))
-    };
-}
+  fpsText = null;
 
-GDAPI.registerCallback(GDAPI.CALLBACKS.SCENE_LOADED, (runtimeScene) => {
-    injectTextObject(runtimeScene);
-});
+  constructor() {
+    super();
+    GDAPI.extTools
+      .loadExtension("TextObject")
+      .then(() => this.sceneChanged(GDAPI.currentScene));
+  }
+
+  sceneChanged(runtimeScene) {
+    // Inject Layer
+    runtimeScene._layers.put(
+      "FPSCounterModLayer",
+      new gdjs.Layer(
+        {
+          name: "FPSCounterModLayer",
+          visibility: true,
+          effects: [],
+        },
+        runtimeScene
+      )
+    );
+    // Inject object
+    runtimeScene.registerObject(FPSObjectData);
+    this.fpsText = runtimeScene.createObject("FPSModTextObject");
+    this.fpsText.setLayer("FPSCounterModLayer");
+  }
+
+  postEvent(runtimeScene) {
+    if (this.fpsText)
+      this.fpsText.setString(
+        "FPS: " +
+          Math.round(
+            1 / gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)
+          )
+      );
+  }
+}
 
 return FpsCounterMod;
