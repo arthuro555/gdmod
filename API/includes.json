@@ -2,5 +2,6 @@
     "jszip.min.js",
     "GDApi.js",
     "GDMod.js",
+	"ExtensionsLoader.js",
     "SceneTools.js"
 ]

@@ -260,8 +260,7 @@ GDAPI.loadZipMod = function(modAsZip) {
  */
 GDAPI.loadMod = function(mod) {
     if(!GDAPI.ModManager.add(mod)) return console.error(`Tried to load already loaded mod '${mod.name}'!`);
-    GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, mod.preEvent);
-    GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, mod.postEvent);
-    GDAPI.registerCallback(GDAPI.CALLBACKS.FIRST_SCENE_LOADED, mod.onGameStart);
-    mod.initialize();
+    if(mod.preEvent) GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, scene => mod.preEvent(scene));
+    if(mod.postEvent) GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, scene => mod.postEvent(scene));
+    if(mod.sceneChanged) GDAPI.registerCallback(GDAPI.CALLBACKS.SCENE_LOADED, scene => mod.sceneChanged(scene));
 };
