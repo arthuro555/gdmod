@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const fs = require("fs");
 const path = require("path");
 const asar = require("asar");
-const loader = require("../Loader/basicLoader/loader");
+const loader = require("../Loader/basicLoader/installer");
 
 /**
  * @callback asarModifier
