@@ -63,7 +63,7 @@ Object.defineProperty(GDAPI, 'currentScene', { get: function() {
  * @param {string} id - The Identifier, aka the main message. This tells the IDE what you want to do.
  * @param {any} extraData - An object to pass to the UI with the message.
  */
-GDAPI.messageUI = function(id, extraData) {};
+GDAPI.messageUI = GDAPI.messageUI || function(id, extraData) {};
 
 // Polyfill Object registration to support older games
 gdjs.RuntimeScene.prototype.registerObject = gdjs.RuntimeScene.prototype.registerObject || function(objectData) {

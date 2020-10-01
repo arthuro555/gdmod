@@ -63,8 +63,9 @@ function editAsar(asarFile, editor, debug) {
             // Delete temp directory
             fs.rmdirSync(tempDir, { recursive: true });
         });
-    }, () => {
+    }, (e) => {
         // Patch aborted, cleaning up:
+        console.log(chalk.redBright(chalk.bold("Error! ")), e);
         console.log(chalk.blue(chalk.italic("Cleaning up...")));
         // Delete temp directory
         fs.rmdirSync(tempDir, { recursive: true });
@@ -74,7 +75,7 @@ function editAsar(asarFile, editor, debug) {
 program
     .name("gdmod-cli")
     .version('0.0.1')
-    .description("A CLI for patchimg a game or adding a mod");
+    .description("CLI for patching GDevelop games and adding mods");
 
 program
     .command('install-mod-unpacked <directory>')
@@ -87,9 +88,11 @@ program
 
 program
     .command('install-loader-unpacked <directory>')
+    .option("-e, --electron", "add additional support patches for electron")
     .description('Install the loader and apply patches to an unpacked GDevelop game')
-    .action((directory) => {
-        loader.installGDMod(directory)
+    .action((directory, args) => {
+        const currentLoader = args.electron ? loader.installGDModElectron : loader.installGDMod;
+        currentLoader(directory)
         .catch(() => {
             console.error(chalk.redBright("An error occured, aborting."));
         });
@@ -110,7 +113,7 @@ program
     .option("-d, --debug", "Activate debug output")
     .description('Install the loader and apply patches to a GDevelop game')
     .action((asarFile, args) => {
-        editAsar(asarFile, loader.installGDMod, args.debug);
+        editAsar(asarFile, loader.installGDModElectron, args.debug);
     })
 
 program

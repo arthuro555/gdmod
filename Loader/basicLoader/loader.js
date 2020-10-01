@@ -101,7 +101,7 @@ gdjs.RuntimeGame = (function() {
     GDAPI.game = this;
   }
 })();
-      `
+      `;
       fs.writeFileSync(path.join(outputDir, "runtimegame.js"), runtimeGameFile);
       console.log(
         chalk.greenBright("[BASE PATCHER] ") +
@@ -123,4 +123,27 @@ gdjs.RuntimeGame = (function() {
           chalk.magenta("Applied dependency includes patch to index.html.")
       );
     });
+};
+
+/**
+ * Installs the modding API with extras for electron.
+ * @param {string} outputDir - The directory of the GDevelop game.
+ */
+module.exports.installGDModElectron = function (outputDir) {
+  return module.exports.installGDMod(outputDir).then(() => {
+    // Copy the electron loader
+    fs.writeFileSync(
+      path.join(outputDir, "electronLoader.js"),
+      fs.readFileSync(path.join(__dirname, "electronLoader.js"))
+    );
+    // Add include for the electron loader
+    let indexFile = String(fs.readFileSync(path.join(outputDir, "index.html")));
+    indexFile = insertInclude(indexFile, "electronLoader.js");
+    fs.writeFileSync(path.join(outputDir, "index.html"), indexFile);
+
+    console.log(
+      chalk.greenBright("[BASE PATCHER] ") +
+        chalk.magenta("Applied Electron support patch.")
+    );
+  });
 };
