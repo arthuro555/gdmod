@@ -5,21 +5,20 @@
  * My mods shared data
  * @namespace
  */
-window.MyAwesomeMod = {};
+window.MyAwesomeMod = {
+    other: "Hello from the other side ;)"
+};
 
 /**
  * My Hello World Mod :)
  * @extends {GDAPI.Mod}
  */
 class HelloWorldMod extends GDAPI.Mod {
-    initialize() {
-        MyAwesomeMod.message = "Hello World!";
-    };
-    preEvent(runtimeScene) {
-        console.log(MyAwesomeMod.message);
+    message = "Hello World!";
+
+    preEvent() {
+        console.log(this.message);
     };
 }
 
-MyAwesomeMod.HelloWorldMod = HelloWorldMod;
-
-return MyAwesomeMod.HelloWorldMod;
+return HelloWorldMod;
