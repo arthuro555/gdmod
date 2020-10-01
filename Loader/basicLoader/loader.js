@@ -61,10 +61,11 @@ module.exports.installGDMod = function (outputDir) {
 
   // Copy files over
   const copyFiles = function () {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       let finished = 0;
       for (let file of APIDeps) {
-        fs.readFile(file, (error, fileInMemory) => {
+        fs.readFile(path.join(APIDir, file), (error, fileInMemory) => {
+          if (error) reject(error);
           const endpath = path.join(outputDir, file);
           console.log(
             chalk.greenBright("[BASE PATCHER] ") +
@@ -72,11 +73,12 @@ module.exports.installGDMod = function (outputDir) {
               chalk.italic(chalk.grey(endpath)) +
               chalk.green("...")
           );
-          fs.writeFile(endpath, fileInMemory, () => {});
-
-          if (++finished === APIDeps.length) {
-            resolve();
-          }
+          fs.writeFile(endpath, fileInMemory, (error) => {
+            if (error) reject(error);
+            if (++finished === APIDeps.length) {
+              resolve();
+            }
+          });
         });
       }
     });
@@ -88,12 +90,18 @@ module.exports.installGDMod = function (outputDir) {
       let runtimeGameFile = String(
         fs.readFileSync(path.join(outputDir, "runtimegame.js"))
       );
-      runtimeGameFile = runtimeGameFile.replace(
-        "gdjs.RuntimeGame = function(data, options) {",
-        `gdjs.RuntimeGame = function(data, options) {
-  if(typeof GDAPI === "undefined") window.GDAPI = {};
-  GDAPI.game = this;`
-      );
+      runtimeGameFile += `
+
+gdjs.RuntimeGame = (function() {
+  var original = gdjs.RuntimeGame;
+  return function(...args) {
+    this.__proto__ = Object.create(original.prototype);
+    original.apply(this, args);
+    if(typeof GDAPI === "undefined") window.GDAPI = {};
+    GDAPI.game = this;
+  }
+})();
+      `
       fs.writeFileSync(path.join(outputDir, "runtimegame.js"), runtimeGameFile);
       console.log(
         chalk.greenBright("[BASE PATCHER] ") +
