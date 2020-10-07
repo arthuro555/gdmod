@@ -2,68 +2,60 @@
  * An interface descibing a Mod.
  * @interface
  */
-GDAPI.Mod = function() {
-    /** 
-     * The mod's name
-     * @type {string}
+GDAPI.Mod = class Mod {
+    /**
+     * Some basic mod metadata automatically set by the loader.
      */
-    this.name = "NO_NAME";
+    metadata = {
+        /** 
+         * The mod's name
+         * @type {string}
+         */
+        name: "NO_NAME",
 
-    /** 
-     * The mod's uid
-     * @type {string}
-     */
-    this.uid = "NO_UID";
+        /** 
+         * The mod's uid
+         * @type {string}
+         */
+        uid: "NO_UID",
 
-    /** 
-     * The mod's version
-     * @type {string}
-     */
-    this.version = "0.0.0";
+        /** 
+         * The mod's version
+         * @type {string}
+         */
+        version: "0.0.0",
 
-    /** 
-     * The mod's description
-     * @type {string}
-     */
-    this.description = "NO_DESC";
+        /** 
+         * The mod's description
+         * @type {string}
+         */
+        description: "NO_DESC",
 
-    /** 
-     * The mod's author
-     * @type {string}
-     */
-    this.author = "NO_AUTHOR";
+        /** 
+         * The mod's author
+         * @type {string}
+         */
+        author: "NO_AUTHOR",
+    }
 
     /**
-     * Used to verify if an object is a mod
-     * @type {boolean}
-     * @private
+     * Function called when the scene switched.
+     * @param {gdjs.RuntimeScene} runtimeScene - The new Scene.
      */
-    this._isMod = true;
+    sceneChanged(runtimeScene) {};
+
+    /**
+     * Function called before the scene's event sheet.
+     * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
+     */
+    preEvent(runtimeScene) {};
+
+    /**
+     * Function called after the scene's event sheet.
+     * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
+     */
+    postEvent(runtimeScene) {};
 };
-
-/**
- * Function called while the mod is loading.
- * @param {number} modID - The ID attributed to the mod by the Loader.
- */
-GDAPI.Mod.prototype.initialize = function() {};
-
-/**
- * Function called before the scene's event sheet.
- * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
- */
-GDAPI.Mod.prototype.preEvent = function(runtimeScene) {};
-
-/**
- * Function called after the scene's event sheet.
- * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
- */
-GDAPI.Mod.prototype.postEvent = function(runtimeScene) {};
-
-/**
- * Function called when the first game scene loaded.
- * @param {gdjs.RuntimeScene} runtimeScene - The current Scene.
- */
-GDAPI.Mod.prototype.onGameStart = function(runtimeScene) {}
 
 /**
  * A Manager for mods.
@@ -79,11 +71,11 @@ GDAPI.ModManager = {
  * @returns {boolean} - Was the adding successful?
  */
 GDAPI.ModManager.add = function(mod) {
-    if(mod.uid in this.mods) {
+    if(mod.metadata.uid in this.mods) {
         return false;
     }
-    this.mods[mod.uid] = mod;
-    GDAPI.messageUI("listMods", this.getAllMods());
+    this.mods[mod.metadata.uid] = mod;
+    GDAPI.messageUI("listMods", this.getAllMods().map(mod => mod.metadata));
     return true;
 }
 
@@ -101,11 +93,7 @@ GDAPI.ModManager.get = function(modUID) {
  * @returns {Array<GDAPI.Mod>}
  */
 GDAPI.ModManager.getAllMods = function() {
-    let allMods = [];
-    for(let item in this.mods) {
-        allMods.push(this.mods[item]);
-    }
-    return allMods;
+    return Object.values(this.mods);
 }
 
 /**
@@ -202,22 +190,6 @@ GDAPI.loadZipMod = function(modAsZip) {
             })
             .then((zip) => {
                 // Load the code
-                function setUpMod(mod) {
-                    function setAttribute(attribute, optional) {
-                        optional = optional || false;
-                        if(typeof manifests.main[attribute] === "undefined" || optional) {
-                            // There are defaults for everything, but only warn if it isn't meant to be an optional attribute
-                            console.warn(`Missing Atrribute '${attribute}' in GDMod.json!`);
-                        } else mod[attribute] = manifests.main[attribute];
-                    }
-                    setAttribute("name");
-                    setAttribute("uid");
-                    setAttribute("author");
-                    setAttribute("description");
-                    setAttribute("version");
-                    GDAPI.loadMod(mod);
-                }
-                
                 let promises = [];
                 let modLoaded = false;
 
@@ -226,22 +198,17 @@ GDAPI.loadZipMod = function(modAsZip) {
                         zip.file("code/"+include).async("string")
                         .then(jsFile => {
                             const potentialMod = eval(`(function() {${jsFile}}())`);
-                            // If a mod is returned
                             if(typeof potentialMod === "function" && !modLoaded) {
-                                const mod = new potentialMod(); // Instanciate it
-                                if(mod._isMod) {
-                                    // Now that we are pretty sure this is a mod, we set it's properties and load it
-                                    setUpMod(mod);
-                                    modLoaded = true; // Only allow one mod to load (else there would be multiple mods with same metadata).
-                                }
+                                GDAPI.loadMod(potentialMod, manifests.main);
+                                modLoaded = true; // Only allow one mod to load (else there would be multiple mods with same metadata).
                             }
                         })
                     )
                 }
                 return Promise.all(promises).then(() => {
                     if(!modLoaded) {
-                        // Load a default mod for the manager
-                        setUpMod(new GDAPI.Mod());
+                        // Load dummy mod for mod list
+                        GDAPI.loadMod(GDAPI.Mod, manifests.main);
                     }
                 });
             })
@@ -256,9 +223,26 @@ GDAPI.loadZipMod = function(modAsZip) {
 /**
  * Loads a {@link GDAPI.Mod} instance.
  * This is used only to initialize a Mod interface implementation.
- * @param {GDAPI.Mod} mod - The {@link GDAPI.Mod} instance.
+ * @param {GDAPI.Mod} ModClass - The {@link GDAPI.Mod} class.
+ * @param {object} manifest - The main manifest of the mod.
  */
-GDAPI.loadMod = function(mod) {
+GDAPI.loadMod = function(ModClass, manifest) {
+    const mod = new ModClass();
+
+    function unserializeAttribute(attribute, optional) {
+        optional = optional || false;
+        if(typeof manifest[attribute] === "undefined" && !optional) {
+            // There are defaults for everything, but still warn if the attribute isn't meant to be optional.
+            console.error(`Missing Atrribute '${attribute}' in GDMod.json!`);
+        } else mod.metadata[attribute] = manifest[attribute];
+    }
+
+    unserializeAttribute("name");
+    unserializeAttribute("uid");
+    unserializeAttribute("author");
+    unserializeAttribute("description");
+    unserializeAttribute("version");
+
     if(!GDAPI.ModManager.add(mod)) return console.error(`Tried to load already loaded mod '${mod.name}'!`);
     if(mod.preEvent) GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, scene => mod.preEvent(scene));
     if(mod.postEvent) GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, scene => mod.postEvent(scene));

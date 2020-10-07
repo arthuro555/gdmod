@@ -175,7 +175,7 @@ if(window.gdjs !== undefined) {
                 GDAPI.loadZipMod(mod);
             } else if(event.data["message"] === "listMods") {
                 if(typeof GDAPI !== "undefined" && typeof GDAPI.ModManager !== "undefined") {
-                    postToPopup("listMods", GDAPI.ModManager.getAllMods())
+                    postToPopup("listMods", GDAPI.ModManager.getAllMods().map(mod => mod.metadata));
                 } else postToPopup("listMods", []);;
             }
         }
