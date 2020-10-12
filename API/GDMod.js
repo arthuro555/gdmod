@@ -201,7 +201,6 @@ GDAPI.parseModFile = function (modAsZip) {
  * @param {ModFile} modFile - The Mod file.
  */
 GDAPI.loadModFile = function (modFile) {
-  console.log(modFile);
   /** @type {Manifests} */
   const { manifest, file } = modFile;
   if (!manifest || !file) return Promise.reject("Invalid mod file!");
