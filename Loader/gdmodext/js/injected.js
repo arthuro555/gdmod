@@ -172,7 +172,7 @@ if(window.gdjs !== undefined) {
             } else if(event.data["message"] === "loadMod") {
                 const mod = dataURItoBlob(event.data["mod"]);
                 postToPopup("modReceived");
-                GDAPI.loadZipMod(mod);
+                GDAPI.parseModFile(mod).then(GDAPI.loadModFile).catch(error => console.error(error));
             } else if(event.data["message"] === "listMods") {
                 if(typeof GDAPI !== "undefined" && typeof GDAPI.ModManager !== "undefined") {
                     postToPopup("listMods", GDAPI.ModManager.getAllMods().map(mod => mod.metadata));
