@@ -126,16 +126,17 @@ GDAPI.ModManager.getAllMods = function () {
 /**
  * @typedef ModFile
  * @property {JSZip} file
+ * @property {Buffer | ArrayBuffer | Blob} rawFile
  * @property {Manifests} manifest
  */
 
 /**
  * Parses a mod from a zip.
- * @param {Buffer | ArrayBuffer | Blob} modAsZip - The Mod file.
+ * @param {Buffer | ArrayBuffer | Blob} rawFile - The Mod file.
  * @returns {Promise<ModFile>}
  */
-GDAPI.parseModFile = function (modAsZip) {
-  return new JSZip().loadAsync(modAsZip).then((file) => {
+GDAPI.parseModFile = function (rawFile) {
+  return new JSZip().loadAsync(rawFile).then((file) => {
     // Load Manifests
     // First we need to verify if the manifests are correct
     // Verify their presence
@@ -189,6 +190,7 @@ GDAPI.parseModFile = function (modAsZip) {
       .then(() => {
         return {
           file,
+          rawFile,
           manifest,
         };
       });
