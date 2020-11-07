@@ -1,3 +1,5 @@
+Event.prototype.preventDefault = function() {}; // Hacky Workaround for UIKit design issue
+
 chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
     function changeSceneFactory(sceneName) {
         return (function() {
@@ -72,7 +74,15 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
     Author: ${mod.author}
     Mod UID: ${mod.uid}`;
 
+        const enableButton = document.createElement("button");
+        enableButton.className = "uk-button uk-button-primary";
+        enableButton.innerText = "Enable"
+        enableButton.onclick = () => {
+            chrome.tabs.sendMessage(tabs[0].id, {message: "loadMod", uid: mod.uid});
+        }
+
         cardAccordion.appendChild(modData);
+        cardAccordion.appendChild(enableButton);
 
         return card;
     }
@@ -88,38 +98,27 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
                     for(let sceneName of event.payload) {
                         scenes.appendChild(createSceneCard(sceneName));
                     }
-                } else if(event["id"] === "installedAPI") {
-                    chrome.tabs.sendMessage(tabs[0].id, {message: "listMods"}); // Update modlist
-                    chrome.tabs.sendMessage(tabs[0].id, {message: "listScenes"}); // Update scenelist
-                    document.getElementById("mod-manager-loading").setAttribute("hidden", "");
-                    document.getElementById("mod-manager").removeAttribute("hidden");
                 } else if(event["id"] === "connected") {
                     // This means the game is connected and ready
-                    document.title = "GDmod Patching Dashboard";
+                    document.title = "GDMod Patching Dashboard";
                     document.getElementById("connecting").innerHTML = "Dashboard for GD game " + event.payload.name;
                     chrome.tabs.sendMessage(tabs[0].id, {message: "installAPI"});
                 } else if(event["id"] === "modReceived") {
-                    document.getElementById("modload-currentAction").innerText = "Loading Mod...";
+                    document.getElementById("modload-currentAction").innerText = "Saving Mod...";
                     document.getElementById("modload-progress").setAttribute("value","2");
-                }
-            } else if(event["origin"] === "GDAPI") {
-                if(event["id"] === "modLoaded") {
+                } else if(event["id"] === "modInstalled") {
+                    document.getElementById("modload-currentAction").innerText = "Done!";
                     document.getElementById("modload-progress").setAttribute("value","3");
                     UIkit.modal(document.getElementById("modload-modal")).hide();
-                    UIkit.notification({message: 'Mod Loaded successfully!', status: 'success'});
-                } else if(event["id"] === "modLoadError") {
-                    UIkit.modal(document.getElementById("modload-modal")).hide();
-                    document.getElementById("modload-error").innerText = event.payload;
-                    UIkit.modal(document.getElementById("modload-error-modal")).show();
+                } else if(event["id"] === "listMods") {
+                    const mods = document.getElementById("modList");
+                    mods.innerHTML = "";
+                    for(let mod of event.payload) {
+                        mods.appendChild(createModCard(mod));
+                    }
                 }
-            }
-            // Common to GDAPI and the loader
-            if(event["id"] === "listMods") {
-                const mods = document.getElementById("modList");
-                mods.innerHTML = "";
-                for(let mod of event.payload) {
-                    mods.appendChild(createModCard(mod));
-                }
+            } else if(event["origin"] === "GDAPI") {
+                // No events by GDAPI currently
             }
         }
     });
@@ -132,7 +131,7 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
         reader.onloadend = function() {
             document.getElementById("modload-currentAction").innerText = "Uploading Mod to the game...";
             document.getElementById("modload-progress").setAttribute("value","1");
-            chrome.tabs.sendMessage(tabs[0].id, {message: "loadMod", mod: reader.result});
+            chrome.tabs.sendMessage(tabs[0].id, {message: "installMod", mod: reader.result});
         }
         reader.readAsDataURL(fileElement.files[0]); 
     });
@@ -140,6 +139,20 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
     document.getElementById('selectMod').addEventListener('click', function() {
         fileElement.click();
     });
+
+    document
+      .getElementById('modsList')
+      .addEventListener('click', () => {
+          chrome.tabs.sendMessage(tabs[0].id, {message: "listMods"}); 
+          return true;
+    });
+    
+    document
+      .getElementById('scenesList')
+      .addEventListener('click', () => { 
+          chrome.tabs.sendMessage(tabs[0].id, {message: "listScenes"});
+          return true;
+      });
 
     // Now that we opened the mod loader install the API into the game (the API is not crucial and is therefore only loaded when needed)
     chrome.tabs.sendMessage(tabs[0].id, {message: "connect"});

@@ -75,10 +75,6 @@ GDAPI.ModManager.add = function (mod) {
     return false;
   }
   this.mods[mod.metadata.uid] = mod;
-  GDAPI.messageUI(
-    "listMods",
-    this.getAllMods().map((mod) => mod.metadata)
-  );
   return true;
 };
 
@@ -207,19 +203,12 @@ GDAPI.loadModFile = function (modFile) {
   const { manifest, file } = modFile;
   if (!manifest || !file) return Promise.reject("Invalid mod file!");
 
-  // Notify the UI how many files are to load (to update the progress bar size)
-  GDAPI.messageUI("beginLoading", [
-    Object.keys(manifest.resources).length,
-    Object.keys(manifest.includes).length,
-  ]);
-
   // Load resources
   return new Promise((resolver) => {
     if (Object.keys(manifest.resources).length === 0) {
       resolver(); //Nothing to load.
     }
 
-    GDAPI.messageUI("beginLoadingResources");
     const imageManager = GDAPI.game.getImageManager();
 
     let loaders = [];
@@ -276,7 +265,6 @@ GDAPI.loadModFile = function (modFile) {
         }
       });
     })
-    .then(() => GDAPI.messageUI("modLoaded"))
     .catch((error) => {
       console.error("Error while loading mod file: " + error.toString());
     });

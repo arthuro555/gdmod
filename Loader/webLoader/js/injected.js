@@ -6,27 +6,19 @@
 /**
  * Debug Mode.
  */
-const debug = false;
+const debug = true;
 
 /**
  * The CDN to fetch the GDAPI files from.
  */
-const CDN = debug ? "http://localhost:5000/" : "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.5-preview/API/";
+const CDN = debug 
+                ? "http://localhost:5000/" 
+                : "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.5-preview/API/";
 
 /**
- * Flag telling if that page got patched already.
+ * The localforage store containing the cached mods.
  */
-let isPatched = false;
-
-/**
- * Flag telling if that page has loaded the API already.
- */
-let isAPILoading = false;
-
-/**
- * Flag telling if that page has loaded the API already.
- */
-let isAPILoaded = false;
+let modStore = null;
 
 
 /**
@@ -42,14 +34,6 @@ function postToPopup(id, payload) {
  * Installs the modding API.
  */
 function installGDModAPI() {
-    if(isAPILoaded || isAPILoading) {
-        if(isAPILoaded)
-            postToPopup("installedAPI", true);
-        return;
-    }
-
-    isAPILoading = true;
-
     return fetch(CDN + "includes.json")
     .then(req => req.json())
     .then(includes => {
@@ -76,8 +60,6 @@ function installGDModAPI() {
         }
     })
     .then(() => {
-        isAPILoading = false;
-        isAPILoaded = true;
         postToPopup("installedAPI", true);
     })
     .then(() => {if(debug) console.log("Loaded GDAPI")});
@@ -89,9 +71,6 @@ function installGDModAPI() {
  * to the current {@link GDJS.RuntimeScene}.
  */
 function patchSceneCode() {
-    if(isPatched) return;
-    isPatched = true;
-
     if(debug) console.log("Patching Game");
 
     for (let i in window.gdjs) {
@@ -142,6 +121,13 @@ function dataURItoBlob(dataURI) {
   
   }
 
+function reloadModList() {
+    var allMods = [];
+    modStore.iterate(mod => {
+        allMods.push(mod.info);
+    })
+    .then(() => postToPopup("listMods", allMods));
+}
 
 // First we verify if the game is a GDevelop game
 if(window.gdjs !== undefined) {
@@ -158,8 +144,6 @@ if(window.gdjs !== undefined) {
         if(typeof event.data["message"] !== "undefined") {
             if(event.data["message"] === "ping") {
                 postToPopup("pong", true);
-            } else if(event.data["message"] === "installAPI") {
-                installGDModAPI();
             } else if(event.data["message"] === "connect") {
                 postToPopup("connected", gdjs.projectData.properties);
             } else if(event.data["message"] === "listScenes") {
@@ -169,16 +153,48 @@ if(window.gdjs !== undefined) {
             } else if(event.data["message"] === "changeScene") {
                 if(typeof GDAPI === "undefined") return;
                 GDAPI.currentScene.getGame()._sceneStack.replace(event.data.scene, true);
-            } else if(event.data["message"] === "loadMod") {
+            } else if(event.data["message"] === "installMod") {
+                if(typeof GDAPI === "undefined") return;
                 const mod = dataURItoBlob(event.data["mod"]);
                 postToPopup("modReceived");
-                GDAPI.parseModFile(mod).then(GDAPI.loadModFile).catch(error => console.error(error));
+                GDAPI.parseModFile(mod)
+                  .then(mod => modStore.setItem(
+                      mod.manifest.main.uid, 
+                      {file: mod.rawFile, info: mod.manifest.main, preload: false}
+                  ))
+                  .then(() => postToPopup("modInstalled"))
+                  .then(reloadModList)
+                  .catch(console.error);
+            } else if(event.data["message"] === "loadMod") {
+                if(typeof GDAPI === "undefined") return;
+                modStore.getItem(event.data.uid)
+                  .then(mod => GDAPI.parseModFile(mod.file))
+                  .then(GDAPI.loadModFile)
+                  .catch(console.error);
             } else if(event.data["message"] === "listMods") {
-                if(typeof GDAPI !== "undefined" && typeof GDAPI.ModManager !== "undefined") {
-                    postToPopup("listMods", GDAPI.ModManager.getAllMods().map(mod => mod.metadata));
-                } else postToPopup("listMods", []);;
+                reloadModList();
+            } else if(event.data["message"] === "localforageReady") {
+                modStore = localforage.createInstance({name: "GDMOD-mods"});
+                reloadModList();
             }
         }
+    });
+
+    // Now that the "Essentials" are set up, we can load the API and mods.
+    installGDModAPI()
+    .then(() => {
+        (function handler() {
+            // Wait for the scene and modstore to load
+            if(
+                typeof GDAPI !== "undefined" && 
+                typeof GDAPI.currentScene !== "undefined" && 
+                typeof modStore !== "undefined"
+            ) {
+                modStore.iterate(mod => {
+                    if(mod.preload) GDAPI.parseModFile(mod.file).then(GDAPI.loadModFile).catch(console.error);
+                });
+            } else setTimeout(handler, 500);
+        })();
     });
 }
 
