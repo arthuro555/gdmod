@@ -15,5 +15,5 @@
   "content_scripts": [
     {"js": ["js/injector.js"], "matches": ["<all_urls>"], "all_frames":true}
   ],
-  "web_accessible_resources" : ["/js/injected.js"]
+  "web_accessible_resources" : ["/js/injected.js", "/vendor/localforage.min.js"]
 }
