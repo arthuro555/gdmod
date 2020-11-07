@@ -124,7 +124,7 @@ function dataURItoBlob(dataURI) {
 function reloadModList() {
     var allMods = [];
     modStore.iterate(mod => {
-        allMods.push(mod.info);
+        allMods.push({info: mod.info, preload: mod.preload});
     })
     .then(() => postToPopup("listMods", allMods));
 }
@@ -176,6 +176,15 @@ if(window.gdjs !== undefined) {
             } else if(event.data["message"] === "localforageReady") {
                 modStore = localforage.createInstance({name: "GDMOD-mods"});
                 reloadModList();
+            } else if(event.data["message"] === "setPreload") {
+                modStore.getItem(event.data.uid)
+                  .then(
+                    mod => modStore.setItem(event.data.uid, {
+                      ...mod, 
+                      preload: event.data.preload
+                    })
+                  )
+                  .catch(console.error);
             }
         }
     });

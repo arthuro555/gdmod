@@ -34,6 +34,7 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
     }
     
     function createModCard(mod) {
+        const { info, preload } = mod;
         const card = document.createElement("div");
         card.className = "uk-card uk-card-default";
 
@@ -47,9 +48,9 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
 
         const cardTitle = document.createElement("h3");
         cardTitle.className = "uk-card-title";
-        cardTitle.innerText = mod.name;
+        cardTitle.innerText = info.name;
         const cardDescription = document.createElement("p");
-        cardDescription.innerText = mod.description;
+        cardDescription.innerText = info.description;
 
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardDescription);
@@ -70,19 +71,34 @@ chrome.tabs.query({active: true, currentWindow: false}, function(tabs) {
         
         const modData = document.createElement("p");
         modData.innerText = `Mod Informations:
-    Version: ${mod.version}
-    Author: ${mod.author}
-    Mod UID: ${mod.uid}`;
+    Version: ${info.version}
+    Author: ${info.author}
+    Mod UID: ${info.uid}`;
 
         const enableButton = document.createElement("button");
         enableButton.className = "uk-button uk-button-primary";
         enableButton.innerText = "Enable"
         enableButton.onclick = () => {
-            chrome.tabs.sendMessage(tabs[0].id, {message: "loadMod", uid: mod.uid});
+            chrome.tabs.sendMessage(tabs[0].id, {message: "loadMod", uid: info.uid});
         }
+
+        //<input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        //<label for="vehicle3"> I have a boat</label><br><br></br>
+
+        const toggle = document.createElement("input");
+        toggle.type = "checkbox";
+        console.log(info)
+        toggle.checked = preload;
+        toggle.addEventListener("click", () => 
+            chrome.tabs.sendMessage(tabs[0].id, {message: "setPreload", uid: info.uid, preload: toggle.checked})
+        );
+        const toggleLabel = document.createElement("label");
+        toggleLabel.textContent = "Autoload mod";
 
         cardAccordion.appendChild(modData);
         cardAccordion.appendChild(enableButton);
+        cardAccordion.appendChild(toggle);
+        cardAccordion.appendChild(toggleLabel);
 
         return card;
     }
