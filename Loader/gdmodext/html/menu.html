@@ -6,27 +6,27 @@
 	</head>
 	
 	<body>
-        <h1 class="uk-heading-medium" id="connecting">Connecting to game...</h1>
-		<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <h2 class="uk-heading-smalluk-card uk-card-default uk-card-body uk-animation-slide-top-small" id="connecting">Connecting to game...</h2>
+		<ul class="uk-subnav uk-subnav-pill uk-card uk-card-default uk-card-body uk-animation-slide-top-small " uk-switcher>
 			<li><a href="#">Overview</a></li>
 			<li><a href="#">Mod Manager</a></li>
 			<li><a href="#">Scene switcher</a></li>
 			<li><a href="#">Settings</a></li>
 		</ul>
-		<ul class="uk-switcher uk-margin" uk-switcher="animation: uk-animation-fade">
-			<li id="overview">
-				<h2 class="uk-heading-small">Overview</h2>
-				<p class="uk-text-lead">
+		<ul class="uk-switcher uk-margin" uk-switcher="animation: uk-animation-fade" >
+			<li id="overview" class="uk-animation-slide-right-small">
+				<h2 class=" uk-heading-bullet">Overview</h2>
+				<p >
 					Welcome to the dashboard! Here you can control the game like you want.
 					Keep in mind that this tool is for <br>modding</br>, and the other tools are made for 
 					<b>debugging mods</b>. You can use them for other purpose but 
 					while using them keep in mind that their main purpose is modding.
 				</p>
 			</li>
-			<li id="mods">
+			<li id="mods" class="uk-animation-slide-right-small">
 				<h4 id="mod-manager-loading" class="uk-text-italic">Modding API loading...</h4>
 				<div id="mod-manager" hidden>
-					<h2 class="uk-heading-small">Mod Manager</h2>
+					<h2 class="uk-heading-bullet">Mod Manager</h2>
 					<div class="uk-child-width-1-1@m uk-grid-small uk-grid-match" id="modList" uk-grid>
 						<h5 class="uk-text-meta">Loading Mod List...</h5>
 					</div>
@@ -34,17 +34,18 @@
 					<input type="file" id="fileInput" hidden></input>
 				</div>
 			</li>
-			<li id="scenes">
-				<h2 class="uk-heading-small">Scene switcher</h2>
-				<h4>Chose the scene you want to load:</h2>
+			<li id="scenes" class="uk-animation-slide-right-small">
+				<h2 class="uk-heading-bullet">Scene switcher</h2>
+			<p>Chose the scene you want to load:</p>
 				<div class="uk-child-width-1-1@m uk-grid-small uk-grid-match" id="scenelist" uk-grid>
 					<h5 class="uk-text-meta">Loading Scene List...</h5>
 				</div>
 			</li>
-			<li id="settings">
-				<h2 class="uk-heading-small">Settings</h2>
-				<p class="uk-text-lead">Nothing to configure yet ;)</p>
-				<a href="#" uk-switcher-item="previous">Go to Scene Switcher</a>
+			<li id="settings" class="uk-animation-slide-right-small">
+				<h2 class="uk-heading-bullet">Settings</h2>
+				<p uk-icon="happy">Nothing to configure yet </p><br><br>
+				<button class="uk-button uk-button-default" type="button" uk-switcher-item="previous">Go to Scene Switcher</button>
+				
 			</li>
 		</ul>
 
