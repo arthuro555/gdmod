@@ -3,14 +3,15 @@
 	<head>
 		<title>Connecting...</title>
 		<link rel="stylesheet" href="../vendor/uikit.min.css"></link>
+		<meta charset="UTF-8">
 	</head>
 	
 	<body>
         <h2 class="uk-heading-smalluk-card uk-card-default uk-card-body uk-animation-slide-top-small" id="connecting">Connecting to game...</h2>
 		<ul class="uk-subnav uk-subnav-pill uk-card uk-card-default uk-card-body uk-animation-slide-top-small " uk-switcher>
 			<li><a href="#">Overview</a></li>
-			<li><a href="#">Mod Manager</a></li>
-			<li><a href="#">Scene switcher</a></li>
+			<li id="modsList"><a href="#">Mod Manager</a></li>
+			<li id="scenesList"><a href="#">Scene switcher</a></li>
 			<li><a href="#">Settings</a></li>
 		</ul>
 		<ul class="uk-switcher uk-margin" uk-switcher="animation: uk-animation-fade" >
@@ -30,8 +31,8 @@
 					<div class="uk-child-width-1-1@m uk-grid-small uk-grid-match" id="modList" uk-grid>
 						<h5 class="uk-text-meta">Loading Mod List...</h5>
 					</div>
-					<button class="uk-button-primary" id="selectMod">Load Mod</button>
-					<input type="file" id="fileInput" hidden></input>
+					<button class="uk-button-primary" id="selectMod">Install Mod</button>
+					<input type="file" id="fileInput" accept="application/zip" hidden></input>
 				</div>
 			</li>
 			<li id="scenes" class="uk-animation-slide-right-small">
@@ -49,13 +50,13 @@
 			</li>
 		</ul>
 
-		<!-- Modals For Modloading -->
+		<!-- Modals -->
 		<div id="modload-modal" class="uk-modal-full uk-background-muted" esc-close="false" bg-close="false" uk-modal>
 			<div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 				<div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
 					<div class="uk-padding-large">
-						<h1>Mod Loading...</h1>
-						<p id="modload-currentAction" class="uk-center">Loading mod...</p>
+						<h1>Installing mod...</h1>
+						<p id="modload-currentAction" class="uk-center">Installation in progress...</p>
 						<progress id="modload-progress" class="uk-progress" value="0" max="3"></progress>
 					</div>
 				</div>

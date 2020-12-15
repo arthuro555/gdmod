@@ -15,7 +15,7 @@
           if (err) {
             console.error(err);
           } else {
-            GDAPI.loadZipMod(mod);
+            GDAPI.parseModFile(mod).then(GDAPI.loadModFile).catch(error => console.error(error));
           }
         });
       }

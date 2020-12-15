@@ -15,6 +15,16 @@ script.setAttribute("id", "gdmod-patcher-script");
 // And now inject it into the body
 document.body.appendChild(script);
 
+// Then we inject dependencies
+var localforageScript = document.createElement("script");
+localforageScript.setAttribute('type', 'text/javascript');
+localforageScript.setAttribute("src", chrome.extension.getURL("/vendor/localforage.min.js"));
+localforageScript.onload = () => {
+    document.body.removeChild(localforageScript);
+    window.postMessage({message: "localforageReady"}, "*");
+}
+document.body.appendChild(localforageScript);
+
 // We injected the script but we also need to pass messages from the Injected script to the extension and back
 window.addEventListener("message", (event) => {
     if(typeof event.data["forwardTo"] !== "undefined" && event.data["forwardTo"] === "GDMod") {

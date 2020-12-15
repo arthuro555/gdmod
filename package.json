@@ -5,8 +5,7 @@
   "main": "./cli/cli.js",
   "scripts": {
     "gdmodcli": "./cli/cli.js",
-    "electron": "./node_modules/.bin/electron ./gui/main.js",
-    "electron-win": ".\\node_modules\\.bin\\electron.cmd .\\gui\\main.js",
+    "electron": "electron ./gui/main.js",
     "dev": "http-server ./API --cors -a localhost --port 5000 -c-1"
   },
   "repository": {
@@ -27,7 +26,7 @@
     "commander": "^4.1.0"
   },
   "devDependencies": {
-    "electron": "^7.1.10",
+    "electron": "^11.0.3",
     "http-server": "^0.12.3"
   },
   "bin": {

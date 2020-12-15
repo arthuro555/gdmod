@@ -1,0 +1,20 @@
+body {
+    width: 300px;
+    text-align: center;
+    box-shadow: 1px 1px 10px 1px black;
+    border-radius: 5px;
+}
+.info-button {
+    position: relative;
+    display: flex;
+    left: 2px;
+    top: 2px;
+}
+.header {
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: -20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00000077;
+    font-size: 28px;
+}
