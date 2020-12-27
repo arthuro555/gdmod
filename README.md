@@ -22,3 +22,7 @@ This project is separated into 4 Modules.
 
 4. **The Loader module**.  
   It is the part that injects the API and mods into the game and applies patches to the game engine to enable modding.
+  
+
+## Discord community
+You can join the [GDMod discord server](https://discord.com/invite/TeBdMf3Sh9) to get help or talk with the community.
