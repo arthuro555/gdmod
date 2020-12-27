@@ -1,3 +1,4 @@
+![GDMod logo](logo.png)
 # gdmod
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
 A modding API for [GDevelop](https://gdevelop-app.com/) games  

@@ -5,15 +5,34 @@
   "description": "Patches a GDevelop game to let you install mods on them",
   "author": "arthuro555",
   "homepage_url": "https://github.com/arthuro555/gdmod",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "offline_enabled": true,
-  "permissions": ["<all_urls>", "activeTab"],
+  "permissions": [
+    "<all_urls>",
+    "activeTab"
+  ],
   "short_name": "GDMod",
   "browser_action": {
     "default_title": "GDMod Patcher",
     "default_popup": "html/popup.html"
   },
   "content_scripts": [
-    {"js": ["js/injector.js"], "matches": ["<all_urls>"], "all_frames":true}
+    {
+      "js": [
+        "js/injector.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ],
+      "all_frames": true
+    }
   ],
-  "web_accessible_resources" : ["/js/injected.js", "/vendor/localforage.min.js"]
+  "web_accessible_resources": [
+    "/js/injected.js",
+    "/vendor/localforage.min.js"
+  ]
 }
