@@ -13,7 +13,7 @@ const debug = true;
  */
 const CDN = debug 
                 ? "http://localhost:5000/" 
-                : "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.5-preview/API/";
+                : "https://cdn.jsdelivr.net/gh/arthuro555/gdmod@0.0.6-preview/API/";
 
 /**
  * The localforage store containing the cached mods.
