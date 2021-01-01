@@ -32,7 +32,7 @@
     }
   ],
   "web_accessible_resources": [
-    "/js/injected.js",
-    "/vendor/localforage.min.js"
+    "/vendor/localforage.min.js",
+    "/js/injected.js"
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "./Loader/webLoader/manifest_template.json",
+        "./Loader/webLoader/extension/manifest.json"
+      ],
+      "url": "http://json.schemastore.org/chrome-manifest"
+    }
+  ]
+}

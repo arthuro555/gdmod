@@ -30,6 +30,11 @@ window.addEventListener("message", (event) => {
     if(typeof event.data["forwardTo"] !== "undefined" && event.data["forwardTo"] === "GDMod") {
         if(typeof event.data["payload"] !== "undefined") {
             chrome.runtime.sendMessage(event.data.payload);
+        } else if(event.data.listIncludes) {
+            fetch(chrome.runtime.getURL("/api/includes.json"))
+            .then(res => res.json())
+            .then(includes => includes.map((item) => chrome.runtime.getURL("/api/" + item)))
+            .then(includes => window.postMessage({message: "inlcudesList", includes}, "*"))
         }
     }
 });
