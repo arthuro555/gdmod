@@ -180,7 +180,8 @@ GDAPI.extTools.EXTENSIONS = {
   ],
 };
 
-GDAPI.extTools.CDN = "https://resources.gdevelop-app.com/GDJS-5.0.0-beta100/Runtime/";
+GDAPI.extTools.CDN =
+  "https://resources.gdevelop-app.com/GDJS-5.0.0-beta100/Runtime/";
 
 /**
  * A list of already loaded extension (to not reload already loaded extensions).
@@ -194,7 +195,8 @@ GDAPI.extTools.loadedExtensions = [];
  */
 GDAPI.extTools.loadExtension = function (extension) {
   if (this.loadedExtensions.indexOf(extension) !== -1) return Promise.resolve();
-  if (this.EXTENSIONS[extension] === undefined) return Promise.reject("Extension not found!");
+  if (this.EXTENSIONS[extension] === undefined)
+    return Promise.reject("Extension not found!");
 
   GDAPI.extTools.loadedExtensions.push(extension);
   const allFiles = this.EXTENSIONS[extension].map(

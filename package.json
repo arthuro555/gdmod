@@ -4,7 +4,8 @@
   "description": "A package containing a modding api for GDevelop games and a loader to load them.",
   "main": "./cli/cli.js",
   "scripts": {
-    "gdmodcli": "./cli/cli.js"
+    "gdmodcli": "./cli/cli.js",
+    "format": "prettier --write ./API/*.js ./CLI/*.js ./Loader/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,9 @@
     "chalk": "^3.0.0",
     "commander": "^4.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  },
   "bin": {
     "gdmodcli": "./cli/cli"
   }

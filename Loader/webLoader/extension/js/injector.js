@@ -1,10 +1,10 @@
-// We need direct access to gdjs. 
+// We need direct access to gdjs.
 // To do so we need to escape the sandbox by injecting a script tag into the document
 // to load a script we control as a normal script.
 
 // First we create a script
 var script = document.createElement("script");
-script.setAttribute('type', 'text/javascript');
+script.setAttribute("type", "text/javascript");
 
 // We set the script to an extension file
 script.setAttribute("src", chrome.extension.getURL("/js/injected.js"));
@@ -17,28 +17,38 @@ document.body.appendChild(script);
 
 // Then we inject dependencies
 var localforageScript = document.createElement("script");
-localforageScript.setAttribute('type', 'text/javascript');
-localforageScript.setAttribute("src", chrome.extension.getURL("/vendor/localforage.min.js"));
+localforageScript.setAttribute("type", "text/javascript");
+localforageScript.setAttribute(
+  "src",
+  chrome.extension.getURL("/vendor/localforage.min.js")
+);
 localforageScript.onload = () => {
-    document.body.removeChild(localforageScript);
-    window.postMessage({message: "localforageReady"}, "*");
-}
+  document.body.removeChild(localforageScript);
+  window.postMessage({ message: "localforageReady" }, "*");
+};
 document.body.appendChild(localforageScript);
 
 // We injected the script but we also need to pass messages from the Injected script to the extension and back
 window.addEventListener("message", (event) => {
-    if(typeof event.data["forwardTo"] !== "undefined" && event.data["forwardTo"] === "GDMod") {
-        if(typeof event.data["payload"] !== "undefined") {
-            chrome.runtime.sendMessage(event.data.payload);
-        } else if(event.data.listIncludes) {
-            fetch(chrome.runtime.getURL("/api/includes.json"))
-            .then(res => res.json())
-            .then(includes => includes.map((item) => chrome.runtime.getURL("/api/" + item)))
-            .then(includes => window.postMessage({message: "inlcudesList", includes}, "*"))
-        }
+  if (
+    typeof event.data["forwardTo"] !== "undefined" &&
+    event.data["forwardTo"] === "GDMod"
+  ) {
+    if (typeof event.data["payload"] !== "undefined") {
+      chrome.runtime.sendMessage(event.data.payload);
+    } else if (event.data.listIncludes) {
+      fetch(chrome.runtime.getURL("/api/includes.json"))
+        .then((res) => res.json())
+        .then((includes) =>
+          includes.map((item) => chrome.runtime.getURL("/api/" + item))
+        )
+        .then((includes) =>
+          window.postMessage({ message: "inlcudesList", includes }, "*")
+        );
     }
+  }
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    window.postMessage(request, "*")
+  window.postMessage(request, "*");
 });

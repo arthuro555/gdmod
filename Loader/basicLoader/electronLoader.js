@@ -15,7 +15,9 @@
           if (err) {
             console.error(err);
           } else {
-            GDAPI.parseModFile(mod).then(GDAPI.loadModFile).catch(error => console.error(error));
+            GDAPI.parseModFile(mod)
+              .then(GDAPI.loadModFile)
+              .catch((error) => console.error(error));
           }
         });
       }
@@ -23,5 +25,6 @@
   });
 
   // Add a way to open the inspector
-  if(fs.existsSync("debug.txt")) electron.remote.getCurrentWindow().webContents.openDevTools();
+  if (fs.existsSync("debug.txt"))
+    electron.remote.getCurrentWindow().webContents.openDevTools();
 })();
