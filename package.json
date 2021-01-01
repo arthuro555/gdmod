@@ -4,9 +4,7 @@
   "description": "A package containing a modding api for GDevelop games and a loader to load them.",
   "main": "./cli/cli.js",
   "scripts": {
-    "gdmodcli": "./cli/cli.js",
-    "electron": "electron ./gui/main.js",
-    "dev": "http-server ./API --cors -a localhost --port 5000 -c-1"
+    "gdmodcli": "./cli/cli.js"
   },
   "repository": {
     "type": "git",
@@ -25,10 +23,7 @@
     "chalk": "^3.0.0",
     "commander": "^4.1.0"
   },
-  "devDependencies": {
-    "electron": "^11.0.3",
-    "http-server": "^0.12.3"
-  },
+  "devDependencies": {},
   "bin": {
     "gdmodcli": "./cli/cli"
   }
