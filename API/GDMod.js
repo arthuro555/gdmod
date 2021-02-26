@@ -4,41 +4,6 @@
  */
 GDAPI.Mod = class Mod {
   /**
-   * Some basic mod metadata automatically set by the loader.
-   */
-  metadata = {
-    /**
-     * The mod's name
-     * @type {string}
-     */
-    name: "NO_NAME",
-
-    /**
-     * The mod's uid
-     * @type {string}
-     */
-    uid: "NO_UID",
-
-    /**
-     * The mod's version
-     * @type {string}
-     */
-    version: "0.0.0",
-
-    /**
-     * The mod's description
-     * @type {string}
-     */
-    description: "NO_DESC",
-
-    /**
-     * The mod's author
-     * @type {string}
-     */
-    author: "NO_AUTHOR",
-  };
-
-  /**
    * Function called when the scene switched.
    * @param {gdjs.RuntimeScene} runtimeScene - The new Scene.
    */
@@ -63,14 +28,31 @@ GDAPI.Mod = class Mod {
  */
 GDAPI.ModManager = {
   mods: {},
+  callbacks: {},
 };
 
 /**
  * Adds a mod to the manager.
  * @param {GDAPI.Mod} mod - The mod to add to the manager.
  */
-GDAPI.ModManager.add = function (mod) {
-  this.mods[mod.metadata.uid] = mod;
+GDAPI.ModManager.add = function (uid, mod) {
+  this.mods[uid] = mod;
+  const callbacks = (this.callbacks[uid] = {});
+  if (mod.preEvent) {
+    const callback = (scene) => mod.preEvent(scene);
+    GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, callback);
+    callbacks.preEvent = callback;
+  }
+  if (mod.postEvent) {
+    const callback = (scene) => mod.postEvent(scene);
+    GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, callback);
+    callbacks.postEvent = callback;
+  }
+  if (mod.sceneChanged) {
+    const callback = (scene) => mod.sceneChanged(scene);
+    GDAPI.registerCallback(GDAPI.CALLBACKS.SCENE_LOADED, callback);
+    callbacks.sceneChanged = callback;
+  }
 };
 
 /**
@@ -89,6 +71,30 @@ GDAPI.ModManager.get = function (modUID) {
  */
 GDAPI.ModManager.has = function (modUID) {
   return modUID in this.mods;
+};
+
+/**
+ * Unloads a mod by uid.
+ * @param {string} modUID - The mods UID.
+ */
+GDAPI.ModManager.unload = function (modUID) {
+  const mod = this.mods[modUID];
+  if (mod == undefined) return;
+  if (mod.unload) mod.unload();
+
+  const callbacks = this.callbacks[modUID];
+  if (callbacks.preEvent)
+    GDAPI.unregisterCallback(GDAPI.CALLBACKS.PRE_EVENTS, callbacks.preEvent);
+  if (callbacks.postEvent)
+    GDAPI.unregisterCallback(GDAPI.CALLBACKS.POST_EVENTS, callbacks.postEvent);
+  if (callbacks.sceneChanged)
+    GDAPI.unregisterCallback(
+      GDAPI.CALLBACKS.SCENE_LOADED,
+      callbacks.sceneChanged
+    );
+
+  delete this.callbacks[modUID];
+  delete this.mods[modUID];
 };
 
 /**
@@ -230,51 +236,11 @@ GDAPI.loadModFile = async function (modFile) {
       const potentialMod = eval(`(function() {${jsFile}}())`);
       if (typeof potentialMod === "function" && !modLoaded) {
         // Load a GDAPI.Mod instance
-        GDAPI.loadMod(potentialMod, mainManifest);
+        GDAPI.ModManager.add(mainManifest.uid, new potentialMod());
         modLoaded = true; // Only allow one mod to load (else there would be multiple mods with the same metadata).
       }
     }
 
   // Load dummy mod for mod list
   if (!modLoaded) GDAPI.loadMod(GDAPI.Mod, mainManifest);
-};
-
-/**
- * Loads a {@link GDAPI.Mod} instance.
- * This is used only to initialize a Mod class.
- * @param {GDAPI.Mod} ModClass - The {@link GDAPI.Mod} class.
- * @param {object} manifest - The main manifest of the mod.
- */
-GDAPI.loadMod = function (ModClass, manifest) {
-  const mod = new ModClass();
-  mod.manifest = mod.manifest || {};
-
-  function unserializeAttribute(attribute, optional) {
-    optional = optional || false;
-    if (typeof manifest[attribute] === "undefined" && !optional)
-      // There are defaults for everything, but still warn if the attribute isn't meant to be optional.
-      console.error(`Missing Atrribute '${attribute}' in GDMod.json!`);
-    else mod.metadata[attribute] = manifest[attribute];
-  }
-
-  unserializeAttribute("name");
-  unserializeAttribute("uid");
-  unserializeAttribute("author");
-  unserializeAttribute("description");
-  unserializeAttribute("version");
-
-  GDAPI.ModManager.add(mod);
-
-  if (mod.preEvent)
-    GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, (scene) =>
-      mod.preEvent(scene)
-    );
-  if (mod.postEvent)
-    GDAPI.registerCallback(GDAPI.CALLBACKS.POST_EVENTS, (scene) =>
-      mod.postEvent(scene)
-    );
-  if (mod.sceneChanged)
-    GDAPI.registerCallback(GDAPI.CALLBACKS.SCENE_LOADED, (scene) =>
-      mod.sceneChanged(scene)
-    );
 };

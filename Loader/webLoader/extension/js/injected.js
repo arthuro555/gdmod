@@ -107,6 +107,10 @@ function reloadModList() {
       allMods.push({
         info: mod.modFile.manifest.mainManifest,
         preload: mod.settings.preload,
+        isLoaded:
+          GDAPI.ModManager == undefined
+            ? false
+            : GDAPI.ModManager.has(mod.modFile.manifest.mainManifest),
       });
     })
     .then(() => postToPopup("listMods", allMods));
@@ -150,12 +154,15 @@ if (window.gdjs !== undefined) {
         GDAPI.parseModManifest(mod)
           .then(async (modFile) => {
             const uid = modFile.manifest.mainManifest.uid;
-            if (GDAPI.ModManager.has(modFile.manifest.mainManifest.uid))
+            if (GDAPI.ModManager.has(uid)) {
+              GDAPI.ModManager.unload(uid);
               GDAPI.loadModFile(modFile);
+            }
             const oldMod = await modStore.getItem(uid);
             await modStore.setItem(uid, {
               modFile,
-              settings: oldMod != undefined ? oldMod.settings : { preload: false },
+              settings:
+                oldMod != undefined ? oldMod.settings : { preload: false },
             });
           })
           .then(() => postToPopup("modInstalled"))

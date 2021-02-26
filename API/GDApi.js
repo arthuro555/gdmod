@@ -21,38 +21,60 @@ GDAPI.CALLBACKS = {
 };
 
 /**
- * Registers Callback functions.
+ * Registers a callback function.
  * @param {GDAPI.CALLBACKS} callbackType - The event on which you want your callback to be called.
- * @param {Function} callback - The callback to register.
+ * @param {() => void} callback - The callback to register.
  */
 GDAPI.registerCallback = function (callbackType, callback) {
-  if (callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED) {
+  if (callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED)
     gdjs.callbacksFirstRuntimeSceneLoaded.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.SCENE_LOADED) {
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_LOADED)
     gdjs.callbacksRuntimeSceneLoaded.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.PRE_EVENTS) {
+  else if (callbackType === GDAPI.CALLBACKS.PRE_EVENTS)
     gdjs.callbacksRuntimeScenePreEvents.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.POST_EVENTS) {
+  else if (callbackType === GDAPI.CALLBACKS.POST_EVENTS)
     gdjs.callbacksRuntimeScenePostEvents.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.SCENE_PAUSED) {
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_PAUSED)
     gdjs.callbacksRuntimeScenePaused.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.SCENE_RESUMED) {
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_RESUMED)
     gdjs.callbacksRuntimeSceneResumed.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.SCENE_UNLOADING) {
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_UNLOADING)
     gdjs.callbacksRuntimeSceneUnloading.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.SCENE_UNLOADED) {
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_UNLOADED)
     gdjs.callbacksRuntimeSceneUnloaded.push(callback);
-  }
-  if (callbackType === GDAPI.CALLBACKS.OBJECT_DELETED_FROM_SCENE) {
+  else if (callbackType === GDAPI.CALLBACKS.OBJECT_DELETED_FROM_SCENE)
     gdjs.callbacksObjectDeletedFromScene.push(callback);
-  }
+};
+
+/**
+ * Unregisters a previously registered callback function.
+ * @param {GDAPI.CALLBACKS} callbackType
+ * @param {() => void} callback
+ */
+GDAPI.unregisterCallback = function (callbackType, callback) {
+  let callbackArray;
+  if (callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED)
+    callbackArray = gdjs.callbacksFirstRuntimeSceneLoaded;
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_LOADED)
+    callbackArray = gdjs.callbacksRuntimeSceneLoaded;
+  else if (callbackType === GDAPI.CALLBACKS.PRE_EVENTS)
+    callbackArray = gdjs.callbacksRuntimeScenePreEvents;
+  else if (callbackType === GDAPI.CALLBACKS.POST_EVENTS)
+    callbackArray = gdjs.callbacksRuntimeScenePostEvents;
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_PAUSED)
+    callbackArray = gdjs.callbacksRuntimeScenePaused;
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_RESUMED)
+    callbackArray = gdjs.callbacksRuntimeSceneResumed;
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_UNLOADING)
+    callbackArray = gdjs.callbacksRuntimeSceneUnloading;
+  else if (callbackType === GDAPI.CALLBACKS.SCENE_UNLOADED)
+    callbackArray = gdjs.callbacksRuntimeSceneUnloaded;
+  else if (callbackType === GDAPI.CALLBACKS.OBJECT_DELETED_FROM_SCENE)
+    callbackArray = gdjs.callbacksObjectDeletedFromScene;
+  else return;
+
+  const indexOfCalllback = callbackArray.indexOf(callback);
+  if (indexOfCalllback !== -1) callbackArray.splice(indexOfCalllback, 1);
 };
 
 /**
