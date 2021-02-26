@@ -1,5 +1,6 @@
 [
     "jszip.min.js",
+    "CallbacksPolyfill.js",
     "GDApi.js",
     "GDMod.js",
 	"ExtensionsLoader.js",

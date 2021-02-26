@@ -97,16 +97,3 @@ Object.defineProperty(GDAPI, "currentScene", {
     }
   },
 });
-
-// Polyfill Object registration to support older games
-gdjs.RuntimeScene.prototype.registerObject =
-  gdjs.RuntimeScene.prototype.registerObject ||
-  function (objectData) {
-    this._objects.put(objectData.name, objectData);
-    this._instances.put(objectData.name, []); //Also reserve an array for the instances
-    this._instancesCache.put(objectData.name, []); //and for cached instances
-    this._objectsCtor.put(
-      objectData.name,
-      gdjs.getObjectConstructor(objectData.type)
-    ); //And cache the constructor for the performance sake
-  };
