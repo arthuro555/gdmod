@@ -2,7 +2,7 @@
  * The namespace containing the whole modding API
  * @namespace
  */
-window.GDAPI = {};
+window.GDAPI = window.GDAPI || {};
 
 /**
  * GD Callback type enum.
@@ -75,15 +75,6 @@ Object.defineProperty(GDAPI, "currentScene", {
     }
   },
 });
-
-/**
- * This is a function overriden by the loader that lets you send updates to the UI.
- * Receiving and handling messages from the UI is handled by the loader.
- * @function
- * @param {string} id - The Identifier, aka the main message. This tells the IDE what you want to do.
- * @param {any} extraData - An object to pass to the UI with the message.
- */
-GDAPI.messageUI = GDAPI.messageUI || function (id, extraData) {};
 
 // Polyfill Object registration to support older games
 gdjs.RuntimeScene.prototype.registerObject =

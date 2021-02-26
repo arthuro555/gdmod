@@ -5,7 +5,7 @@
   "main": "./cli/cli.js",
   "scripts": {
     "gdmodcli": "./cli/cli.js",
-    "format": "prettier --write ./API/*.js ./CLI/*.js ./Loader/**/*.js"
+    "format": "prettier --write ./API/*.js ./CLI/*.js ./Loader/**/*.js \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
   },
   "repository": {
     "type": "git",

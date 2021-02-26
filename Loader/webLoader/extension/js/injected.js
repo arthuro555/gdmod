@@ -29,7 +29,7 @@ function postToPopup(id, payload) {
 function installGDModAPI() {
   return new Promise((resolve) => {
     window.addEventListener("message", function (event) {
-      if (event.data.message === "inlcudesList") resolve(event.data.includes);
+      if (event.data.message === "includesList") resolve(event.data.includes);
     });
     window.postMessage({ forwardTo: "GDMod", listIncludes: true }, "*");
   })
@@ -40,26 +40,12 @@ function installGDModAPI() {
           const script = document.createElement("script");
           script.src = include;
           script.onload = function () {
-            if (++loaded === includes.length) {
-              resolve();
-            }
             document.body.removeChild(script); // Cleanup document after loading API.
+            if (++loaded === includes.length) resolve();
           };
           document.body.appendChild(script);
         }
       });
-    })
-    .then(() => {
-      // Overwrite GDAPI.messageUI to let the modding API interract with this UI.
-      GDAPI.messageUI = function (id, extraData) {
-        window.postMessage(
-          {
-            forwardTo: "GDMod",
-            payload: { id: id, origin: "GDAPI", payload: extraData },
-          },
-          "*"
-        );
-      };
     })
     .then(() => {
       postToPopup("installedAPI", true);
@@ -81,23 +67,14 @@ function patchSceneCode() {
         module.originalFunc = module.func.bind({});
         module.func = function (...args) {
           if (typeof GDAPI === "undefined") window.GDAPI = {};
-          window.GDAPI.game = args[0].getGame(); // First arg is runtimeScene.
+          window.GDAPI.game = args[0].getGame(); // First arg is always runtimeScene.
           // We accept multiple args for compatibility with older games
-          // who had other args (context).
+          // that had other args (context).
           module.originalFunc.apply(module, args);
         };
       }
     }
   }
-
-  // Override GDAPI.currentScene with a getter
-  Object.defineProperty(GDAPI, "currentScene", {
-    get: function () {
-      if (GDAPI.game != undefined) {
-        return GDAPI.game._sceneStack.getCurrentScene();
-      }
-    },
-  });
 }
 
 /** From https://stackoverflow.com/a/12300351/10994662 */
@@ -127,7 +104,10 @@ function reloadModList() {
   var allMods = [];
   modStore
     .iterate((mod) => {
-      allMods.push({ info: mod.info, preload: mod.preload });
+      allMods.push({
+        info: mod.modFile.manifest.mainManifest,
+        preload: mod.settings.preload,
+      });
     })
     .then(() => postToPopup("listMods", allMods));
 }
@@ -136,14 +116,15 @@ function reloadModList() {
 if (window.gdjs !== undefined) {
   console.log("GDevelop game detected, GDAPI is being injected.");
   window.GDAPI = {}; // We need to define it so that the scene can be stored in it, even if the API isn't loaded yet.
-  patchSceneCode();
   /*
    * We need to do so to patch the scene code before the first scene loaded: when the
    * scene starts it takes a reference to the function. So even if we replace it
    * it still executes the original code and we won't have access until the scene switches
    * once. This comment is here because we used to patch only on request by the user.
    */
+  patchSceneCode();
 
+  // Set up communication between the UI and the webLoader.
   window.addEventListener("message", function (event) {
     const msg = event.data["message"];
     if (typeof msg !== "undefined") {
@@ -152,6 +133,7 @@ if (window.gdjs !== undefined) {
       } else if (msg === "connect") {
         postToPopup("connected", gdjs.projectData.properties);
       } else if (msg === "listScenes") {
+        if (typeof gdjs === "undefined") return;
         let allScenes = [];
         for (let scene of gdjs.projectData.layouts) allScenes.push(scene.name);
         postToPopup("listScenes", allScenes);
@@ -161,17 +143,21 @@ if (window.gdjs !== undefined) {
           .getGame()
           ._sceneStack.replace(event.data.scene, true);
       } else if (msg === "installMod") {
-        if (typeof GDAPI === "undefined") return;
+        if (typeof GDAPI === "undefined" || event.data["mod"] == undefined)
+          return;
         const mod = dataURItoBlob(event.data["mod"]);
         postToPopup("modReceived");
-        GDAPI.parseModFile(mod)
-          .then((mod) =>
-            modStore.setItem(mod.manifest.main.uid, {
-              file: mod.rawFile,
-              info: mod.manifest.main,
-              preload: false,
-            })
-          )
+        GDAPI.parseModManifest(mod)
+          .then(async (modFile) => {
+            const uid = modFile.manifest.mainManifest.uid;
+            if (GDAPI.ModManager.has(modFile.manifest.mainManifest.uid))
+              GDAPI.loadModFile(modFile);
+            const oldMod = await modStore.getItem(uid);
+            await modStore.setItem(uid, {
+              modFile,
+              settings: oldMod != undefined ? oldMod.settings : { preload: false },
+            });
+          })
           .then(() => postToPopup("modInstalled"))
           .then(reloadModList)
           .catch(console.error);
@@ -179,8 +165,7 @@ if (window.gdjs !== undefined) {
         if (typeof GDAPI === "undefined") return;
         modStore
           .getItem(event.data.uid)
-          .then((mod) => GDAPI.parseModFile(mod.file))
-          .then(GDAPI.loadModFile)
+          .then(({ modFile }) => GDAPI.loadModFile(modFile))
           .catch(console.error);
       } else if (msg === "listMods") {
         reloadModList();
@@ -190,12 +175,10 @@ if (window.gdjs !== undefined) {
       } else if (msg === "setPreload") {
         modStore
           .getItem(event.data.uid)
-          .then((mod) =>
-            modStore.setItem(event.data.uid, {
-              ...mod,
-              preload: event.data.preload,
-            })
-          )
+          .then((mod) => {
+            mod.settings.preload = event.data.preload;
+            return modStore.setItem(event.data.uid, mod);
+          })
           .catch(console.error);
       }
     }
@@ -209,17 +192,11 @@ if (window.gdjs !== undefined) {
         typeof GDAPI !== "undefined" &&
         typeof GDAPI.currentScene !== "undefined" &&
         typeof modStore !== "undefined"
-      ) {
-        modStore.iterate((mod) => {
-          if (mod.preload)
-            GDAPI.parseModFile(mod.file)
-              .then(GDAPI.loadModFile)
-              .catch(console.error);
+      )
+        modStore.iterate(({ settings: { preload }, modFile }) => {
+          if (preload) GDAPI.loadModFile(modFile).catch(console.error);
         });
-      } else setTimeout(handler, 500);
+      else setTimeout(handler, 500);
     })();
   });
 }
-
-// At the end remove the script to not pollute the Document
-document.body.removeChild(document.getElementById("gdmod-patcher-script"));

@@ -68,14 +68,9 @@ GDAPI.ModManager = {
 /**
  * Adds a mod to the manager.
  * @param {GDAPI.Mod} mod - The mod to add to the manager.
- * @returns {boolean} - Was the adding successful?
  */
 GDAPI.ModManager.add = function (mod) {
-  if (mod.metadata.uid in this.mods) {
-    return false;
-  }
   this.mods[mod.metadata.uid] = mod;
-  return true;
 };
 
 /**
@@ -85,6 +80,15 @@ GDAPI.ModManager.add = function (mod) {
  */
 GDAPI.ModManager.get = function (modUID) {
   return this.mods[modUID];
+};
+
+/**
+ * Check the existence of a mod by uid.
+ * @param {string} modUID - The mods UID.
+ * @returns {boolean}
+ */
+GDAPI.ModManager.has = function (modUID) {
+  return modUID in this.mods;
 };
 
 /**
@@ -109,20 +113,19 @@ GDAPI.ModManager.getAllMods = function () {
  */
 
 /**
- * @typedef {Array<{file: string, name: string}>} ResourcesManifest
+ * @typedef {Array<{file: string, name: string, kind: string}>} ResourcesManifest
  */
 
 /**
  * @typedef Manifests
- * @property {MainManifest} main
+ * @property {MainManifest} mainManifest
  * @property {IncludesManifest} includes
  * @property {ResourcesManifest} resources
  */
 
 /**
  * @typedef ModFile
- * @property {JSZip} file
- * @property {Buffer | ArrayBuffer | Blob} rawFile
+ * @property {Buffer | ArrayBuffer | Blob} file
  * @property {Manifests} manifest
  */
 
@@ -131,66 +134,43 @@ GDAPI.ModManager.getAllMods = function () {
  * @param {Buffer | ArrayBuffer | Blob} rawFile - The Mod file.
  * @returns {Promise<ModFile>}
  */
-GDAPI.parseModFile = function (rawFile) {
-  return new JSZip().loadAsync(rawFile).then((file) => {
-    // Load Manifests
-    // First we need to verify if the manifests are correct
-    // Verify their presence
-    if (
-      file.file("data/GDMod.json") == undefined ||
-      file.file("data/includes.json") == undefined ||
-      file.file("data/resources.json") == undefined
-    ) {
-      reject("A manifest file is missing! Is this a GDMod mod?");
-      return;
-    }
+GDAPI.parseModManifest = async function (rawFile) {
+  // Load the zip
+  const file = await new JSZip().loadAsync(rawFile);
 
-    if (GDAPI.currentScene == undefined) {
-      reject(
-        "The game seems unpatched or not fully loaded. Please wait for the game to fully load."
-      );
-      return;
-    }
+  // Load the files
+  const mainManifestFile = file.file("data/GDMod.json");
+  const includesFile = file.file("data/includes.json");
+  const resourcesFile = file.file("data/resources.json");
 
-    // Verify their basic validity and store them in an object
-    const manifest = {};
-    return file
-      .file("data/GDMod.json")
-      .async("string")
-      .then((GDMod) => {
-        manifest.main = JSON.parse(GDMod);
-      })
-      .catch(() => {
-        reject("The manifest GDMod.json cannot be parsed! Is it valid JSON?");
-      })
+  // Verify their presence
+  if (
+    mainManifestFile == undefined ||
+    includesFile == undefined ||
+    resourcesFile == undefined
+  )
+    throw new Error("A manifest file is missing! Is this a GDMod mod?");
 
-      .then(() => file.file("data/includes.json").async("string"))
-      .then((includes) => {
-        manifest.includes = JSON.parse(includes);
-      })
-      .catch(() => {
-        reject(
-          "The manifest includes.json cannot be parsed! Is it valid JSON?"
-        );
-      })
+  if (GDAPI.currentScene == undefined)
+    throw new Error(
+      "The game seems unpatched or not fully loaded. Please wait for the game to fully load."
+    );
 
-      .then(() => file.file("data/resources.json").async("string"))
-      .then((resources) => {
-        manifest.resources = JSON.parse(resources);
-      })
-      .catch(() => {
-        reject(
-          "The manifest resources.json cannot be parsed! Is it valid JSON?"
-        );
-      })
-      .then(() => {
-        return {
-          file,
-          rawFile,
-          manifest,
-        };
-      });
-  });
+  // Parse the files into a Manifests object
+  try {
+    return {
+      manifest: {
+        mainManifest: JSON.parse(await mainManifestFile.async("string")),
+        includes: JSON.parse(await includesFile.async("string")),
+        resources: JSON.parse(await resourcesFile.async("string")),
+      },
+      file: rawFile,
+    };
+  } catch (e) {
+    throw new Error(
+      "A manifest could not be parsed! Make sure it is valid JSON. " + e
+    );
+  }
 };
 
 /**
@@ -198,76 +178,65 @@ GDAPI.parseModFile = function (rawFile) {
  * This is what is used to actually load a mod file.
  * @param {ModFile} modFile - The Mod file.
  */
-GDAPI.loadModFile = function (modFile) {
-  /** @type {Manifests} */
-  const { manifest, file } = modFile;
-  if (!manifest || !file) return Promise.reject("Invalid mod file!");
+GDAPI.loadModFile = async function (modFile) {
+  const {
+    manifest: { resources, includes, mainManifest },
+    file: rawFile,
+  } = modFile;
+  // Load the zip
+  const file = await JSZip.loadAsync(rawFile);
 
   // Load resources
-  return new Promise((resolver) => {
-    if (Object.keys(manifest.resources).length === 0) {
-      resolver(); //Nothing to load.
-    }
-
-    const imageManager = GDAPI.game.getImageManager();
-
-    let loaders = [];
-    for (let resource of manifest.resources) {
-      loaders.push(
-        file
+  if (resources.length !== 0) {
+    const promises = [];
+    for (let resource of resources)
+      promises.push(async () => {
+        // Get an URL for the image Blob
+        const resourceFile = await file
           .file("resources/" + resource.file)
-          .async("blob")
-          .then((resourceFile) => {
-            // Convert blob to dataurl
-            return new Promise((resolveReader) => {
-              const blobURL = URL.createObjectURL(resourceFile);
-              var img = new Image();
-              img.addEventListener("load", function (event) {
-                URL.revokeObjectURL(blobURL);
-              });
-              img.src = blobURL;
-              imageManager._loadedTextures.put(
-                resource.name,
-                new PIXI.Texture(new PIXI.BaseTexture(img))
-              );
-              resolveReader();
-            });
-          })
-      );
-    }
-    Promise.all(loaders).then(() => {
-      resolver();
-    });
-  })
-    .then(() => {
-      // Load the code
-      let promises = [];
-      let modLoaded = false;
+          .async("blob");
+        const blobURL = URL.createObjectURL(resourceFile);
 
-      for (let include of manifest.includes) {
-        promises.push(
-          file
-            .file("code/" + include)
-            .async("string")
-            .then((jsFile) => {
-              const potentialMod = eval(`(function() {${jsFile}}())`);
-              if (typeof potentialMod === "function" && !modLoaded) {
-                GDAPI.loadMod(potentialMod, manifest.main);
-                modLoaded = true; // Only allow one mod to load (else there would be multiple mods with same metadata).
-              }
-            })
+        // Create an HTML image element
+        const img = new Image();
+        img.src = blobURL;
+
+        // Wait for the image to load
+        await new Promise((resolve) =>
+          img.addEventListener("load", () => resolve())
         );
-      }
-      return Promise.all(promises).then(() => {
-        if (!modLoaded) {
-          // Load dummy mod for mod list
-          GDAPI.loadMod(GDAPI.Mod, manifests.main);
-        }
+
+        // Load the image as a pixi texture
+        GDAPI.game
+          .getImageManager()
+          ._loadedTextures.put(
+            resource.name,
+            new PIXI.Texture(new PIXI.BaseTexture(img))
+          );
+
+        // Revoke the URL as we are done with loading the image
+        URL.revokeObjectURL(blobURL);
       });
-    })
-    .catch((error) => {
-      console.error("Error while loading mod file: " + error.toString());
-    });
+
+    // Wait for all ressources to load before loading the code
+    await Promise.all(promises);
+  }
+
+  // Load the code
+  let modLoaded = false;
+  if (includes.length !== 0)
+    for (let include of includes) {
+      const jsFile = await file.file("code/" + include).async("string");
+      const potentialMod = eval(`(function() {${jsFile}}())`);
+      if (typeof potentialMod === "function" && !modLoaded) {
+        // Load a GDAPI.Mod instance
+        GDAPI.loadMod(potentialMod, mainManifest);
+        modLoaded = true; // Only allow one mod to load (else there would be multiple mods with the same metadata).
+      }
+    }
+
+  // Load dummy mod for mod list
+  if (!modLoaded) GDAPI.loadMod(GDAPI.Mod, mainManifest);
 };
 
 /**
@@ -278,13 +247,14 @@ GDAPI.loadModFile = function (modFile) {
  */
 GDAPI.loadMod = function (ModClass, manifest) {
   const mod = new ModClass();
+  mod.manifest = mod.manifest || {};
 
   function unserializeAttribute(attribute, optional) {
     optional = optional || false;
-    if (typeof manifest[attribute] === "undefined" && !optional) {
+    if (typeof manifest[attribute] === "undefined" && !optional)
       // There are defaults for everything, but still warn if the attribute isn't meant to be optional.
       console.error(`Missing Atrribute '${attribute}' in GDMod.json!`);
-    } else mod.metadata[attribute] = manifest[attribute];
+    else mod.metadata[attribute] = manifest[attribute];
   }
 
   unserializeAttribute("name");
@@ -293,8 +263,8 @@ GDAPI.loadMod = function (ModClass, manifest) {
   unserializeAttribute("description");
   unserializeAttribute("version");
 
-  if (!GDAPI.ModManager.add(mod))
-    return console.error(`Tried to load already loaded mod '${mod.name}'!`);
+  GDAPI.ModManager.add(mod);
+
   if (mod.preEvent)
     GDAPI.registerCallback(GDAPI.CALLBACKS.PRE_EVENTS, (scene) =>
       mod.preEvent(scene)

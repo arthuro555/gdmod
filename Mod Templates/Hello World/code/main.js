@@ -6,7 +6,7 @@
  * @namespace
  */
 window.MyAwesomeMod = {
-    other: "Hello from the other side ;)"
+  other: "Hello from the other side ;)",
 };
 
 /**
@@ -14,11 +14,11 @@ window.MyAwesomeMod = {
  * @extends {GDAPI.Mod}
  */
 class HelloWorldMod extends GDAPI.Mod {
-    message = "Hello World!";
+  message = "Hello World!";
 
-    preEvent() {
-        console.log(this.message);
-    };
+  preEvent() {
+    console.log(this.message);
+  }
 }
 
 return HelloWorldMod;

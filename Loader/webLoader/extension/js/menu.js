@@ -93,7 +93,6 @@ chrome.tabs.query({ active: true, currentWindow: false }, function (tabs) {
 
     const toggle = document.createElement("input");
     toggle.type = "checkbox";
-    console.log(info);
     toggle.checked = preload;
     toggle.addEventListener("click", () =>
       chrome.tabs.sendMessage(tabs[0].id, {

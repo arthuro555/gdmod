@@ -3,27 +3,24 @@
 // to load a script we control as a normal script.
 
 // First we create a script
-var script = document.createElement("script");
+const script = document.createElement("script");
 script.setAttribute("type", "text/javascript");
-
 // We set the script to an extension file
 script.setAttribute("src", chrome.extension.getURL("/js/injected.js"));
-
-// Mark it as the GDmod patcher script for removing it later
-script.setAttribute("id", "gdmod-patcher-script");
-
+// Remove it on load to keep the DOM clean
+script.onload = () => script.remove();
 // And now inject it into the body
 document.body.appendChild(script);
 
-// Then we inject dependencies
-var localforageScript = document.createElement("script");
+// LocalForage is injected after as the gdjs patch has to happen asap.
+const localforageScript = document.createElement("script");
 localforageScript.setAttribute("type", "text/javascript");
 localforageScript.setAttribute(
   "src",
   chrome.extension.getURL("/vendor/localforage.min.js")
 );
 localforageScript.onload = () => {
-  document.body.removeChild(localforageScript);
+  localforageScript.remove();
   window.postMessage({ message: "localforageReady" }, "*");
 };
 document.body.appendChild(localforageScript);
@@ -43,7 +40,7 @@ window.addEventListener("message", (event) => {
           includes.map((item) => chrome.runtime.getURL("/api/" + item))
         )
         .then((includes) =>
-          window.postMessage({ message: "inlcudesList", includes }, "*")
+          window.postMessage({ message: "includesList", includes }, "*")
         );
     }
   }
