@@ -15,7 +15,7 @@
           if (err) {
             console.error(err);
           } else {
-            GDAPI.parseModFile(mod)
+            GDAPI.parseModManifest(mod)
               .then(GDAPI.loadModFile)
               .catch((error) => console.error(error));
           }
