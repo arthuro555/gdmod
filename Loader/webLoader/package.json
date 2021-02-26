@@ -1,5 +1,6 @@
 {
   "name": "webloader",
+  "private": "true",
   "version": "1.0.0",
   "description": "The GDMod loader for the web, in form of a chrome extension.",
   "main": "none",
