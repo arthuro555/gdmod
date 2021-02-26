@@ -37,7 +37,7 @@ chrome.tabs.query({ active: true, currentWindow: false }, function (tabs) {
   }
 
   function createModCard(mod) {
-    const { info, preload } = mod;
+    const { info, preload, isLoaded } = mod;
     const card = document.createElement("div");
     card.className = "uk-card uk-card-default";
 
@@ -80,10 +80,10 @@ chrome.tabs.query({ active: true, currentWindow: false }, function (tabs) {
 
     const enableButton = document.createElement("button");
     enableButton.className = "uk-button uk-button-primary";
-    enableButton.innerText = "Enable";
+    enableButton.innerText = isLoaded ? "Disable" : "Enable";
     enableButton.onclick = () => {
       chrome.tabs.sendMessage(tabs[0].id, {
-        message: "loadMod",
+        message: isLoaded ? "unloadMod" : "loadMod",
         uid: info.uid,
       });
     };

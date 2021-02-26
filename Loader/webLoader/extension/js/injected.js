@@ -110,7 +110,7 @@ function reloadModList() {
         isLoaded:
           GDAPI.ModManager == undefined
             ? false
-            : GDAPI.ModManager.has(mod.modFile.manifest.mainManifest),
+            : GDAPI.ModManager.has(mod.modFile.manifest.mainManifest.uid),
       });
     })
     .then(() => postToPopup("listMods", allMods));
@@ -169,11 +169,16 @@ if (window.gdjs !== undefined) {
           .then(reloadModList)
           .catch(console.error);
       } else if (msg === "loadMod") {
-        if (typeof GDAPI === "undefined") return;
+        if (typeof GDAPI.loadModFile === "undefined") return;
         modStore
           .getItem(event.data.uid)
           .then(({ modFile }) => GDAPI.loadModFile(modFile))
+          .then(reloadModList)
           .catch(console.error);
+      } else if (msg === "unloadMod") {
+        if (typeof GDAPI.ModManager === "undefined") return;
+        GDAPI.ModManager.unload(event.data.uid);
+        reloadModList();
       } else if (msg === "listMods") {
         reloadModList();
       } else if (msg === "localforageReady") {
