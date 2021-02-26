@@ -1,6 +1,6 @@
 {
   "name": "gdmod",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A package containing a modding api for GDevelop games and a loader to load them.",
   "main": "./cli/cli.js",
   "scripts": {
