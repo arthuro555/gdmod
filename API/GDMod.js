@@ -39,10 +39,12 @@
    * @class
    */
   class ModManager {
-    /** @type {Object<string, GDAPI.Mod>} */
-    _mods = {};
-    /** @type {Object<string, CallbacksObject>} */
-    _callbacks = {};
+    constructor() {
+      /** @type {Object<string, GDAPI.Mod>} */
+      this._mods = {};
+      /** @type {Object<string, CallbacksObject>} */
+      this._callbacks = {};
+    }
 
     /**
      * Adds a mod to the manager.
@@ -125,9 +127,9 @@
      * Get an array of all loaded mods.
      * @returns {Array<GDAPI.Mod>}
      */
-    getAllMods = function () {
+    getAllMods() {
       return Object.values(this._mods);
-    };
+    }
   }
 
   /**
