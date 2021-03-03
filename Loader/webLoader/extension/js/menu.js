@@ -148,8 +148,6 @@ chrome.tabs.query({ active: true, currentWindow: false }, function (tabs) {
             mods.appendChild(createModCard(mod));
           }
         }
-      } else if (event["origin"] === "GDAPI") {
-        // No events by GDAPI currently
       }
     }
   });
@@ -169,6 +167,8 @@ chrome.tabs.query({ active: true, currentWindow: false }, function (tabs) {
       });
     };
     reader.readAsDataURL(fileElement.files[0]);
+    // Allow reading a new file
+    fileElement.value = null;
   });
 
   document.getElementById("selectMod").addEventListener("click", function () {
