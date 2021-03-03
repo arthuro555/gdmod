@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "none"
+  },
+  "include": [
+    "./API/**/*",
+    "./cli/**/*",
+    "./Loader/basicLoader/**/*",
+    "./Loader/webLoader/*",
+    "./Loader/webLoader/extension/js/**/*",
+    "./Mod Templates/**/*",
+    "../GDevelop/GDJS/Runtime/**/*"
+  ]
+}
