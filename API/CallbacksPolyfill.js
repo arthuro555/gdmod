@@ -1,9 +1,9 @@
-/**
- * Polyfills missing callbacks by monkey patching classes to call the callbacks when certain methods are called.
- * @fileoverview
- */
-
 (function () {
+  /**
+   * Polyfills missing callbacks by monkey patching classes to call the callbacks when certain methods are called.
+   * @fileoverview
+   */
+
   if (!gdjs.callbacksFirstRuntimeSceneLoaded) {
     gdjs.callbacksFirstRuntimeSceneLoaded = [];
     const RuntimeSceneCtr = gdjs.RuntimeScene;
