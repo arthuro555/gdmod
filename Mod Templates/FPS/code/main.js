@@ -23,6 +23,7 @@ const FPSObjectData = {
  * @extends {GDAPI.Mod}
  */
 class FpsCounterMod extends GDAPI.Mod {
+  /** @type {gdjs.TextRuntimeObject | null} */
   fpsText = null;
 
   constructor() {
@@ -30,6 +31,10 @@ class FpsCounterMod extends GDAPI.Mod {
     GDAPI.extTools
       .loadExtension("TextObject")
       .then(() => this.sceneChanged(GDAPI.currentScene));
+  }
+
+  unload() {
+    if (this.fpsText) this.fpsText.deleteFromScene();
   }
 
   sceneChanged(runtimeScene) {

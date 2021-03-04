@@ -9,6 +9,7 @@
     "./Loader/webLoader/*",
     "./Loader/webLoader/extension/js/**/*",
     "./Mod Templates/**/*",
-    "../GDevelop/GDJS/Runtime/**/*"
+    "../GDevelop/GDJS/Runtime/**/*",
+    "../GDevelop/Extensions"
   ]
 }
