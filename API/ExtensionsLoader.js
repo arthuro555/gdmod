@@ -10,8 +10,9 @@
    * Contains the extension includes.
    * This is auto-generated.
    * See https://github.com/arthuro555/GDevelop/tree/gdmod-generate-includes-list.
+   * @type {Object<string, string[]>}
    */
-  GDAPI.extTools.EXTENSIONS = {
+  const EXTENSIONS = {
     PlatformBehavior: [
       "Extensions/PlatformBehavior/platformruntimebehavior.js",
       "Extensions/PlatformBehavior/platformerobjectruntimebehavior.js",
@@ -161,6 +162,27 @@
       "Extensions/FacebookInstantGames/facebookinstantgamestools.js",
     ],
     FileSystem: ["Extensions/FileSystem/filesystemtools.js"],
+    Firebase: [
+      "Extensions/Firebase/B_firebasejs/A_firebase-base.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-performance.js",
+      "Extensions/Firebase/C_firebasetools/C_firebasetools.js",
+      "Extensions/Firebase/C_firebasetools/D_performancetools.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-analytics.js",
+      "Extensions/Firebase/C_firebasetools/D_analyticstools.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-auth.js",
+      "Extensions/Firebase/C_firebasetools/D_authtools.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-functions.js",
+      "Extensions/Firebase/C_firebasetools/D_functionstools.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-database.js",
+      "Extensions/Firebase/C_firebasetools/D_databasetools.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-firestore.js",
+      "Extensions/Firebase/C_firebasetools/D_cloudfirestoretools.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-remote-config.js",
+      "Extensions/Firebase/C_firebasetools/D_remoteconfigtools.js",
+      "Extensions/Firebase/A_utils/A_UIDArray.js",
+      "Extensions/Firebase/B_firebasejs/B_firebase-storage.js",
+      "Extensions/Firebase/C_firebasetools/D_storagetools.js",
+    ],
     Lighting: [
       "Extensions/Lighting/lightruntimeobject.js",
       "Extensions/Lighting/lightruntimeobject-pixi-renderer.js",
@@ -173,6 +195,17 @@
       "Extensions/Physics2Behavior/box2d.js",
     ],
     Screenshot: ["Extensions/Screenshot/screenshottools.js"],
+    SpatialSound: [
+      "Extensions/SpatialSound/howler.spatial.min.js",
+      "Extensions/SpatialSound/spatialsoundtools.js",
+    ],
+    TileMap: [
+      "Extensions/TileMap/tilemapruntimeobject.js",
+      "Extensions/TileMap/tilemapruntimeobject-pixi-renderer.js",
+      "Extensions/TileMap/pixi-tilemap/dist/pixi-tilemap.umd.js",
+      "Extensions/TileMap/pako/dist/pako.min.js",
+      "Extensions/TileMap/pixi-tilemap-helper.js",
+    ],
     Tween: [
       "Extensions/TweenBehavior/shifty.js",
       "Extensions/TweenBehavior/tweenruntimebehavior.js",
@@ -183,31 +216,33 @@
     ],
   };
 
-  GDAPI.extTools.CDN =
-    "https://resources.gdevelop-app.com/GDJS-5.0.0-beta100/Runtime/";
+  const CDN =
+    "https://resources.gdevelop-app.com/GDJS-5.0.0-{{version}}/Runtime/";
 
   /**
    * A list of already loaded extension (to not reload already loaded extensions).
+   * @type {Set<string>}
    */
-  GDAPI.extTools.loadedExtensions = [];
+  GDAPI.extTools.loadedExtensions = new Set();
 
   /**
    * Loads a GDevelop extension.
    * @param {GDAPI.extTools.EXTENSIONS} extension - The extension to load.
-   * @returns {Promise}
+   * @param {string} [version] - The version of GDevelop of this extension. Default: `beta105`.
+   * @returns {Promise<void>}
    */
-  GDAPI.extTools.loadExtension = function (extension) {
-    if (this.loadedExtensions.indexOf(extension) !== -1)
+  GDAPI.extTools.loadExtension = function (extension, version = "beta105") {
+    if (GDAPI.extTools.loadedExtensions.has(extension))
       return Promise.resolve();
-    if (this.EXTENSIONS[extension] === undefined)
+    if (EXTENSIONS[extension] === undefined)
       return Promise.reject("Extension not found!");
 
-    GDAPI.extTools.loadedExtensions.push(extension);
-    const allFiles = this.EXTENSIONS[extension].map(
+    GDAPI.extTools.loadedExtensions.add(extension);
+    const allFiles = EXTENSIONS[extension].map(
       (link) =>
         new Promise((resolve) => {
           const script = document.createElement("script");
-          script.src = this.CDN + link;
+          script.src = CDN.replace("{{version}}", version) + link;
           script.onload = function () {
             document.body.removeChild(script); // Cleanup document after loading file.
             resolve();
