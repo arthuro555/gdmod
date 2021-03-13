@@ -1,4 +1,4 @@
-declare const JSZip: any;
+declare const JSZip: typeof import("jszip");
 namespace GDAPI {
   /**
    * The base mod of all mods.
@@ -122,6 +122,7 @@ namespace GDAPI {
         promises.push(
           (async function () {
             // Get an URL for the image Blob
+            //@ts-ignore parseModManifest Already made sure that it isn't null
             const resourceFile = await file
               .file("resources/" + resource.file)
               .async("blob");
@@ -157,6 +158,7 @@ namespace GDAPI {
     let modLoaded = false;
     if (includes.length !== 0)
       for (let include of includes) {
+        //@ts-ignore parseModManifest Already made sure that it isn't null
         const jsFile = await file.file("code/" + include).async("string");
 
         // Code run through eval have access to this scopes variable,
