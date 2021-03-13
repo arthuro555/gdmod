@@ -22,9 +22,9 @@ jobs:
         working-directory: ./API
         run: yarn
         
-      - name: Clone GDevelop
+      - name: Install GDevelop
         working-directory: ..
-        run: git clone https://github.com/4ian/GDevelop
+        run: git clone https://github.com/4ian/GDevelop && cd GDJS && yarn
       
       - name: Check types
         working-directory: ./API
