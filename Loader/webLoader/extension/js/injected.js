@@ -204,7 +204,7 @@
         // Wait for the scene and modstore to load
         if (
           typeof GDAPI !== "undefined" &&
-          typeof GDAPI.currentScene !== "undefined" &&
+          GDAPI.currentScene != null &&
           typeof modStore !== "undefined"
         )
           modStore.iterate(({ settings: { preload }, modFile }) => {

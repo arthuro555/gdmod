@@ -1,8 +1,8 @@
 [
-    "jszip.min.js",
-    "CallbacksPolyfill.js",
-    "GDApi.js",
-    "GDMod.js",
-	"ExtensionsLoader.js",
-    "SceneTools.js"
+  "Polyfill.js",
+  "GDApi.js",
+  "jszip.min.js",
+  "Mod.js",
+  "ModManager.js",
+  "ExtensionsLoader.js"
 ]

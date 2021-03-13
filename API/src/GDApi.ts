@@ -1,36 +1,38 @@
-(function () {
+/**
+ * The namespace containing the whole modding API.
+ * @namespace
+ */
+namespace GDAPI {
   /**
-   * The namespace containing the whole modding API.
-   * @namespace
-   */
-  window.GDAPI = window.GDAPI || {};
-
-  /**
-   * GD Callback type enum.
+   * All GDevelop runtime event callback types.
    * @enum
    */
-  GDAPI.CALLBACKS = {
-    FIRST_SCENE_LOADED: 0,
-    SCENE_LOADED: 1,
-    PRE_EVENTS: 2,
-    POST_EVENTS: 3,
-    SCENE_PAUSED: 4,
-    SCENE_RESUMED: 5,
-    SCENE_UNLOADING: 6,
-    SCENE_UNLOADED: 7,
-    OBJECT_DELETED_FROM_SCENE: 8,
-  };
+  export const enum CALLBACKS {
+    FIRST_SCENE_LOADED,
+    SCENE_LOADED,
+    PRE_EVENTS,
+    POST_EVENTS,
+    SCENE_PAUSED,
+    SCENE_RESUMED,
+    SCENE_UNLOADING,
+    SCENE_UNLOADED,
+    OBJECT_DELETED_FROM_SCENE,
+  }
 
   /**
-   * @typedef {(runtimeScene: gdjs.RuntimeScene) => void} RuntimeSceneCallback
+   * A GDevelop runtime event.
    */
+  export type RuntimeSceneCallback = (runtimeScene: gdjs.RuntimeScene) => void;
 
   /**
-   * Registers a callback function.
+   * Registers a callback function for a GDevelop runtime event.
    * @param {GDAPI.CALLBACKS} callbackType - The event on which you want your callback to be called.
    * @param {RuntimeSceneCallback} callback - The callback to register.
    */
-  GDAPI.registerCallback = function (callbackType, callback) {
+  export const registerCallback = function (
+    callbackType: CALLBACKS,
+    callback: RuntimeSceneCallback
+  ) {
     if (callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED)
       gdjs.callbacksFirstRuntimeSceneLoaded.push(callback);
     else if (callbackType === GDAPI.CALLBACKS.SCENE_LOADED)
@@ -56,7 +58,10 @@
    * @param {GDAPI.CALLBACKS} callbackType
    * @param {() => void} callback
    */
-  GDAPI.unregisterCallback = function (callbackType, callback) {
+  export const unregisterCallback = function (
+    callbackType: CALLBACKS,
+    callback: RuntimeSceneCallback
+  ) {
     let callbackArray;
     if (callbackType === GDAPI.CALLBACKS.FIRST_SCENE_LOADED)
       callbackArray = gdjs.callbacksFirstRuntimeSceneLoaded;
@@ -83,22 +88,23 @@
   };
 
   /**
-   * The current Instance of RuntimeScene.
+   * The instance of the current RuntimeScene.
    * @type {?gdjs.RuntimeScene}
    */
-  GDAPI.currentScene = GDAPI.currentScene || null;
+  export const currentScene: gdjs.RuntimeScene = GDAPI.currentScene;
 
   /**
-   * The Instance of RuntimeGame.
+   * The instance of the current RuntimeGame.
    * @type {?gdjs.RuntimeGame}
    */
-  GDAPI.game = GDAPI.game || null;
+  export const game: gdjs.RuntimeGame = GDAPI.game;
 
   // Make a getter for GDAPI.currentScene
   Object.defineProperty(GDAPI, "currentScene", {
-    get: function () {
+    get: function (): gdjs.RuntimeScene | null {
       if (GDAPI.game != undefined)
         return GDAPI.game._sceneStack.getCurrentScene();
+      else return null;
     },
   });
-})();
+}

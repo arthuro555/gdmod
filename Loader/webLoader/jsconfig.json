@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "module": "none"
+  },
+  "include": [
+    "../../API/src",
+    "./*",
+    "./extension/js/**/*",
+    "../../../GDevelop/GDJS/Runtime/**/*",
+    "../../../GDevelop/Extensions"
+  ]
+}

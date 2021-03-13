@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "lib": ["ES6", "DOM", "ScriptHost"],
+    "typeRoots": ["../../GDevelop/GDJS/node_modules/@types/"]
+  },
+  "include": [
+    "../../GDevelop/GDJS/Runtime/**/*",
+    "../../GDevelop/Extensions/**/*.js",
+    "../../GDevelop/Extensions/**/*.ts",
+    "./src/**/*"
+  ],
+  "exclude": [
+    "../../GDevelop/GDJS/Runtime/cocos-renderers",
+    "../../GDevelop/GDJS/Runtime/cocos-sound-manager",
+    "../../GDevelop/Extensions/**/*-cocos-renderer.ts",
+    "../../GDevelop/GDJS/Runtime/Cocos2d",
+    "../../GDevelop/GDJS/Runtime/Cordova",
+    "../../GDevelop/GDJS/Runtime/Electron",
+    "../../GDevelop/GDJS/Runtime/FacebookInstantGames",
+    "../../GDevelop/GDJS/Runtime/libs/CocoonJS",
+    "../../GDevelop/Extensions/**/JsExtension.js",
+    "../../GDevelop/Extensions/SkeletonObject",
+    "../../GDevelop/Extensions/Effects/pixi-filters/filter-alpha.js"
+  ]
+}
