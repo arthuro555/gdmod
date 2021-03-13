@@ -2,25 +2,36 @@ name: Check code style and typing
 
 on: [push, pull_request, workflow_dispatch]
 jobs:
-  check-code-style-and-typing:
+  check-code-formatting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Prettier
+      - name: Install dependencies
         run: yarn
 
       - name: Check formatting
         run: yarn check-format
         
-      - name: Install API dependencies
+  check-code-typing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install dependencies
         run: cd API && yarn
-        
-      - name: Check API build
-        run: yarn tsc && yarn build
+      
+      - name: Check types
+        run: yarn ts
 
-      - name: Build webLoader
-        run: cd ../Loader/webLoader && yarn && yarn import-api && yarn add addons-linter 
+  check-code-style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: cd API && yarn && cd ../Loader/webLoader && yarn && yarn add addons-linter 
         
-      - name: Run extension linter
+      - name: Build webLoader
+        run: yarn import-api
+        
+      - name: Run mozilla addon linter
         run: yarn addons-linter ./extension
