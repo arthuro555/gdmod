@@ -1,12 +1,11 @@
 ![GDMod logo](logo.png)
-# gdmod
+# gdmod [![Check code style and typing](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml/badge.svg)](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml)
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
-A modding API for [GDevelop](https://gdevelop-app.com/) games  
+A modding API for [GDevelop](https://gdevelop-app.com/) games.  
 *Installation instructions on [the wiki](https://github.com/arthuro555/gdmod/wiki)*
 
-**THIS SOFTWARE IS STILL A WIP, SOME FEATURES MIGHT NOT WORK!**
-
-**Do NOT** use this on games which require accepting a license/terms of service prohibiting game code decompilation, modification or anything related to it.
+> Note: This software is still in early stages, the API may not be stable. 
+> Disclaimer: Please do not use this on games which require accepting a license/terms of service prohibiting game code decompilation, modification etc. 
 
 ## Structure of the project
 This project is separated into 4 Modules.
