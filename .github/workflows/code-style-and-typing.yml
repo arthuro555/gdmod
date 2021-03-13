@@ -11,7 +11,7 @@ jobs:
         run: yarn
 
       - name: Check formatting
-        run: yarn prettier
+        run: yarn check-format
         
       - name: Install API dependencies
         run: cd API && yarn
