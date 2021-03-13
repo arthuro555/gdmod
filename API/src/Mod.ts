@@ -158,7 +158,29 @@ namespace GDAPI {
     if (includes.length !== 0)
       for (let include of includes) {
         const jsFile = await file.file("code/" + include).async("string");
-        const potentialMod = eval(`(function() {${jsFile}}())`);
+
+        // Code run through eval have access to this scopes variable,
+        // we override those with undefined in the scope of the Mod
+        // to not let those internal temporaries leak.
+        const blockedVariables = [
+          "blockedVariables",
+          "jsFile",
+          "include",
+          "includes",
+          "modLoaded",
+          "resources",
+          "mainManifest",
+          "file",
+          "modFile",
+          "rawFile",
+        ];
+
+        const potentialMod = (eval(
+          `(function(${blockedVariables.join(", ")}) {${jsFile}})`
+        ) as () => any)
+          //@ts-ignore Array.fill works with undefined
+          .apply({}, blockedVariables.fill(undefined));
+
         if (typeof potentialMod === "function" && !modLoaded) {
           // Load a GDAPI.Mod instance
           GDAPI.ModManager.add(mainManifest.uid, new potentialMod());
