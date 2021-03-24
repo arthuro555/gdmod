@@ -1,12 +1,12 @@
 {
   "name": "gdmod",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A package containing a modding api for GDevelop games and a loader to load them.",
   "main": "./cli/cli.js",
   "scripts": {
     "gdmod-cli": "./cli/cli.js",
     "format": "prettier --write ./API/*.js ./cli/cli.js ./Loader/**/*.js \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\"",
-	"check-format": "prettier --check ./API/*.js ./cli/cli.js ./Loader/**/*.js \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
+    "check-format": "prettier --check ./API/*.js ./cli/cli.js ./Loader/**/*.js \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
   },
   "repository": {
     "type": "git",
