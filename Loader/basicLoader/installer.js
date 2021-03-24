@@ -6,13 +6,19 @@ const fs = require("fs");
  * The Directory of the API files.
  * @type {string}
  */
-const APIDir = path.join(__dirname, "..", "..", "API");
+const APIDir = path.join(__dirname, "..", "..", "API", "dist");
 
 /**
  * A list of all relevant API files.
  * @type {string}
  */
-const APIDeps = require(APIDir + "/includes.json");
+const APIDeps = require(path.join(
+  __dirname,
+  "..",
+  "..",
+  "API",
+  "includes.json"
+));
 
 /**
  * Inserts an include in a HTML document.
@@ -92,15 +98,14 @@ module.exports.installGDMod = function (outputDir) {
       );
       runtimeGameFile += `
 
-gdjs.RuntimeGame = (function() {
-  var original = gdjs.RuntimeGame;
+gdjs.RuntimeGame = (function(original) {
+  if(typeof GDAPI === "undefined") window.GDAPI = {};
   return function(...args) {
     this.__proto__ = Object.create(original.prototype);
     original.apply(this, args);
-    if(typeof GDAPI === "undefined") window.GDAPI = {};
     GDAPI.game = this;
   }
-})();
+})(gdjs.RuntimeGame);
       `;
       fs.writeFileSync(path.join(outputDir, "runtimegame.js"), runtimeGameFile);
       console.log(
@@ -110,9 +115,7 @@ gdjs.RuntimeGame = (function() {
     })
     .then(() => {
       // Add Includes for API
-      let indexFile = String(
-        fs.readFileSync(path.join(outputDir, "index.html"))
-      );
+      let indexFile = "" + fs.readFileSync(path.join(outputDir, "index.html"));
       // An include file is used to determine the loading order and what needs to be loaded.
       for (let include of APIDeps) {
         indexFile = insertInclude(indexFile, include);
