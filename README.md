@@ -1,4 +1,4 @@
-![GDMod logo](logo.png)
+![GDMod logo](https://github.com/arthuro555/gdmod/raw/master/logo.png)
 # gdmod [![Check code style and typing](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml/badge.svg)](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml)
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
 A modding API for [GDevelop](https://gdevelop-app.com/) games.  
