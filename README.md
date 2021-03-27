@@ -1,28 +1,38 @@
 ![GDMod logo](https://github.com/arthuro555/gdmod/raw/master/logo.png)
-# gdmod [![Check code style and typing](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml/badge.svg)](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml)
+# GDMod [![Check code style and typing](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml/badge.svg)](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml)
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
 A modding API for [GDevelop](https://gdevelop-app.com/) games.  
-*Installation instructions on [the wiki](https://github.com/arthuro555/gdmod/wiki)*
+*Installation instructions [on the wiki](https://github.com/arthuro555/gdmod/wiki/Installation-Guide)*
 
-> Note: This software is still in early stages, the API may not be stable. 
-> Disclaimer: Please do not use this on games which require accepting a license/terms of service prohibiting game code decompilation, modification etc. 
+> Note: This software is still in early stages, the API is not stable and may get breaking change.  
+> Disclaimer: Please do not use this on games which require prohibit game code decompilation, modification etc. 
+
+## API documentation
+You can find documentation [on thw wiki](https://github.com/arthuro555/gdmod/wiki/Modding-API-Documentation).
 
 ## Structure of the project
-This project is separated into 4 Modules.
-1. **The API module**.  
-  It is an API injected into the game and contains some basic APIs to manipulate the game.
-  If you are interested to make a game which might need mods (needs to be modded) , fork this repo and add APIs specific to your game here for a better experience while modding.
-  
-2. **The CLI module**.  
-  This is a cli to manage/install mods and the loader in a GDevelop game.
-  Although the GUI is recommended, as it is same and easier to use! The CLI will always be maintained though as it is lightweight and runs on more devices than the GUI (a CI for example).
+This project is separated into 3 parts.
 
-3. **The GUI module**.  
-  This is contains an electron application with the feaures of the cli tool. It will probably be built on top of the CLI module.
-
-4. **The Loader module**.  
-  It is the part that injects the API and mods into the game and applies patches to the game engine to enable modding.
+1. **The API**.  
+  It is injected into the game by loaders and contains some basic APIs to manipulate the game and load mods.
   
+2. **The CLI**.  
+  This is a CLI made to install the loader in a GDevelop game, and assist with devlopping mods.
+
+3. **The Loader module**.  
+  It is the part that injects the API into a game. It is also responsible for patching the game to make it compatible with the API and to give an interface to the user to interact with the API (un/loading mods).
+  
+## FAQ
+
+Q: The logo misses a D.  
+A: I know. I am so bad at graphics that I cannot fix it myself. If you want and are able to, you are welcome to try to fix it.
+
+Q: What is a mod?  
+A: A mod is like an unofficial extension, it is a community written code that modifies parts of a game.
+
+Q: Do I need to code to make mods with GDMod?  
+A: It depends. If you want to do any logic (e.g. what you would do with events in GDevelop), yes, you will have tp write javascript. 
+For more trivial stuff (replacing resources), you can in most cases do it codeless.
 
 ## Discord community
 You can join the [GDMod discord server](https://discord.com/invite/TeBdMf3Sh9) to get help or talk with the community.
