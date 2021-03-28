@@ -2,13 +2,9 @@
 # GDMod [![Check code style and typing](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml/badge.svg)](https://github.com/arthuro555/gdmod/actions/workflows/code-style-and-typing.yml)
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/arthuro555)  
 A modding API for [GDevelop](https://gdevelop-app.com/) games.  
-*Installation instructions [on the wiki](https://github.com/arthuro555/gdmod/wiki/Installation-Guide)*
 
 > Note: This software is still in early stages, the API is not stable and may get breaking change.  
 > Disclaimer: Please do not use this on games which require prohibit game code decompilation, modification etc. 
-
-## API documentation
-You can find documentation [on thw wiki](https://github.com/arthuro555/gdmod/wiki/Modding-API-Documentation).
 
 ## Structure of the project
 This project is separated into 3 parts.
@@ -21,6 +17,10 @@ This project is separated into 3 parts.
 
 3. **The Loader module**.  
   It is the part that injects the API into a game. It is also responsible for patching the game to make it compatible with the API and to give an interface to the user to interact with the API (un/loading mods).
+  
+## Useful links
+- [Installation instructions](https://github.com/arthuro555/gdmod/wiki/Installation-Guide)  
+- [API documentation](https://arthuro555.github.io/gdmod/).  
   
 ## FAQ
 
