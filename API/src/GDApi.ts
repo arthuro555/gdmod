@@ -5,7 +5,7 @@
 namespace GDAPI {
   /**
    * A list of registerable callbacks.
-   * Note that FIRST_SCENE_LOADED will never actually be called, 
+   * Note that FIRST_SCENE_LOADED will never actually be called,
    * as mods are always loaded after the first scene has finished loading.
    * @enum
    */
