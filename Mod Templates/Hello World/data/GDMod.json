@@ -1,7 +1,0 @@
-{
-  "name": "GDMod Template",
-  "description": "A Template for GDMod Mods",
-  "version": "0.0.1-development",
-  "author": "Arthur Pacaud",
-  "uid": "gdmod/template/hello-world"
-}

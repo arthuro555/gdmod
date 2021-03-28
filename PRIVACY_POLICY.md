@@ -1,1 +1,0 @@
-We do not store any of your data. We don't have servers or anything to store data on, and even if we did we still would not need it and would not do it.
