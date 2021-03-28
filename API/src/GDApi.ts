@@ -4,7 +4,9 @@
  */
 namespace GDAPI {
   /**
-   * All GDevelop runtime event callback types.
+   * A list of registerable callbacks.
+   * Note that FIRST_SCENE_LOADED will never actually be called, 
+   * as mods are always loaded after the first scene has finished loading.
    * @enum
    */
   export const enum CALLBACKS {
@@ -20,14 +22,14 @@ namespace GDAPI {
   }
 
   /**
-   * A GDevelop runtime event.
+   * A GDevelop runtime event callback.
    */
   export type RuntimeSceneCallback = (runtimeScene: gdjs.RuntimeScene) => void;
 
   /**
    * Registers a callback function for a GDevelop runtime event.
-   * @param {GDAPI.CALLBACKS} callbackType - The event on which you want your callback to be called.
-   * @param {RuntimeSceneCallback} callback - The callback to register.
+   * @param callbackType - The event on which you want your callback to be called.
+   * @param callback - The callback to register.
    */
   export const registerCallback = function (
     callbackType: CALLBACKS,
@@ -55,8 +57,6 @@ namespace GDAPI {
 
   /**
    * Unregisters a previously registered callback function.
-   * @param {GDAPI.CALLBACKS} callbackType
-   * @param {() => void} callback
    */
   export const unregisterCallback = function (
     callbackType: CALLBACKS,
@@ -90,12 +90,14 @@ namespace GDAPI {
   /**
    * The instance of the current RuntimeScene.
    * @type {?gdjs.RuntimeScene}
+   * @see https://docs.gdevelop-app.com/GDJS%20Runtime%20Documentation/RuntimeScene.html
    */
   export const currentScene: gdjs.RuntimeScene = GDAPI.currentScene;
 
   /**
    * The instance of the current RuntimeGame.
    * @type {?gdjs.RuntimeGame}
+   * @see https://docs.gdevelop-app.com/GDJS%20Runtime%20Documentation/RuntimeGame.html
    */
   export const game: gdjs.RuntimeGame = GDAPI.game;
 

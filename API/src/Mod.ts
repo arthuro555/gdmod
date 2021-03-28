@@ -1,7 +1,21 @@
 declare const JSZip: typeof import("jszip");
 namespace GDAPI {
   /**
-   * The base mod of all mods.
+   * This class describes a GDMod mod that can be returned by the JavaScript code. Using it has advantages:
+   * 1. Other mods can interact with yours.
+   * 2. The mod can be managed by GDMod, allowing for more control by the user and therefore a better UX.
+   * 3. Hopefully a better modding experience.
+   *
+   * @example
+   * ```js
+   * class myMod extends GDAPI.Mod {
+   *     preEvent(runtimeScene) {
+   *         console.log("Hello World!");
+   *     };
+   * }
+   *
+   * return myMod;
+   * ```
    */
   export class Mod {
     /**
@@ -53,8 +67,8 @@ namespace GDAPI {
 
   /**
    * Parses a mod from a zip.
+   * This allows preparsing the mod when installing it, to have access to its metadata without initializing it.
    * @param rawFile - The Mod file.
-   * @returns {Promise<ModFile>}
    */
   export const parseModManifest = async function (
     rawFile: File
@@ -99,7 +113,7 @@ namespace GDAPI {
 
   /**
    * Loads a pre-parsed mod.
-   * This is what is used to actually load a mod file.
+   * This is what is actually loading a mod.
    * @param modFile - The Mod file.
    */
   export const loadModFile = async function (modFile: ModFile) {

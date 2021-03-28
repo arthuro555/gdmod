@@ -5,7 +5,8 @@
   "main": "GDApi.js",
   "scripts": {
     "build": "node build.js",
-    "ts": "tsc"
+    "ts": "tsc",
+    "docgen": "typedoc src/GDApi.ts --name GDAPI --readme none --hideGenerator --excludePrivate"
   },
   "author": "arthuro555",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "typescript": "^4.2.3"
   },
   "devDependencies": {
-    "jszip": "^3.6.0"
+    "jszip": "^3.6.0",
+    "typedoc": "^0.20.34"
   }
 }

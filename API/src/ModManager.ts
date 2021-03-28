@@ -1,17 +1,17 @@
 namespace GDAPI {
-  /**
-   * @typedef CallbacksObject
-   * @property {RuntimeSceneCallback} [preEvent]
-   * @property {RuntimeSceneCallback} [postEvent]
-   * @property {RuntimeSceneCallback} [sceneChanged]
-   */
+  interface CallbacksObject {
+    preEvent?: RuntimeSceneCallback;
+    postEvent?: RuntimeSceneCallback;
+    sceneChanged?: RuntimeSceneCallback;
+  }
 
   /**
    * A utility class that manages loading and unloading of mods.
+   * Don't use directly, use {@link ModManager}.
    */
-  class ModManagerClass {
-    _mods: Record<string, Mod> = {};
-    _callbacks: Record<string, any> = {};
+  export class ModManagerClass {
+    private _mods: Record<string, Mod> = {};
+    private _callbacks: Record<string, CallbacksObject> = {};
 
     /**
      * Adds a mod to the manager.
@@ -48,23 +48,21 @@ namespace GDAPI {
 
     /**
      * Check if a mod is loaded by uid.
-     * @param {string} modUID - The mods UID.
-     * @returns {boolean}
+     * @param modUID - The mods UID.
      */
-    has(modUID) {
+    has(modUID: string): boolean {
       return modUID in this._mods;
     }
 
     /**
      * Unloads a mod by uid.
-     * @param {string} modUID - The mods UID.
+     * @param modUID - The mods UID.
      */
-    unload(modUID) {
+    unload(modUID: string): void {
       const mod = this._mods[modUID];
       if (mod == undefined) return;
       if (mod.unload) mod.unload();
 
-      /** @type {CallbacksObject} */
       const callbacks = this._callbacks[modUID];
       if (callbacks.preEvent)
         GDAPI.unregisterCallback(
@@ -88,9 +86,8 @@ namespace GDAPI {
 
     /**
      * Get an array of all loaded mods.
-     * @returns {Array<GDAPI.Mod>}
      */
-    getAllMods() {
+    getAllMods(): Mod[] {
       return Object.values(this._mods);
     }
   }

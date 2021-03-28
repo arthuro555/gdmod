@@ -9,9 +9,8 @@ namespace GDAPI {
      * Contains the extension includes.
      * This is auto-generated.
      * See https://github.com/arthuro555/GDevelop/tree/gdmod-generate-includes-list.
-     * @type {Object<string, string[]>}
      */
-    const EXTENSIONS = {
+    const EXTENSIONS: Record<string, string[]> = {
       PlatformBehavior: [
         "Extensions/PlatformBehavior/platformruntimebehavior.js",
         "Extensions/PlatformBehavior/platformerobjectruntimebehavior.js",
@@ -220,17 +219,18 @@ namespace GDAPI {
 
     /**
      * A list of already loaded extension (to not reload already loaded extensions).
-     * @type {Set<string>}
      */
-    const loadedExtensions = new Set();
+    const loadedExtensions: Set<string> = new Set();
 
     /**
      * Loads a GDevelop extension.
-     * @param {GDAPI.extTools.EXTENSIONS} extension - The extension to load.
-     * @param {string} [version] - The version of GDevelop of this extension. Default: `beta105`.
-     * @returns {Promise<void>}
+     * @param extension - The extension to load.
+     * @param [version] - The version of GDevelop of this extension. Default: `beta105`.
      */
-    export const loadExtension = function (extension, version = "beta105") {
+    export const loadExtension = function (
+      extension: keyof typeof EXTENSIONS,
+      version: string = "beta105"
+    ): Promise<void> {
       if (loadedExtensions.has(extension)) return Promise.resolve();
       if (EXTENSIONS[extension] === undefined)
         return Promise.reject("Extension not found!");
@@ -248,7 +248,8 @@ namespace GDAPI {
             document.body.appendChild(script);
           })
       );
-      return Promise.all(allFiles);
+
+      return Promise.all(allFiles).then();
     };
   }
 }
