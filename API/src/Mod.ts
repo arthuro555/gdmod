@@ -28,44 +28,39 @@ namespace GDAPI {
     unload() {}
   }
 
-  /**
-   * @typedef MainManifest
-   * @property {string} name
-   * @property {string} description
-   * @property {string} version
-   * @property {string} author
-   * @property {string} uid
-   */
+  interface MainManifest {
+    name: string;
+    description: string;
+    version: string;
+    author: string;
+    uid: string;
+  }
 
-  /**
-   * @typedef {Array<string>} IncludesManifest
-   */
+  type Resource = { file: string; name: string; kind: string };
 
-  /**
-   * @typedef {Array<{file: string, name: string, kind: string}>} ResourcesManifest
-   */
+  interface Manifests {
+    mainManifest: MainManifest;
+    includes: string[];
+    resources: Resource[];
+  }
 
-  /**
-   * @typedef Manifests
-   * @property {MainManifest} mainManifest
-   * @property {IncludesManifest} includes
-   * @property {ResourcesManifest} resources
-   */
+  type File = Buffer | ArrayBuffer | Blob;
 
-  /**
-   * @typedef ModFile
-   * @property {Buffer | ArrayBuffer | Blob} file
-   * @property {Manifests} manifest
-   */
+  interface ModFile {
+    file: File;
+    manifest: Manifests;
+  }
 
   /**
    * Parses a mod from a zip.
-   * @param {Buffer | ArrayBuffer | Blob} rawFile - The Mod file.
+   * @param rawFile - The Mod file.
    * @returns {Promise<ModFile>}
    */
-  export const parseModManifest = async function (rawFile) {
+  export const parseModManifest = async function (
+    rawFile: File
+  ): Promise<ModFile> {
     // Load the zip
-    const file = await new JSZip().loadAsync(rawFile);
+    const file = await JSZip.loadAsync(rawFile);
 
     // Load the files
     const mainManifestFile = file.file("data/GDMod.json");
@@ -105,9 +100,9 @@ namespace GDAPI {
   /**
    * Loads a pre-parsed mod.
    * This is what is used to actually load a mod file.
-   * @param {ModFile} modFile - The Mod file.
+   * @param modFile - The Mod file.
    */
-  export const loadModFile = async function (modFile) {
+  export const loadModFile = async function (modFile: ModFile) {
     const {
       manifest: { resources, includes, mainManifest },
       file: rawFile,
