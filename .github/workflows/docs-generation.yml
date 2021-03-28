@@ -1,0 +1,26 @@
+name: Documentation generation
+
+on: 
+  push:
+    branches:
+        - master
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        working-directory: ./API
+        run: yarn
+
+      - name: Generate documentation
+        working-directory: ./API
+        run: yarn docgen
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./API/docs
+          commit_message: Deploy docs for ${{ github.event.head_commit.message }}
