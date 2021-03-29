@@ -1,21 +1,23 @@
 {
   "name": "api",
   "version": "1.0.0",
+  "private": true,
   "description": "Here are the tools to load mods, and make it easier to code them.",
-  "main": "GDApi.js",
+  "main": "src/GDApi.ts",
   "scripts": {
     "build": "node build.js",
     "ts": "tsc",
-    "docgen": "typedoc src/GDApi.ts --name GDAPI --readme none --hideGenerator --excludePrivate"
+    "docgen": "typedoc src/index.ts --name GDAPI --readme none --hideGenerator --excludePrivate --excludeInternal"
   },
   "author": "arthuro555",
   "license": "MIT",
   "dependencies": {
-    "esbuild": "^0.8.55",
-    "typescript": "^4.2.3"
+    "jszip": "^3.6.0",
+    "stream": "^0.0.2"
   },
   "devDependencies": {
-    "jszip": "^3.6.0",
-    "typedoc": "^0.20.34"
+    "esbuild": "^0.8.55",
+    "typedoc": "^0.20.34",
+    "typescript": "^4.2.3"
   }
 }

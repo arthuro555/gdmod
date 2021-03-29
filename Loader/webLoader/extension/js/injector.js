@@ -2,48 +2,35 @@
   // We need direct access to gdjs.
   // To do so we need to escape the sandbox by injecting a script tag into the document
   // to load a script we control as a normal script.
-
-  // First we create a script
-  const script = document.createElement("script");
-  script.setAttribute("type", "text/javascript");
-  // We set the script to an extension file
-  script.setAttribute("src", chrome.extension.getURL("/js/injected.js"));
-  // Remove it on load to keep the DOM clean
-  script.onload = () => script.remove();
-  // And now inject it into the body
-  document.body.appendChild(script);
-
-  // LocalForage is injected after as the gdjs patch has to happen asap.
-  const localforageScript = document.createElement("script");
-  localforageScript.setAttribute("type", "text/javascript");
-  localforageScript.setAttribute(
-    "src",
-    chrome.extension.getURL("/vendor/localforage.min.js")
-  );
-  localforageScript.onload = () => {
-    localforageScript.remove();
-    window.postMessage({ message: "localforageReady" }, "*");
+  const injectScript = (scriptURL, onLoad = () => {}) => {
+    const script = document.createElement("script");
+    script.setAttribute("type", "text/javascript");
+    script.setAttribute("src", chrome.extension.getURL(scriptURL));
+    script.onload = () => {
+      // Remove the script on load to keep the DOM clean
+      script.remove();
+      onLoad(script);
+    };
+    document.body.appendChild(script);
   };
-  document.body.appendChild(localforageScript);
 
-  // We injected the script but we also need to pass messages from the Injected script to the extension and back
+  injectScript("/js/injected.js");
+  injectScript("/vendor/localforage.min.js", () =>
+    window.postMessage({ message: "localforageReady" }, "*")
+  );
+
+  // We injected the script but we also need to pass messages
+  // from the injected script to the popup and back, and the
+  // sandbox bypass prevents the usage of chrome extensions APIs.
+  // Therefore, we setup a bridge using postMessage.
   window.addEventListener("message", (event) => {
     if (
       typeof event.data["forwardTo"] !== "undefined" &&
-      event.data["forwardTo"] === "GDMod"
+      event.data["forwardTo"] === "GDMod" &&
+      typeof event.data["payload"] !== "undefined"
     ) {
-      if (typeof event.data["payload"] !== "undefined") {
-        chrome.runtime.sendMessage(event.data.payload);
-      } else if (event.data.listIncludes) {
-        fetch(chrome.runtime.getURL("/api/includes.json"))
-          .then((res) => res.json())
-          .then((includes) =>
-            includes.map((item) => chrome.runtime.getURL("/api/" + item))
-          )
-          .then((includes) =>
-            window.postMessage({ message: "includesList", includes }, "*")
-          );
-      }
+      if (event.data.payload.id === "installAPI") injectScript("/api/GDApi.js");
+      else chrome.runtime.sendMessage(event.data.payload);
     }
   });
 

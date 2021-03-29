@@ -1,18 +1,18 @@
 const esbuild = require("esbuild");
-const { readdir } = require("fs").promises;
 
 module.exports = async function () {
   await esbuild.startService();
-  return Promise.all(
-    (await readdir(__dirname + "/src")).map((file) =>
-      esbuild.build({
-        entryPoints: [__dirname + "/src/" + file],
-        sourcemap: true,
-        minify: true,
-        outdir: __dirname + "/dist",
-      })
-    )
-  );
+  return await esbuild.build({
+    entryPoints: [__dirname + "/src/index.ts"],
+    outfile: __dirname + "/dist/GDApi.js",
+    sourcemap: true,
+    bundle: true,
+    minify: true,
+    platform: "browser",
+    treeShaking: true,
+    format: "iife",
+    globalName: "GDAPI",
+  });
 };
 
 if (require.main === module) module.exports();
