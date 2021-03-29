@@ -14,7 +14,7 @@ interface CallbacksObject {
 
 /**
  * The mod manager allows to load, unload and interact with Mods.
- * 
+ *
  * @category Mod integration
  * @example
  * You can block loading your Mod if an incompatible mod is detected
@@ -33,7 +33,7 @@ interface CallbacksObject {
  * class MyMod extends GDAPI.Mod {
  *   constructor() {
  *     const manager = GDAPI.ModManager.get();
- *     if(manager.has("my/compatible/mod/uid")) 
+ *     if(manager.has("my/compatible/mod/uid"))
  *       manager.get("my/compatible/mod/uid").setupIntegration(this);
  *   }
  * }

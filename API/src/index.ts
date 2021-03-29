@@ -15,7 +15,7 @@ export {
 };
 
 // Make a getter for GDAPI.currentScene.
-// Delay it, as the window.GDAPI object does 
+// Delay it, as the window.GDAPI object does
 // not exist until the module has finished loading.
 setTimeout(() =>
   Object.defineProperty(window.GDAPI, "currentScene", {
