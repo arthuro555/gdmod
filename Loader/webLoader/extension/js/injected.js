@@ -25,35 +25,6 @@
   }
 
   /**
-   * Installs the modding API.
-   */
-  function installGDModAPI() {
-    return new Promise((resolve) => {
-      window.addEventListener("message", function (event) {
-        if (event.data.message === "includesList") resolve(event.data.includes);
-      });
-      window.postMessage({ forwardTo: "GDMod", listIncludes: true }, "*");
-    })
-      .then((includes) => {
-        return new Promise((resolve) => {
-          let loaded = 0;
-          for (let include of includes) {
-            const script = document.createElement("script");
-            script.src = include;
-            script.onload = function () {
-              document.body.removeChild(script); // Cleanup document after loading API.
-              if (++loaded === includes.length) resolve();
-            };
-            document.body.appendChild(script);
-          }
-        });
-      })
-      .then(() => {
-        postToPopup("installedAPI", true);
-      });
-  }
-
-  /**
    * Loops through GDJS searching for scenes event loop and
    * patch them to continously set {@link GDAPI.currentScene}
    * to the current {@link GDJS.RuntimeScene}.
@@ -111,7 +82,9 @@
           isLoaded:
             GDAPI.ModManager == undefined
               ? false
-              : GDAPI.ModManager.has(mod.modFile.manifest.mainManifest.uid),
+              : GDAPI.ModManager.get().has(
+                  mod.modFile.manifest.mainManifest.uid
+                ),
         });
       })
       .then(() => postToPopup("listMods", allMods));
@@ -158,7 +131,7 @@
               const uid = modFile.manifest.mainManifest.uid;
 
               // If the mod is already installed and loaded, reload it.
-              if (GDAPI.ModManager.has(uid)) GDAPI.loadModFile(modFile);
+              if (GDAPI.ModManager.get().has(uid)) GDAPI.loadModFile(modFile);
 
               const oldMod = await modStore.getItem(uid);
               await modStore.setItem(uid, {
@@ -179,7 +152,7 @@
             .catch(console.error);
         } else if (msg === "unloadMod") {
           if (typeof GDAPI.ModManager === "undefined") return;
-          GDAPI.ModManager.unload(event.data.uid);
+          GDAPI.ModManager.get().unload(event.data.uid);
           reloadModList();
         } else if (msg === "listMods") {
           reloadModList();
@@ -198,20 +171,22 @@
       }
     });
 
-    // Now that the "Essentials" are set up, we can load the API and mods.
-    installGDModAPI().then(() => {
-      (function handler() {
-        // Wait for the scene and modstore to load
-        if (
-          typeof GDAPI !== "undefined" &&
-          GDAPI.currentScene != null &&
-          typeof modStore !== "undefined"
-        )
-          modStore.iterate(({ settings: { preload }, modFile }) => {
-            if (preload) GDAPI.loadModFile(modFile).catch(console.error);
-          });
-        else setTimeout(handler, 500);
-      })();
-    });
+    // Ask the injector to inject the API
+    postToPopup("installAPI");
+
+    // Now that the "Essentials" are set up, we can load the mods.
+    (function handler() {
+      // Wait for the scene, API and modstore to load
+      if (
+        GDAPI != "undefined" &&
+        GDAPI.currentScene != null &&
+        GDAPI.loadModFile != undefined &&
+        modStore != "undefined"
+      )
+        modStore.iterate(({ settings: { preload }, modFile }) => {
+          if (preload) GDAPI.loadModFile(modFile).catch(console.error);
+        });
+      else setTimeout(handler, 500);
+    })();
   }
 })();

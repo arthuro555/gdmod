@@ -1,5 +1,3 @@
 # The api folder should be copied from the API folder in the root directory,
 # do not track it to prevent using an outdated version and duplicating files.
 api
-# The manifest is generated from the API folder as well, so don't track it either.
-manifest.json
