@@ -141,6 +141,10 @@ chrome.tabs.query({ active: true, currentWindow: false }, function (tabs) {
             .getElementById("modload-progress")
             .setAttribute("value", "3");
           UIkit.modal(document.getElementById("modload-modal")).hide();
+        } else if (event["id"] === "modInstallError") {
+          UIkit.modal(document.getElementById("modload-modal")).hide();
+          UIkit.modal(document.getElementById("modload-error-modal")).show();
+          document.getElementById("modload-error").innerText = event.payload;
         } else if (event["id"] === "listMods") {
           const mods = document.getElementById("modList");
           mods.innerHTML = "";

@@ -142,7 +142,10 @@
             })
             .then(() => postToPopup("modInstalled"))
             .then(reloadModList)
-            .catch(console.error);
+            .catch((e) => {
+              console.error(e);
+              postToPopup("modInstallError", e.message);
+            });
         } else if (msg === "loadMod") {
           if (typeof GDAPI.loadModFile === "undefined") return;
           modStore
