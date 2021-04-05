@@ -5,7 +5,7 @@ module.exports = async function () {
   return await esbuild.build({
     entryPoints: [__dirname + "/src/index.ts"],
     outfile: __dirname + "/dist/GDApi.js",
-    sourcemap: true,
+    sourcemap: "inline",
     bundle: true,
     minify: true,
     platform: "browser",
