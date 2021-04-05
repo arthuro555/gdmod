@@ -24,31 +24,6 @@
     );
   }
 
-  /**
-   * Loops through GDJS searching for scenes event loop and
-   * patch them to continously set {@link GDAPI.currentScene}
-   * to the current {@link GDJS.RuntimeScene}.
-   */
-  function patchSceneCode() {
-    for (let i in window.gdjs) {
-      if (i.includes("Code")) {
-        // Find all potential event code modules
-        let module = window.gdjs[i];
-        if (typeof module.func !== "undefined") {
-          // Check if it really is an event code module
-          module.originalFunc = module.func.bind({});
-          module.func = function (...args) {
-            if (typeof GDAPI === "undefined") window.GDAPI = {};
-            window.GDAPI.game = args[0].getGame(); // First arg is always runtimeScene.
-            // We accept multiple args for compatibility with older games
-            // that had other args (context).
-            module.originalFunc.apply(module, args);
-          };
-        }
-      }
-    }
-  }
-
   /** From https://stackoverflow.com/a/12300351/10994662 */
   function dataURItoBlob(dataURI) {
     var byteString = atob(dataURI.split(",")[1]);
@@ -90,17 +65,18 @@
       .then(() => postToPopup("listMods", allMods));
   }
 
-  // First we verify if the game is a GDevelop game
+  // First we verify if the game is a GDevelop game. The gdjs namespace is present on all GDevelop games.
   if (window.gdjs !== undefined) {
-    console.log("GDevelop game detected, GDAPI is being injected.");
-    window.GDAPI = {}; // We need to define it so that the scene can be stored in it, even if the API isn't loaded yet.
-    /*
-     * We need to do so to patch the scene code before the first scene loaded: when the
-     * scene starts it takes a reference to the function. So even if we replace it
-     * it still executes the original code and we won't have access until the scene switches
-     * once. This comment is here because we used to patch only on request by the user.
-     */
-    patchSceneCode();
+    // We need to define GDAPI so that the scene can be stored in it, even if the API isn't loaded yet.
+    if (window.GDAPI === undefined) window.GDAPI = {}; 
+
+    // Monkey-patch the event loop start function. Use an IIFE to enclose the original function.
+    (function (original) {
+      gdjs.RuntimeGame.prototype.startGameLoop = function (...args) {
+        window.GDAPI.game = this;
+        original.apply(this, args);
+      };
+    })(gdjs.RuntimeGame.prototype.startGameLoop);
 
     // Set up communication between the UI and the webLoader.
     window.addEventListener("message", function (event) {

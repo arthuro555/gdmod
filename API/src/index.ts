@@ -14,6 +14,9 @@ export {
   loadExtension,
 };
 
+// Avoid loosing the game by overriding the current GDAPI object
+export const game = window.GDAPI.game;
+
 // Make a getter for GDAPI.currentScene.
 // Delay it, as the window.GDAPI object does
 // not exist until the module has finished loading.
