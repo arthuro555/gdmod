@@ -13,7 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "jszip": "^3.6.0",
-    "stream": "^0.0.2"
+    "stream": "^0.0.2",
+    "typanion": "^3.3.0"
   },
   "devDependencies": {
     "esbuild": "^0.8.55",

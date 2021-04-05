@@ -20,7 +20,7 @@ declare namespace GDAPI {
   export const Mod: typeof import("./Mod").Mod;
   export const ModManager: typeof import("./ModManager").ModManager;
   export const Callbacks: typeof import("./Callbacks");
-  export const parseModManifest: typeof import("./Mod").parseModManifest;
+  export const parseModManifest: typeof import("./Mod/ManifestParser").parseModManifest;
   export const loadModFile: typeof import("./Mod").loadModFile;
   export const loadExtensions: typeof import("./ExtensionsLoader").loadExtension;
 }

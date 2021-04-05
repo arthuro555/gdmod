@@ -314,6 +314,11 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
+typanion@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/typanion/-/typanion-3.3.0.tgz#92d949d8fb90ba90a152b97909255e5420bfc81d"
+  integrity sha512-e+54C4+ozFsTorFe50JNQlXlt4HVGQUvqul7VS0GbDfKlxh3aXbJY87Yu9IdtzvJWCyTgDX7q1PeMd3FH9zZqA==
+
 typedoc-default-themes@^0.12.9:
   version "0.12.10"
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.10.tgz#614c4222fe642657f37693ea62cad4dafeddf843"
