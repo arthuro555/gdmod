@@ -5,8 +5,8 @@
   "main": "./cli/cli.js",
   "scripts": {
     "gdmod-cli": "node ./cli/cli.js",
-    "format": "prettier --write ./API/**/*.js ./API/src/*.ts ./cli/cli.js ./Loader/**/*.js \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\"",
-    "check-format": "prettier --check ./API/**/*.js ./API/src/*.ts ./cli/cli.js ./Loader/**/*.js \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
+    "format": "prettier --write ./API/**/*.js ./API/src/*.ts ./cli/cli.js ./Loader/**/*.js ./Loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\"",
+    "check-format": "prettier --check ./API/**/*.js ./API/src/*.ts ./cli/cli.js ./Loader/**/*.js ./Loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
   },
   "repository": {
     "type": "git",
