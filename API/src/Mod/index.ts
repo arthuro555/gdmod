@@ -70,7 +70,7 @@ export const loadModFile = async function (modFile: ModFile) {
   let modLoaded = false;
   if (includes.length !== 0)
     for (let include of includes) {
-      //@ts-ignore parseModManifest Already made sure that it isn't null
+      //@ts-ignore parseModManifest already made sure that it isn't null
       const jsFile = await file.file("code/" + include).async("string");
 
       const potentialMod = window.eval(
