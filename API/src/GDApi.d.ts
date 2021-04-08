@@ -24,3 +24,7 @@ declare namespace GDAPI {
   export const loadModFile: typeof import("./Mod").loadModFile;
   export const loadExtensions: typeof import("./ExtensionsLoader").loadExtension;
 }
+
+declare interface Window {
+  GDAPI_game: gdjs.RuntimeGame;
+}

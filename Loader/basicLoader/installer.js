@@ -49,14 +49,13 @@ module.exports.installGDMod = async function (outputDir) {
     (await fs.readFile(path.join(outputDir, "runtimegame.js"))) +
     `
 
-gdjs.RuntimeGame = (function(original) {
-  if(typeof GDAPI === "undefined") window.GDAPI = {};
-  return function(...args) {
-    this.__proto__ = Object.create(original.prototype);
+// Monkey-patch the event loop start function. Use an IIFE to enclose the original function.
+;(function (original) {
+  gdjs.RuntimeGame.prototype.startGameLoop = function (...args) {
+    window.GDAPI_game = this;
     original.apply(this, args);
-    GDAPI.game = this;
-  }
-})(gdjs.RuntimeGame);
+  };
+})(gdjs.RuntimeGame.prototype.startGameLoop);
 `;
 
   await fs.writeFile(path.join(outputDir, "runtimegame.js"), runtimeGameFile);

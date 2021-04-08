@@ -67,13 +67,10 @@
 
   // First we verify if the game is a GDevelop game. The gdjs namespace is present on all GDevelop games.
   if (window.gdjs !== undefined) {
-    // We need to define GDAPI so that the scene can be stored in it, even if the API isn't loaded yet.
-    if (window.GDAPI === undefined) window.GDAPI = {}; 
-
     // Monkey-patch the event loop start function. Use an IIFE to enclose the original function.
     (function (original) {
       gdjs.RuntimeGame.prototype.startGameLoop = function (...args) {
-        window.GDAPI.game = this;
+        window.GDAPI_game = this;
         original.apply(this, args);
       };
     })(gdjs.RuntimeGame.prototype.startGameLoop);
@@ -157,10 +154,10 @@
     (function handler() {
       // Wait for the scene, API and modstore to load
       if (
-        GDAPI != "undefined" &&
+        typeof GDAPI !== "undefined" &&
         GDAPI.currentScene != null &&
         GDAPI.loadModFile != undefined &&
-        modStore != "undefined"
+        typeof modStore !== "undefined"
       )
         modStore.iterate(({ settings: { preload }, modFile }) => {
           if (preload) GDAPI.loadModFile(modFile).catch(console.error);
