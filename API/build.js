@@ -12,6 +12,8 @@ module.exports = async function () {
     treeShaking: true,
     format: "iife",
     globalName: "GDAPI",
+    // Needed to support older electrion builds
+    target: "chrome50",
   });
 };
 
