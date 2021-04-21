@@ -1,12 +1,14 @@
 import { loadAsync as loadZIP } from "jszip";
 import * as t from "typanion";
 
+type File = Blob | Buffer | ArrayBuffer;
+
 const isFile: () => t.StrictValidator<
   unknown,
-  Blob | Buffer | ArrayBuffer
+  File
 > = () =>
   t.makeValidator({
-    test: (value, state): value is Blob | Buffer | ArrayBuffer => {
+    test: (value, state): value is File => {
       if (
         (typeof Blob !== "undefined" && value instanceof Blob) ||
         (typeof Buffer !== "undefined" && value instanceof Buffer) ||
