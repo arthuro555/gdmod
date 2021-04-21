@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
     "noEmit": true,
+    // Required by PixiJS, loaders needs this to use the more strict mini-signal types.
+    "paths": {
+      "mini-signals": [
+        "../../GDevelop/GDJS/node_modules/resource-loader/typings/mini-signals.d.ts"
+      ]
+    },
+    "esModuleInterop": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
