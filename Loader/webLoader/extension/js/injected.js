@@ -48,14 +48,14 @@
   }
 
   function reloadModList() {
-    var allMods = [];
+    const allMods = [];
     modStore
       .iterate((mod) => {
         allMods.push({
           info: mod.modFile.manifest.mainManifest,
           preload: mod.settings.preload,
           isLoaded:
-            GDAPI.ModManager == undefined
+            typeof GDAPI === "undefined"
               ? false
               : GDAPI.ModManager.get().has(
                   mod.modFile.manifest.mainManifest.uid
@@ -157,7 +157,7 @@
         typeof GDAPI !== "undefined" &&
         GDAPI.currentScene != null &&
         GDAPI.loadModFile != undefined &&
-        typeof modStore !== "undefined"
+        modStore !== null
       )
         modStore.iterate(({ settings: { preload }, modFile }) => {
           if (preload) GDAPI.loadModFile(modFile).catch(console.error);
