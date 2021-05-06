@@ -1,6 +1,6 @@
 {
   "name": "@gdmod/api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "The interface to mod games and load/run mods.",
   "main": "src/index.ts",
   "scripts": {
@@ -19,8 +19,8 @@
     "typanion": "^3.3.0"
   },
   "devDependencies": {
-    "chokidar": "^3.5.1",
     "@types/jest": "^26.0.23",
+    "chokidar": "^3.5.1",
     "esbuild": "^0.8.55",
     "jest": "^26.6.3",
     "pixi.js": "^6.0.2",
