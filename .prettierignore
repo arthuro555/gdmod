@@ -1,3 +1,2 @@
 **/*.min.js
-Loader/webLoader/extension/api/
-API/dist
+**/GDApi.js

@@ -1,18 +1,9 @@
 import "./Polyfill.js";
-import { Mod, parseModManifest, loadModFile } from "./Mod";
-import { ModManager } from "./ModManager";
-import { loadExtension } from "./ExtensionsLoader";
-import * as Callbacks from "./Callbacks";
 
-// Expose the API
-export {
-  Mod,
-  ModManager,
-  Callbacks,
-  parseModManifest,
-  loadModFile,
-  loadExtension,
-};
+export { Mod, parseModManifest, loadModFile } from "./Mod";
+export { ModManager } from "./ModManager";
+export { loadExtension } from "./ExtensionsLoader";
+export * as Callbacks from "./Callbacks";
 
 // Delay the rest to when the module has finished loading
 // as else the window.GDAPI object does not yet exist.

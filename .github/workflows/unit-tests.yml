@@ -6,12 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Install dependencies
-        working-directory: ./API
-        run: yarn
-      
-      - name: Run unit tests
-        working-directory: ./API
-        run: yarn test --ci
 
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run unit tests
+        run: yarn test --ci

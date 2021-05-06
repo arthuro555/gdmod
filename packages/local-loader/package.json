@@ -1,0 +1,10 @@
+{
+  "name": "@gdmod/local-loader",
+  "version": "1.0.0",
+  "main": "./src/installer.js",
+  "author": "Arthur Pacaud (arthuro555)",
+  "license": "MIT",
+  "dependencies": {
+    "@gdmod/api": "^1.0.0"
+  }
+}

@@ -1,35 +1,14 @@
 {
-  "name": "gdmod",
-  "version": "1.2.0",
-  "description": "A package containing a modding api for GDevelop games and a loader to load them.",
-  "main": "./cli/cli.js",
+  "private": true,
   "scripts": {
-    "gdmod-cli": "node ./cli/cli.js",
-    "format": "prettier --write ./API/**/*.js ./API/src/*.ts ./cli/cli.js ./Loader/**/*.js ./Loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\"",
-    "check-format": "prettier --check ./API/**/*.js ./API/src/*.ts ./cli/cli.js ./Loader/**/*.js ./Loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "github.com/arthuro555/gdmod"
-  },
-  "keywords": [
-    "mod",
-    "modding",
-    "GDevelop",
-    "asar"
-  ],
-  "author": "Arthur Pacaud (arthuro555)",
-  "license": "MIT",
-  "dependencies": {
-    "asar": "^3.0.3",
-    "chalk": "^3.0.0",
-    "clipanion": "^3.0.0-rc.10",
-    "inquirer": "^8.0.0"
+    "postinstall": "lerna bootstrap",
+    "start": "yarn lerna run start --parallel --stream",
+    "test": "yarn lerna run test --parallel --stream",
+    "format": "prettier --write ./packages/API/**/*.js ./packages/API/src/**/*.ts ./packages/CLI/src/**/*.js ./packages/local-loader/**/*.js ./packages/web-loader/**/*.js ./packages/web-loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\"",
+    "check-format": "prettier --check ./packages/API/**/*.js ./packages/API/src/**/*.ts ./packages/CLI/src/**/*.js ./packages/local-loader/**/*.js ./packages/web-loader/**/*.js ./packages/web-loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\""
   },
   "devDependencies": {
+    "lerna": "^4.0.0",
     "prettier": "^2.2.1"
-  },
-  "bin": {
-    "gdmod-cli": "./cli/cli"
   }
 }

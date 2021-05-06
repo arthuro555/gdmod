@@ -1,10 +1,10 @@
 name: Documentation generation
 
-on: 
+on:
   push:
     branches:
-        - master
-        - test-ci
+      - master
+      - test-ci
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
@@ -12,20 +12,15 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
-        working-directory: ./API
         run: yarn
 
-      - name: Install GDevelop
-        working-directory: ..
-        run: git clone https://github.com/4ian/GDevelop && cd GDevelop/GDJS && yarn
-
       - name: Generate documentation
-        working-directory: ./API
+        working-directory: ./packages/API
         run: yarn docgen
-      
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./API/docs
+          publish_dir: ./packages/API/docs
           commit_message: Deploy docs for ${{ github.event.head_commit.message }}

@@ -38,9 +38,7 @@ module.exports.installGDMod = async function (outputDir) {
   // Copy over the API
   await fs.writeFile(
     path.join(outputDir, "GDApi.js"),
-    await fs.readFile(
-      path.join(__dirname, "..", "..", "API", "dist", "GDApi.js")
-    )
+    await fs.readFile(require.resolve("@gdmod/api/dist/GDApi"))
   );
 
   // Patch RuntimeGame access

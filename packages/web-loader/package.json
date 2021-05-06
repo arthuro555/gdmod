@@ -1,12 +1,12 @@
 {
-  "name": "webloader",
-  "private": "true",
+  "name": "@gdmod/web-loader",
   "version": "1.0.0",
   "description": "The GDMod loader for the web, in form of a chrome extension.",
   "main": "none",
   "scripts": {
-    "import-api": "node -e \"require('./importAPI').importAPI();\"",
-    "watch": "node watch.js"
+    "prepare": "yarn import-api",
+    "import-api": "node ./scripts/importAPI.js",
+    "start": "node ./scripts/watch.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/arthuro555/gdmod#readme",
   "dependencies": {
+    "@gdmod/api": "^1.0.0",
     "chokidar": "^3.4.3",
-    "fs-extra-promise": "^1.0.1"
+    "fs-extra": "^10.0.0"
   }
 }

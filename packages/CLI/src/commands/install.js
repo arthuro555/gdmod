@@ -112,7 +112,7 @@ The CLI cannot patch games hosted online. Please use the browser extension for t
     debug = Option.Boolean(`-d,--debug`);
 
     async execute() {
-      const loader = require("../../Loader/basicLoader/installer");
+      const loader = require("@gdmod/local-loader");
       const currentLoader = this.electron
         ? loader.installGDModElectron
         : loader.installGDMod;
@@ -139,9 +139,7 @@ The CLI cannot patch games hosted online. Please use the browser extension for t
     debug = Option.Boolean(`-d,--debug`);
 
     async execute() {
-      const {
-        installGDModElectron,
-      } = require("../../Loader/basicLoader/installer");
+      const { installGDModElectron } = require("@gdmod/local-loader");
       try {
         await require("../utils").editAsar(
           this.asarFile,

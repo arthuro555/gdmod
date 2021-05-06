@@ -12,32 +12,27 @@ jobs:
 
       - name: Check formatting
         run: yarn check-format
-        
+
   check-code-typing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
-        working-directory: ./API
         run: yarn
-      
+
       - name: Check types
-        working-directory: ./API
+        working-directory: ./packages/API
         run: yarn ts
 
   check-code-style:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
-        run: cd API && yarn && cd ../Loader/webLoader && yarn && yarn add addons-linter 
-        
-      - name: Build webLoader
-        working-directory: ./Loader/webLoader
-        run: yarn import-api
-        
+        run: yarn && yarn global add addons-linter
+
       - name: Run mozilla addon linter
-        working-directory: ./Loader/webLoader
-        run: yarn addons-linter ./extension
+        working-directory: ./packages/web-loader
+        run: addons-linter ./extension

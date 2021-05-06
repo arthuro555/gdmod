@@ -199,7 +199,10 @@ describe("Mod manifest parser", () => {
             }`
               )
               .file("data/includes.json", `[]`)
-              .file("data/resources.json", `[{"name": "hey.png", "file": "hey.png"}]`)
+              .file(
+                "data/resources.json",
+                `[{"name": "hey.png", "file": "hey.png"}]`
+              )
               .file("resources/hey.png", "//image")
               .generateAsync({ type: "uint8array" })
           )
