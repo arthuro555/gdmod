@@ -2,7 +2,6 @@
 const {
   Cli,
   Builtins: { HelpCommand, VersionCommand },
-  Command: { Default },
 } = require("clipanion");
 
 const cli = new Cli({
