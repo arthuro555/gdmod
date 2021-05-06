@@ -108,3 +108,5 @@ gdjs.RuntimeScene.prototype.registerObject =
       gdjs.getObjectConstructor(objectData.type)
     ); //And cache the constructor for the performance sake
   };
+
+PIXI.Texture.fromURL = PIXI.Texture.fromURL || PIXI.Texture.from;
