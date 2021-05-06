@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "The interface to mod games and load/run mods.",
   "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthuro555/gdmod.git"
+  },
   "scripts": {
     "start": "node ./scripts/watch.js",
     "prepublish": "yarn build",

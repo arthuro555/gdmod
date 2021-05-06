@@ -1,5 +1,10 @@
 {
   "name": "@gdmod/local-loader",
+  "description": "The GDMod local API installer.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthuro555/gdmod.git"
+  },
   "version": "0.1.0",
   "main": "./src/installer.js",
   "author": "Arthur Pacaud (arthuro555)",

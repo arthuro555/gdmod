@@ -1,9 +1,14 @@
 {
   "name": "@gdmod/cli",
+  "description": "A command line interface to do common tasks with GDMod, like patching a game.",
   "version": "0.1.0",
   "main": "./src/index.js",
   "author": "Arthur Pacaud (arthuro555)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthuro555/gdmod.git"
+  },
   "dependencies": {
     "@gdmod/local-loader": "^0.1.0",
     "asar": "^3.0.3",
