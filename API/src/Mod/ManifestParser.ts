@@ -1,18 +1,16 @@
 import { loadAsync as loadZIP } from "jszip";
 import * as t from "typanion";
 
-type File = Blob | Buffer | ArrayBuffer;
+type File = Blob | Buffer | ArrayBuffer | Uint8Array;
 
-const isFile: () => t.StrictValidator<
-  unknown,
-  File
-> = () =>
+const isFile: () => t.StrictValidator<unknown, File> = () =>
   t.makeValidator({
     test: (value, state): value is File => {
       if (
         (typeof Blob !== "undefined" && value instanceof Blob) ||
         (typeof Buffer !== "undefined" && value instanceof Buffer) ||
-        (typeof ArrayBuffer !== "undefined" && value instanceof ArrayBuffer)
+        (typeof ArrayBuffer !== "undefined" && value instanceof ArrayBuffer) ||
+        (typeof Uint8Array !== "undefined" && value instanceof Uint8Array)
       )
         return true;
       else
@@ -38,9 +36,6 @@ const isResource = t.isObject({
   ),
 });
 
-/**
- * Verifies if an object matches the schema for a ModFile.
- */
 const isManifests = t.isObject({
   mainManifest: t.isObject({
     name: t.isString(),
@@ -103,6 +98,21 @@ export const parseModManifest = async function (
       "A manifest could not be parsed! Make sure it is valid JSON. " + e
     );
   }
+
+  // Try to autofix any invalid resource.
+  modFile.manifest.resources = modFile.manifest.resources.map((resource) => {
+    // If a string is supplied, use it as file and resource name for an image.
+    if (typeof resource === "string")
+      return { name: resource, file: resource, kind: "image" };
+
+    // Default kind is image.
+    if (!("kind" in resource)) (resource as any).kind = "image";
+
+    // Default resource name is file name.
+    if (!("name" in resource)) (resource as any).name = (resource as any).file;
+
+    return resource;
+  });
 
   // Verify if the ModFile matches the schema
   const errors: string[] = [];
