@@ -18,5 +18,8 @@
   },
   "bin": {
     "gdmod-cli": "./bin/cli"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

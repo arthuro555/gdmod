@@ -22,5 +22,8 @@
     "@gdmod/api": "^0.1.1",
     "chokidar": "^3.4.3",
     "fs-extra": "^10.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
