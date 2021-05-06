@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: yarn && yarn global add addons-linter
+        run: yarn && npm i -g addons-linter
 
       - name: Run mozilla addon linter
         working-directory: ./packages/web-loader
