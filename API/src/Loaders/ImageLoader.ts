@@ -1,4 +1,6 @@
 import type { Loader } from ".";
+import type tPIXI from "pixi.js";
+declare const PIXI: typeof tPIXI;
 
 const ImageLoader: Loader = async function (file, resource) {
   //@ts-ignore parseModManifest already made sure that it isn't null
@@ -11,11 +13,7 @@ const ImageLoader: Loader = async function (file, resource) {
   // Load the image as a pixi texture
   GDAPI.game
     .getImageManager()
-    ._loadedTextures.put(
-      resource.name, 
-      //@ts-expect-error GDevelop has some hacky stuff going on with PIXI, disable typechecking for it.
-      await PIXI.Texture.fromURL(blobURL)
-    );
+    ._loadedTextures.put(resource.name, await PIXI.Texture.fromURL(blobURL));
 
   URL.revokeObjectURL(blobURL);
 };

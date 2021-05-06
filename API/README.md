@@ -1,25 +1,6 @@
 ## API
 
-Here are the utilities to load mods, and make it easier to code them.
-
-### Type Checking
-
-If you want to use typechecking while working on the API, you need to have cloned GDevelops repository next to GDMods directory.
-Your directory tree should look like this:
-
-```
-|
-|- GDevelop
-|-- GDJS
-|-- Extensions
-|-- ...
-|- GDMod
-|-- API
-|-- Loader
-|-- ...
-```
-
-To run the typechecking, run `npm run ts`.
+The API is the part that handles mod loading and giving mods an interface to make modding easier.
 
 ### Extensions Loader
 

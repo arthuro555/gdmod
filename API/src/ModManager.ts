@@ -61,17 +61,17 @@ export class ModManager {
 
     const callbacks: Record<string, any> = (this._callbacks[uid] = {});
     if (mod.preEvent) {
-      const callback = (scene) => mod.preEvent(scene);
+      const callback = (scene: gdjs.RuntimeScene) => mod.preEvent(scene);
       registerCallback(CALLBACKS.PRE_EVENTS, callback);
       callbacks.preEvent = callback;
     }
     if (mod.postEvent) {
-      const callback = (scene) => mod.postEvent(scene);
+      const callback = (scene: gdjs.RuntimeScene) => mod.postEvent(scene);
       registerCallback(CALLBACKS.POST_EVENTS, callback);
       callbacks.postEvent = callback;
     }
     if (mod.sceneChanged) {
-      const callback = (scene) => mod.sceneChanged(scene);
+      const callback = (scene: gdjs.RuntimeScene) => mod.sceneChanged(scene);
       registerCallback(CALLBACKS.SCENE_LOADED, callback);
       callbacks.sceneChanged = callback;
     }

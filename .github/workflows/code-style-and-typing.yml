@@ -21,10 +21,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./API
         run: yarn
-        
-      - name: Install GDevelop
-        working-directory: ..
-        run: git clone https://github.com/4ian/GDevelop && cd GDevelop/GDJS && yarn
       
       - name: Check types
         working-directory: ./API
