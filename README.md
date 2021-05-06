@@ -24,9 +24,6 @@ This project is separated into 3 parts.
   
 ## FAQ
 
-Q: The logo misses a D.  
-A: I know. I am so bad at graphics that I cannot fix it myself. If you want and are able to, you are welcome to try to fix it.
-
 Q: What is a mod?  
 A: A mod is like an unofficial extension, it is a community written code that modifies parts of a game.
 
