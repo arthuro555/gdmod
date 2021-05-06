@@ -28,8 +28,7 @@ class FpsCounterMod extends GDAPI.Mod {
 
   constructor() {
     super();
-    GDAPI.extTools
-      .loadExtension("TextObject")
+    GDAPI.loadExtension("TextObject")
       .then(() => this.sceneChanged(GDAPI.currentScene));
   }
 

@@ -1,6 +1,7 @@
 [
   {
     "name": "player.png",
-    "file": "hi.png"
+    "file": "hi.png",
+	"kind": "image"
   }
 ]

@@ -11,7 +11,7 @@ jobs:
         working-directory: ./API
         run: yarn
       
-      - name: Check types
+      - name: Run unit tests
         working-directory: ./API
         run: yarn test --ci
 
