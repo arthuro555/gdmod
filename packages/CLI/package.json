@@ -10,11 +10,17 @@
     "url": "git+https://github.com/arthuro555/gdmod.git"
   },
   "dependencies": {
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.1",
     "@gdmod/local-loader": "^0.1.2",
     "asar": "^3.0.3",
     "chalk": "^3.0.0",
     "clipanion": "^3.0.0-rc.10",
-    "inquirer": "^8.0.0"
+    "esbuild": "^0.11.19",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.0.0",
+    "jszip": "^3.6.0",
+    "lodash": "^4.17.21",
+    "ora": "^5.4.0"
   },
   "bin": {
     "gdmod-cli": "./bin/cli"

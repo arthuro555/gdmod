@@ -1,0 +1,7 @@
+{
+  "name": "GDMod es-modules Template",
+  "description": "A Template for GDMod Mods built with es-modules",
+  "version": "0.0.1",
+  "author": "Arthur Pacaud",
+  "uid": "gdmod/template/es-modules"
+}

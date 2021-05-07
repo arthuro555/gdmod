@@ -1,0 +1,24 @@
+{
+  "name": "@gdmod/mod-template",
+  "version": "0.1.2",
+  "description": "A template to get started modding",
+  "author": "Arthur Pacaud (arthuro555)",
+  "license": "MIT",
+  "main": "./src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthuro555/gdmod.git"
+  },
+  "scripts": {
+    "build": "gdmod-cli dev build"
+  },
+  "devDependencies": {
+    "@gdmod/cli": "^0.1.2"
+  },
+  "dependencies": {
+    "@gdmod/api": "^0.1.2"
+  }
+}

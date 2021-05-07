@@ -11,6 +11,7 @@ const cli = new Cli({
 });
 
 require("./commands/install")(cli);
+require("./commands/dev")(cli);
 
 cli.register(VersionCommand);
 cli.register(HelpCommand);
