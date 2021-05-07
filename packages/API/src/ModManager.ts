@@ -2,7 +2,7 @@ import {
   RuntimeSceneCallback,
   registerCallback,
   unregisterCallback,
-  CALLBACKS,
+  GDCallback,
 } from "./Callbacks";
 import type { Mod } from "./Mod";
 
@@ -59,20 +59,25 @@ export class ModManager {
 
     this._mods[uid] = mod;
 
-    const callbacks: Record<string, any> = (this._callbacks[uid] = {});
+    const callbacks: Record<string, RuntimeSceneCallback> = (this._callbacks[
+      uid
+    ] = {});
+
     if (mod.preEvent) {
       const callback = (scene: gdjs.RuntimeScene) => mod.preEvent(scene);
-      registerCallback(CALLBACKS.PRE_EVENTS, callback);
+      registerCallback("preEvents", callback);
       callbacks.preEvent = callback;
     }
+
     if (mod.postEvent) {
       const callback = (scene: gdjs.RuntimeScene) => mod.postEvent(scene);
-      registerCallback(CALLBACKS.POST_EVENTS, callback);
+      registerCallback("postEvents", callback);
       callbacks.postEvent = callback;
     }
+
     if (mod.sceneChanged) {
       const callback = (scene: gdjs.RuntimeScene) => mod.sceneChanged(scene);
-      registerCallback(CALLBACKS.SCENE_LOADED, callback);
+      registerCallback("sceneLoaded", callback);
       callbacks.sceneChanged = callback;
     }
   }
@@ -102,12 +107,11 @@ export class ModManager {
     if (mod.unload) mod.unload();
 
     const callbacks = this._callbacks[modUID];
-    if (callbacks.preEvent)
-      unregisterCallback(CALLBACKS.PRE_EVENTS, callbacks.preEvent);
+    if (callbacks.preEvent) unregisterCallback("preEvents", callbacks.preEvent);
     if (callbacks.postEvent)
-      unregisterCallback(CALLBACKS.POST_EVENTS, callbacks.postEvent);
+      unregisterCallback("postEvents", callbacks.postEvent);
     if (callbacks.sceneChanged)
-      unregisterCallback(CALLBACKS.SCENE_LOADED, callbacks.sceneChanged);
+      unregisterCallback("sceneLoaded", callbacks.sceneChanged);
 
     delete this._callbacks[modUID];
     delete this._mods[modUID];

@@ -2,24 +2,37 @@
  * A list of registerable callbacks.
  * Note that FIRST_SCENE_LOADED will never actually be called,
  * as mods are always loaded after the first scene has finished loading.
- * @enum
  */
-export const enum CALLBACKS {
-  FIRST_SCENE_LOADED,
-  SCENE_LOADED,
-  PRE_EVENTS,
-  POST_EVENTS,
-  SCENE_PAUSED,
-  SCENE_RESUMED,
-  SCENE_UNLOADING,
-  SCENE_UNLOADED,
-  OBJECT_DELETED_FROM_SCENE,
-}
+export type GDCallback =
+  | "preEvents"
+  | "postEvents"
+  | "sceneLoaded"
+  | "scenePaused"
+  | "sceneResumed"
+  | "sceneUnloading"
+  | "sceneUnloaded"
+  | "objectDeleted";
+
+const CbTypeToCbList: Record<GDCallback, RuntimeSceneCallback[]> = {
+  preEvents: gdjs.callbacksRuntimeScenePreEvents,
+  postEvents: gdjs.callbacksRuntimeScenePostEvents,
+  sceneLoaded: gdjs.callbacksRuntimeSceneLoaded,
+  scenePaused: gdjs.callbacksRuntimeScenePaused,
+  sceneResumed: gdjs.callbacksRuntimeSceneResumed,
+  sceneUnloading: gdjs.callbacksRuntimeSceneUnloading,
+  sceneUnloaded: gdjs.callbacksRuntimeSceneUnloaded,
+  objectDeleted: gdjs.callbacksObjectDeletedFromScene,
+};
 
 /**
  * A GDevelop runtime event callback.
+ * @param runtimeScene The scene affected by the callback event.
+ * @param [object] The object (if an object is affected).
  */
-export type RuntimeSceneCallback = (runtimeScene: gdjs.RuntimeScene) => void;
+export type RuntimeSceneCallback = (
+  runtimeScene: gdjs.RuntimeScene,
+  object: gdjs.RuntimeObject
+) => void;
 
 /**
  * Registers a callback function for a GDevelop runtime event.
@@ -27,57 +40,20 @@ export type RuntimeSceneCallback = (runtimeScene: gdjs.RuntimeScene) => void;
  * @param callback - The callback to register.
  */
 export const registerCallback = function (
-  callbackType: CALLBACKS,
+  callbackType: GDCallback,
   callback: RuntimeSceneCallback
 ) {
-  if (callbackType === CALLBACKS.FIRST_SCENE_LOADED)
-    gdjs.callbacksFirstRuntimeSceneLoaded.push(callback);
-  else if (callbackType === CALLBACKS.SCENE_LOADED)
-    gdjs.callbacksRuntimeSceneLoaded.push(callback);
-  else if (callbackType === CALLBACKS.PRE_EVENTS)
-    gdjs.callbacksRuntimeScenePreEvents.push(callback);
-  else if (callbackType === CALLBACKS.POST_EVENTS)
-    gdjs.callbacksRuntimeScenePostEvents.push(callback);
-  else if (callbackType === CALLBACKS.SCENE_PAUSED)
-    gdjs.callbacksRuntimeScenePaused.push(callback);
-  else if (callbackType === CALLBACKS.SCENE_RESUMED)
-    gdjs.callbacksRuntimeSceneResumed.push(callback);
-  else if (callbackType === CALLBACKS.SCENE_UNLOADING)
-    gdjs.callbacksRuntimeSceneUnloading.push(callback);
-  else if (callbackType === CALLBACKS.SCENE_UNLOADED)
-    gdjs.callbacksRuntimeSceneUnloaded.push(callback);
-  else if (callbackType === CALLBACKS.OBJECT_DELETED_FROM_SCENE)
-    gdjs.callbacksObjectDeletedFromScene.push(callback);
+  CbTypeToCbList[callbackType].push(callback);
 };
 
 /**
  * Unregisters a previously registered callback function.
  */
 export const unregisterCallback = function (
-  callbackType: CALLBACKS,
+  callbackType: GDCallback,
   callback: RuntimeSceneCallback
 ) {
-  let callbackArray;
-  if (callbackType === CALLBACKS.FIRST_SCENE_LOADED)
-    callbackArray = gdjs.callbacksFirstRuntimeSceneLoaded;
-  else if (callbackType === CALLBACKS.SCENE_LOADED)
-    callbackArray = gdjs.callbacksRuntimeSceneLoaded;
-  else if (callbackType === CALLBACKS.PRE_EVENTS)
-    callbackArray = gdjs.callbacksRuntimeScenePreEvents;
-  else if (callbackType === CALLBACKS.POST_EVENTS)
-    callbackArray = gdjs.callbacksRuntimeScenePostEvents;
-  else if (callbackType === CALLBACKS.SCENE_PAUSED)
-    callbackArray = gdjs.callbacksRuntimeScenePaused;
-  else if (callbackType === CALLBACKS.SCENE_RESUMED)
-    callbackArray = gdjs.callbacksRuntimeSceneResumed;
-  else if (callbackType === CALLBACKS.SCENE_UNLOADING)
-    callbackArray = gdjs.callbacksRuntimeSceneUnloading;
-  else if (callbackType === CALLBACKS.SCENE_UNLOADED)
-    callbackArray = gdjs.callbacksRuntimeSceneUnloaded;
-  else if (callbackType === CALLBACKS.OBJECT_DELETED_FROM_SCENE)
-    callbackArray = gdjs.callbacksObjectDeletedFromScene;
-  else return;
-
+  const callbackArray = CbTypeToCbList[callbackType];
   const indexOfCalllback = callbackArray.indexOf(callback);
   if (indexOfCalllback !== -1) callbackArray.splice(indexOfCalllback, 1);
 };

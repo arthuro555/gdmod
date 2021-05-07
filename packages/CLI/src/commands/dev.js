@@ -51,7 +51,10 @@ async function buildBundle(to, config = {}) {
             namedExports: [
               "Mod",
               "ModManager",
-              "Callbacks",
+              "registerCallback",
+              "unregisterCallback",
+              "GDCallback",
+              "RuntimeSceneCallback",
               "loadExtension",
               "parseModManifest",
               "loadModFile",
