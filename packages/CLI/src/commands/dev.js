@@ -76,7 +76,7 @@ async function buildMod() {
   const zip = new (require("jszip"))();
   await Promise.all(
     (await readdir("./resources")).map(async (file) =>
-      zip.file("resources/" + file, await readFile(file))
+      zip.file("resources/" + file, await readFile("./resources/" + file))
     )
   );
   return new Promise(async (resolve, reject) =>
