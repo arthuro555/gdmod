@@ -1,6 +1,6 @@
 {
   "name": "@gdmod/api",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "The interface to mod games and load/run mods.",
   "main": "src/index.ts",
   "repository": {

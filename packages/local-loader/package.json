@@ -5,12 +5,12 @@
     "type": "git",
     "url": "git+https://github.com/arthuro555/gdmod.git"
   },
-  "version": "0.1.2",
+  "version": "0.2.0",
   "main": "./src/installer.js",
   "author": "Arthur Pacaud (arthuro555)",
   "license": "MIT",
   "dependencies": {
-    "@gdmod/api": "^0.1.2"
+    "@gdmod/api": "^0.2.0"
   },
   "publishConfig": {
     "access": "public"

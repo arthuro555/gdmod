@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "GDMod Patcher",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Patches a GDevelop game to let you install mods on them",
   "author": "arthuro555",
   "homepage_url": "https://github.com/arthuro555/gdmod",

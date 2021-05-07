@@ -1,7 +1,7 @@
 {
   "name": "@gdmod/cli",
   "description": "A command line interface to do common tasks with GDMod, like patching a game.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "main": "./src/index.js",
   "author": "Arthur Pacaud (arthuro555)",
   "license": "MIT",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.1",
-    "@gdmod/local-loader": "^0.1.2",
+    "@gdmod/local-loader": "^0.2.0",
     "asar": "^3.0.3",
     "chalk": "^3.0.0",
     "clipanion": "^3.0.0-rc.10",
