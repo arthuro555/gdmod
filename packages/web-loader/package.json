@@ -1,6 +1,6 @@
 {
   "name": "@gdmod/web-loader",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "The GDMod loader for the web, in form of a chrome extension.",
   "main": "none",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/arthuro555/gdmod#readme",
   "dependencies": {
-    "@gdmod/api": "^0.1.2",
+    "@gdmod/api": "^0.2.0",
     "chokidar": "^3.4.3",
     "fs-extra": "^10.0.0"
   },
