@@ -3,26 +3,22 @@ import {
   registerCallback,
   unregisterCallback,
   GDCallback,
-} from "./Callbacks";
-import type { Mod } from "./Mod";
+} from "../Utilities/Callbacks";
+import type { Mod } from ".";
 
-interface CallbacksObject {
-  preEvent?: RuntimeSceneCallback;
-  postEvent?: RuntimeSceneCallback;
-  sceneChanged?: RuntimeSceneCallback;
-}
+type CallbacksObject = { [K in GDCallback]?: RuntimeSceneCallback };
 
 /**
  * The mod manager allows to load, unload and interact with Mods.
  *
  * @category Mod integration
  * @example
- * You can block loading your Mod if an incompatible mod is detected
+ * You can block loading your Mod if an incompatible mod is detected:
  * ```js
  * class MyMod extends GDAPI.Mod {
  *   constructor() {
- *     const manager = GDAPI.ModManager.get();
- *     if(manager.has("my/incompatible/mod/uid")) manager.unload("my/mod/uid");
+ *     if(GDAPI.ModManager.has("my/incompatible/mod/uid"))
+ *       GDAPI.ModManager.unload("my/mod/uid");
  *   }
  * }
  * ```
@@ -32,60 +28,52 @@ interface CallbacksObject {
  * ```js
  * class MyMod extends GDAPI.Mod {
  *   constructor() {
- *     const manager = GDAPI.ModManager.get();
- *     if(manager.has("my/compatible/mod/uid"))
- *       manager.get("my/compatible/mod/uid").setupIntegration(this);
+ *     if(GDAPI.ModManager.has("my/compatible/mod/uid"))
+ *       GDAPI.ModManager.get("my/compatible/mod/uid").setupIntegration(this);
  *   }
  * }
  * ```
  */
 export class ModManager {
-  private _mods: Record<string, Mod> = {};
-  private _callbacks: Record<string, CallbacksObject> = {};
-  private static instance = new ModManager();
-
-  /**
-   * Returns the singleton instance of the mod manager.
-   */
-  static get(): ModManager {
-    return this.instance;
-  }
+  private static _mods: Record<string, Mod> = {};
+  private static _callbacks: Record<string, CallbacksObject> = {};
 
   /**
    * Adds a mod to the manager.
+   * @param uid - The mods UID.
+   * @param mod - The mod instance to add.
    */
-  add(uid: string, mod: Mod): void {
+  static add(uid: string, mod: Mod): void {
     if (this.has(uid)) this.unload(uid);
 
     this._mods[uid] = mod;
 
-    const callbacks: Record<string, RuntimeSceneCallback> = (this._callbacks[
-      uid
-    ] = {});
+    const callbacks: CallbacksObject = (this._callbacks[uid] = {});
 
     if (mod.preEvent) {
       const callback = (scene: gdjs.RuntimeScene) => mod.preEvent(scene);
       registerCallback("preEvents", callback);
-      callbacks.preEvent = callback;
+      callbacks.preEvents = callback;
     }
 
     if (mod.postEvent) {
       const callback = (scene: gdjs.RuntimeScene) => mod.postEvent(scene);
       registerCallback("postEvents", callback);
-      callbacks.postEvent = callback;
+      callbacks.postEvents = callback;
     }
 
     if (mod.sceneChanged) {
       const callback = (scene: gdjs.RuntimeScene) => mod.sceneChanged(scene);
       registerCallback("sceneLoaded", callback);
-      callbacks.sceneChanged = callback;
+      callbacks.sceneLoaded = callback;
     }
   }
 
   /**
    * Get a mod by uid.
+   * @param modUID - The mods UID.
    */
-  get(modUID: string): Mod | null {
+  static get(modUID: string): Mod | null {
     return this._mods[modUID] || null;
   }
 
@@ -93,7 +81,7 @@ export class ModManager {
    * Check if a mod is loaded by uid.
    * @param modUID - The mods UID.
    */
-  has(modUID: string): boolean {
+  static has(modUID: string): boolean {
     return modUID in this._mods;
   }
 
@@ -101,17 +89,15 @@ export class ModManager {
    * Unloads a mod by uid.
    * @param modUID - The mods UID.
    */
-  unload(modUID: string): void {
+  static unload(modUID: string): void {
     const mod = this._mods[modUID];
     if (mod == undefined) return;
     if (mod.unload) mod.unload();
 
     const callbacks = this._callbacks[modUID];
-    if (callbacks.preEvent) unregisterCallback("preEvents", callbacks.preEvent);
-    if (callbacks.postEvent)
-      unregisterCallback("postEvents", callbacks.postEvent);
-    if (callbacks.sceneChanged)
-      unregisterCallback("sceneLoaded", callbacks.sceneChanged);
+    Object.entries(callbacks).forEach(([name, cb]) =>
+      unregisterCallback(name as GDCallback, cb as RuntimeSceneCallback)
+    );
 
     delete this._callbacks[modUID];
     delete this._mods[modUID];
@@ -120,7 +106,7 @@ export class ModManager {
   /**
    * Get an array of all loaded mods.
    */
-  getAllMods(): Mod[] {
+  static getAllMods(): Mod[] {
     return Object.values(this._mods);
   }
 }

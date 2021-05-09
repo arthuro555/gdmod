@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outFile": "./types/GDAPI/index.js",
     // Required by PixiJS, loaders needs this to use the more strict mini-signal types.
     "paths": {
       "mini-signals": [
         "./node_modules/resource-loader/typings/mini-signals.d.ts"
       ]
     },
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "isolatedModules": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": true
   },
-  "include": ["./types/**/*", "./src/**/*"]
+  "include": ["./types/GDJS/**/*", "./src/**/*"]
 }

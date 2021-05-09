@@ -57,7 +57,7 @@
           isLoaded:
             typeof GDAPI === "undefined"
               ? false
-              : GDAPI.ModManager.get().has(
+              : GDAPI.ModManager.has(
                   mod.modFile.manifest.mainManifest.uid
                 ),
         });
@@ -104,7 +104,7 @@
               const uid = modFile.manifest.mainManifest.uid;
 
               // If the mod is already installed and loaded, reload it.
-              if (GDAPI.ModManager.get().has(uid)) GDAPI.loadModFile(modFile);
+              if (GDAPI.ModManager.has(uid)) GDAPI.loadModFile(modFile);
 
               const oldMod = await modStore.getItem(uid);
               await modStore.setItem(uid, {
@@ -128,7 +128,7 @@
             .catch(console.error);
         } else if (msg === "unloadMod") {
           if (typeof GDAPI.ModManager === "undefined") return;
-          GDAPI.ModManager.get().unload(event.data.uid);
+          GDAPI.ModManager.unload(event.data.uid);
           reloadModList();
         } else if (msg === "listMods") {
           reloadModList();

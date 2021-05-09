@@ -3,6 +3,9 @@ import * as t from "typanion";
 
 type File = Blob | Buffer | ArrayBuffer | Uint8Array;
 
+/**
+ * A typanion validator to check if an object is a raw file as defined in the type above.
+ */
 const isFile: () => t.StrictValidator<unknown, File> = () =>
   t.makeValidator({
     test: (value, state): value is File => {
@@ -21,6 +24,10 @@ const isFile: () => t.StrictValidator<unknown, File> = () =>
     },
   });
 
+/**
+ * A typanion validator to check if an object is
+ * a valid GDevelop resource definition.
+ */
 const isResource = t.isObject({
   name: t.isString(),
   file: t.isString(),
@@ -36,6 +43,9 @@ const isResource = t.isObject({
   ),
 });
 
+/**
+ * A typanion validator to check if a manifests object is valid.
+ */
 const isManifests = t.isObject({
   mainManifest: t.isObject({
     name: t.isString(),
@@ -48,20 +58,32 @@ const isManifests = t.isObject({
   resources: t.isArray(isResource),
 });
 
+/**
+ * A typanion validator for a parsed mod file.
+ */
 const isModFile = t.isObject({
   manifest: isManifests,
   file: isFile(),
 });
 
+/**
+ * A GDevelop resource.
+ * @internal
+ */
 export type Resource = t.InferType<typeof isResource>;
+
+/**
+ * A validated Mod file with preparsed metadata.
+ * @internal
+ */
 export type ModFile = t.InferType<typeof isModFile>;
 
 /**
- * Parses a mod from a zip.
- * This allows preparsing the mod when installing it, to have access to its metadata without initializing it.
- * This also validates all the manifests.
+ * Parses and validates a mod from a zip.
+ * This allows to have access to the mod metadata without initializing it,
+ * and to check if there are any common errors with the mod file.
  *
- * @param rawFile - The Mod file.
+ * @param rawFile - The mod file to parse and validate.
  * @internal
  */
 export const parseModManifest = async function (

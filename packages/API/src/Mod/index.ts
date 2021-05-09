@@ -1,11 +1,12 @@
-export { parseModManifest } from "./ManifestParser";
-export { loadModFile } from "./ModLoader";
+export * from "./ManifestParser";
+export * from "./ModLoader";
+export * from "./ModManager";
 
 /**
  * This class describes a GDMod mod that can be returned by the JavaScript code. Using it has advantages:
  * 1. Other mods can interact with yours.
  * 2. The mod can be managed by GDMod, allowing for more control by the user and therefore a better UX.
- * 3. Hopefully a better modding experience.
+ * 3. Fast and easy access to runtime callbacks.
  *
  * @category Mod integration
  * @example

@@ -1,17 +1,23 @@
 import type { Loader } from ".";
+import { game } from "../Utilities/GDJSAccess";
 import type tPIXI from "pixi.js";
+import type { JSZipObject } from "jszip";
 declare const PIXI: typeof tPIXI;
 
+/**
+ * Loads a mod image file into GDevelops image manager.
+ * @param file - The mod file {@link JSZip} instance.
+ * @param resource - The GDevelop resource data of the file to load.
+ */
 const ImageLoader: Loader = async function (file, resource) {
-  //@ts-ignore parseModManifest already made sure that it isn't null
-  const resourceFile = await file
-    .file("resources/" + resource.file)
-    .async("blob");
+  const resourceFile = await (file.file(
+    "resources/" + resource.file
+  ) as JSZipObject).async("blob");
   // Get an URL for the image Blob
   const blobURL = URL.createObjectURL(resourceFile);
 
   // Load the image as a pixi texture
-  GDAPI.game
+  game
     .getImageManager()
     ._loadedTextures.put(resource.name, await PIXI.Texture.fromURL(blobURL));
 

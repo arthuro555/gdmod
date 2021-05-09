@@ -5,7 +5,7 @@
   "main": "none",
   "scripts": {
     "prepare": "yarn import-api",
-    "preversion": "node ./scripts/update-version.js",
+    "version": "node ./scripts/update-version.js",
     "import-api": "node ./scripts/importAPI.js",
     "start": "node ./scripts/watch.js"
   },

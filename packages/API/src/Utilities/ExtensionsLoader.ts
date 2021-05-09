@@ -1,9 +1,9 @@
 /**
- * Contains the extension includes.
+ * Contains all includes of each extension.
  * This is auto-generated.
  * See https://github.com/arthuro555/GDevelop/tree/gdmod-generate-includes-list.
  */
-const EXTENSIONS: Record<string, string[]> = {
+const EXTENSIONS = {
   PlatformBehavior: [
     "Extensions/PlatformBehavior/platformruntimebehavior.js",
     "Extensions/PlatformBehavior/platformerobjectruntimebehavior.js",
@@ -205,21 +205,23 @@ const EXTENSIONS: Record<string, string[]> = {
   ],
 };
 
+type ExtensionName = keyof typeof EXTENSIONS;
+
 const CDN =
   "https://resources.gdevelop-app.com/GDJS-5.0.0-{{version}}/Runtime/";
 
 /**
  * A list of already loaded extension (to not reload already loaded extensions).
  */
-const loadedExtensions: Set<string> = new Set();
+const loadedExtensions: Set<ExtensionName> = new Set();
 
 /**
  * Loads a GDevelop extension.
  * @param extension - The extension to load.
- * @param [version] - The version of GDevelop of this extension. Default: `beta105`.
+ * @param [version] - The version of GDevelop the extension is made for. Default: `beta105`.
  */
 export const loadExtension = function (
-  extension: keyof typeof EXTENSIONS,
+  extension: ExtensionName,
   version: string = "beta105"
 ): Promise<void> {
   if (loadedExtensions.has(extension)) return Promise.resolve();
@@ -240,5 +242,5 @@ export const loadExtension = function (
       })
   );
 
-  return Promise.all(allFiles).then();
+  return Promise.all(allFiles).then(() => undefined);
 };

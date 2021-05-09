@@ -1,10 +1,26 @@
 const { watch } = require("chokidar");
 const { build } = require("./build");
+const { typeGen } = require("./type-gen");
+
+let lock = false;
+let requested = false;
 
 watch(__dirname + "/../src", {
   awaitWriteFinish: true,
   ignoreInitial: true,
-}).on("all", async () => {
+}).on("all", async function callback() {
+  // Set the lock
+  if (lock) {
+    requested = true;
+    console.log(
+      `⚠ A change was detected, but a build is still in progress, awaiting build end.`
+    );
+    return;
+  }
+  lock = true;
+
+  // Launch typegen in the background
+  typeGen();
   console.info("ℹ A change has been detected, API is being rebuilt!");
   const { warnings } = await build();
   if (warnings.length !== 0) {
@@ -13,4 +29,8 @@ watch(__dirname + "/../src", {
         warnings.reduce((p, c) => p + "\n" + c, "")
     );
   } else console.info("✅ API rebuilt successfully!");
+
+  lock = false;
+  if (requested) callback();
+  requested = false;
 });

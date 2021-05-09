@@ -8,4 +8,8 @@ module.exports = {
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
+  testEnvironmentOptions: {
+    runScripts: "dangerously",
+    resources: "usable",
+  },
 };
