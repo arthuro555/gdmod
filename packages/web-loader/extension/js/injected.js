@@ -57,9 +57,7 @@
           isLoaded:
             typeof GDAPI === "undefined"
               ? false
-              : GDAPI.ModManager.has(
-                  mod.modFile.manifest.mainManifest.uid
-                ),
+              : GDAPI.ModManager.has(mod.modFile.manifest.mainManifest.uid),
         });
       })
       .then(() => postToPopup("listMods", allMods));
