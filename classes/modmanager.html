@@ -72,11 +72,11 @@
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
-						<dd><p>You can block loading your Mod if an incompatible mod is detected</p>
+						<dd><p>You can block loading your Mod if an incompatible mod is detected:</p>
 							<pre><code class="language-js"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">MyMod</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">GDAPI</span><span style="color: #000000">.</span><span style="color: #267F99">Mod</span><span style="color: #000000"> {</span>
 <span style="color: #000000">  </span><span style="color: #0000FF">constructor</span><span style="color: #000000">() {</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">manager</span><span style="color: #000000"> = </span><span style="color: #0070C1">GDAPI</span><span style="color: #000000">.</span><span style="color: #001080">ModManager</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">();</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">manager</span><span style="color: #000000">.</span><span style="color: #795E26">has</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/incompatible/mod/uid&quot;</span><span style="color: #000000">)) </span><span style="color: #001080">manager</span><span style="color: #000000">.</span><span style="color: #795E26">unload</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/mod/uid&quot;</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #0070C1">GDAPI</span><span style="color: #000000">.</span><span style="color: #001080">ModManager</span><span style="color: #000000">.</span><span style="color: #795E26">has</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/incompatible/mod/uid&quot;</span><span style="color: #000000">))</span>
+<span style="color: #000000">      </span><span style="color: #0070C1">GDAPI</span><span style="color: #000000">.</span><span style="color: #001080">ModManager</span><span style="color: #000000">.</span><span style="color: #795E26">unload</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/mod/uid&quot;</span><span style="color: #000000">);</span>
 <span style="color: #000000">  }</span>
 <span style="color: #000000">}</span>
 </code></pre>
@@ -85,9 +85,8 @@
 						<dd><p>You can interact with another mod using its public methods:</p>
 							<pre><code class="language-js"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">MyMod</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">GDAPI</span><span style="color: #000000">.</span><span style="color: #267F99">Mod</span><span style="color: #000000"> {</span>
 <span style="color: #000000">  </span><span style="color: #0000FF">constructor</span><span style="color: #000000">() {</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">manager</span><span style="color: #000000"> = </span><span style="color: #0070C1">GDAPI</span><span style="color: #000000">.</span><span style="color: #001080">ModManager</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">();</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">manager</span><span style="color: #000000">.</span><span style="color: #795E26">has</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/compatible/mod/uid&quot;</span><span style="color: #000000">))</span>
-<span style="color: #000000">      </span><span style="color: #001080">manager</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/compatible/mod/uid&quot;</span><span style="color: #000000">).</span><span style="color: #795E26">setupIntegration</span><span style="color: #000000">(</span><span style="color: #0000FF">this</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #0070C1">GDAPI</span><span style="color: #000000">.</span><span style="color: #001080">ModManager</span><span style="color: #000000">.</span><span style="color: #795E26">has</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/compatible/mod/uid&quot;</span><span style="color: #000000">))</span>
+<span style="color: #000000">      </span><span style="color: #0070C1">GDAPI</span><span style="color: #000000">.</span><span style="color: #001080">ModManager</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;my/compatible/mod/uid&quot;</span><span style="color: #000000">).</span><span style="color: #795E26">setupIntegration</span><span style="color: #000000">(</span><span style="color: #0000FF">this</span><span style="color: #000000">);</span>
 <span style="color: #000000">  }</span>
 <span style="color: #000000">}</span>
 </code></pre>
@@ -116,12 +115,11 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="modmanager.html#add" class="tsd-kind-icon">add</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="modmanager.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="modmanager.html#getallmods" class="tsd-kind-icon">get<wbr>All<wbr>Mods</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="modmanager.html#has" class="tsd-kind-icon">has</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="modmanager.html#unload" class="tsd-kind-icon">unload</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="modmanager.html#get-1" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="modmanager.html#add" class="tsd-kind-icon">add</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="modmanager.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="modmanager.html#getallmods" class="tsd-kind-icon">get<wbr>All<wbr>Mods</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="modmanager.html#has" class="tsd-kind-icon">has</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="modmanager.html#unload" class="tsd-kind-icon">unload</a></li>
 							</ul>
 						</section>
 					</div>
@@ -146,17 +144,17 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="add" class="tsd-anchor"></a>
-					<h3>add</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> add</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>uid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mod<span class="tsd-signature-symbol">: </span><a href="mod.html" class="tsd-signature-type" data-tsd-kind="Class">Mod</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ModManager.ts#L57">ModManager.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Mod/ModManager.ts#L46">Mod/ModManager.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -168,26 +166,32 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>uid: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The mods UID.</p>
+									</div>
 								</li>
 								<li>
 									<h5>mod: <a href="mod.html" class="tsd-signature-type" data-tsd-kind="Class">Mod</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The mod instance to add.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="get" class="tsd-anchor"></a>
-					<h3>get</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>modUID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="mod.html" class="tsd-signature-type" data-tsd-kind="Class">Mod</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ModManager.ts#L83">ModManager.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Mod/ModManager.ts#L76">Mod/ModManager.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -199,23 +203,26 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>modUID: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The mods UID.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="mod.html" class="tsd-signature-type" data-tsd-kind="Class">Mod</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="getallmods" class="tsd-anchor"></a>
-					<h3>get<wbr>All<wbr>Mods</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>All<wbr>Mods</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Mods<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mod.html" class="tsd-signature-type" data-tsd-kind="Class">Mod</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ModManager.ts#L119">ModManager.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Mod/ModManager.ts#L109">Mod/ModManager.ts:109</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -227,17 +234,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="has" class="tsd-anchor"></a>
-					<h3>has</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> has</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">has<span class="tsd-signature-symbol">(</span>modUID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ModManager.ts#L91">ModManager.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Mod/ModManager.ts#L84">Mod/ModManager.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -258,17 +265,17 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="unload" class="tsd-anchor"></a>
-					<h3>unload</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> unload</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
 						<li class="tsd-signature tsd-kind-icon">unload<span class="tsd-signature-symbol">(</span>modUID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ModManager.ts#L99">ModManager.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Mod/ModManager.ts#L92">Mod/ModManager.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,28 +293,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="get-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> get</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="modmanager.html" class="tsd-signature-type" data-tsd-kind="Class">ModManager</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ModManager.ts#L50">ModManager.ts:50</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the singleton instance of the mod manager.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="modmanager.html" class="tsd-signature-type" data-tsd-kind="Class">ModManager</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -334,30 +319,45 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="modmanager.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="modmanager.html#add" class="tsd-kind-icon">add</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="modmanager.html#get" class="tsd-kind-icon">get</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="modmanager.html#getallmods" class="tsd-kind-icon">get<wbr>All<wbr>Mods</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="modmanager.html#has" class="tsd-kind-icon">has</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="modmanager.html#unload" class="tsd-kind-icon">unload</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="modmanager.html#get-1" class="tsd-kind-icon">get</a>
+								<a href="modmanager.html#unload" class="tsd-kind-icon">unload</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias">
+						<a href="../index.html#gdcallback" class="tsd-kind-icon">GDCallback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../index.html#runtimescenecallback" class="tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="../index.html#currentscene" class="tsd-kind-icon">current<wbr>Scene</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="../index.html#game" class="tsd-kind-icon">game</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="../index.html#loadextension" class="tsd-kind-icon">load<wbr>Extension</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../index.html#registercallback" class="tsd-kind-icon">register<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../index.html#unregistercallback" class="tsd-kind-icon">unregister<wbr>Callback</a>
 					</li>
 				</ul>
 			</nav>

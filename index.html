@@ -62,12 +62,6 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Namespaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-namespace"><a href="modules/callbacks.html" class="tsd-kind-icon">Callbacks</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Mod integration Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class"><a href="classes/mod.html" class="tsd-kind-icon">Mod</a></li>
@@ -75,11 +69,137 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias"><a href="index.html#gdcallback" class="tsd-kind-icon">GDCallback</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#runtimescenecallback" class="tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property"><a href="index.html#currentscene" class="tsd-kind-icon">current<wbr>Scene</a></li>
+								<li class="tsd-kind-property"><a href="index.html#game" class="tsd-kind-icon">game</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function"><a href="index.html#loadextension" class="tsd-kind-icon">load<wbr>Extension</a></li>
+								<li class="tsd-kind-function"><a href="index.html#registercallback" class="tsd-kind-icon">register<wbr>Callback</a></li>
+								<li class="tsd-kind-function"><a href="index.html#unregistercallback" class="tsd-kind-icon">unregister<wbr>Callback</a></li>
 							</ul>
 						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="gdcallback" class="tsd-anchor"></a>
+					<h3>GDCallback</h3>
+					<div class="tsd-signature tsd-kind-icon">GDCallback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;preEvents&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;postEvents&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneLoaded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;scenePaused&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneResumed&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneUnloading&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneUnloaded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;objectDeleted&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/Callbacks.ts#L6">Utilities/Callbacks.ts:6</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of registerable callbacks.
+								Note that FIRST_SCENE_LOADED will never actually be called,
+							as mods are always loaded after the first scene has finished loading.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="runtimescenecallback" class="tsd-anchor"></a>
+					<h3>Runtime<wbr>Scene<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>runtimeScene<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeScene</span>, object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeObject</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/Callbacks.ts#L32">Utilities/Callbacks.ts:32</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A GDevelop runtime event callback.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>The scene affected by the callback event.</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>object (if an object is affected).</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>runtimeScene<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeScene</span>, object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeObject</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>runtimeScene: <span class="tsd-signature-type">gdjs.RuntimeScene</span></h5>
+											</li>
+											<li>
+												<h5>object: <span class="tsd-signature-type">gdjs.RuntimeObject</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property">
+					<a name="currentscene" class="tsd-anchor"></a>
+					<h3>current<wbr>Scene</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Scene<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeScene</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/GDJSAccess.ts#L6">Utilities/GDJSAccess.ts:6</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The instance of the current RuntimeScene.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://docs.gdevelop-app.com/GDJS%20Runtime%20Documentation/RuntimeScene.html">https://docs.gdevelop-app.com/GDJS%20Runtime%20Documentation/RuntimeScene.html</a></p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property">
+					<a name="game" class="tsd-anchor"></a>
+					<h3>game</h3>
+					<div class="tsd-signature tsd-kind-icon">game<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeGame</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/GDJSAccess.ts#L12">Utilities/GDJSAccess.ts:12</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The instance of the current RuntimeGame.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://docs.gdevelop-app.com/GDJS%20Runtime%20Documentation/RuntimeGame.html">https://docs.gdevelop-app.com/GDJS%20Runtime%20Documentation/RuntimeGame.html</a></p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -89,13 +209,13 @@
 					<a name="loadextension" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> load<wbr>Extension</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Extension<span class="tsd-signature-symbol">(</span>extension<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Extension<span class="tsd-signature-symbol">(</span>extension<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;PlatformBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DestroyOutsideBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TiledSpriteObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DraggableBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TopDownMovementBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TextObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ParticleSystem&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PanelSpriteObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AnchorBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PrimitiveDrawing&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TextEntryObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Inventory&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LinkedObjects&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SystemInfo&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Shopify&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PathfindingBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PhysicsBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AdMob&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AdvancedWindow&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;BBText&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DebuggerTools&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DeviceSensors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DeviceVibration&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DialogueTree&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Effects&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MyDummyExtension&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;FacebookInstantGames&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;FileSystem&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Firebase&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Lighting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;P2P&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Physics2&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Screenshot&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SpatialSound&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TileMap&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Tween&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Video&quot;</span>, version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/695fe60/packages/API/src/ExtensionsLoader.ts#L221">ExtensionsLoader.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/ExtensionsLoader.ts#L223">Utilities/ExtensionsLoader.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -106,7 +226,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>extension: <span class="tsd-signature-type">string</span></h5>
+									<h5>extension: <span class="tsd-signature-type">&quot;PlatformBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DestroyOutsideBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TiledSpriteObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DraggableBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TopDownMovementBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TextObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ParticleSystem&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PanelSpriteObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AnchorBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PrimitiveDrawing&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TextEntryObject&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Inventory&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;LinkedObjects&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SystemInfo&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Shopify&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PathfindingBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;PhysicsBehavior&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AdMob&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;AdvancedWindow&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;BBText&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DebuggerTools&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DeviceSensors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DeviceVibration&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;DialogueTree&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Effects&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;MyDummyExtension&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;FacebookInstantGames&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;FileSystem&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Firebase&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Lighting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;P2P&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Physics2&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Screenshot&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;SpatialSound&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;TileMap&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Tween&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;Video&quot;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The extension to load.</p>
 									</div>
@@ -119,6 +239,74 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="registercallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> register<wbr>Callback</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Callback<span class="tsd-signature-symbol">(</span>callbackType<span class="tsd-signature-symbol">: </span><a href="index.html#gdcallback" class="tsd-signature-type" data-tsd-kind="Type alias">GDCallback</a>, callback<span class="tsd-signature-symbol">: </span><a href="index.html#runtimescenecallback" class="tsd-signature-type" data-tsd-kind="Type alias">RuntimeSceneCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/Callbacks.ts#L42">Utilities/Callbacks.ts:42</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Registers a callback function for a GDevelop runtime event.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callbackType: <a href="index.html#gdcallback" class="tsd-signature-type" data-tsd-kind="Type alias">GDCallback</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The event on which you want your callback to be called.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <a href="index.html#runtimescenecallback" class="tsd-signature-type" data-tsd-kind="Type alias">RuntimeSceneCallback</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback to register.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="unregistercallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> unregister<wbr>Callback</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">unregister<wbr>Callback<span class="tsd-signature-symbol">(</span>callbackType<span class="tsd-signature-symbol">: </span><a href="index.html#gdcallback" class="tsd-signature-type" data-tsd-kind="Type alias">GDCallback</a>, callback<span class="tsd-signature-symbol">: </span><a href="index.html#runtimescenecallback" class="tsd-signature-type" data-tsd-kind="Type alias">RuntimeSceneCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/f756231/packages/API/src/Utilities/Callbacks.ts#L52">Utilities/Callbacks.ts:52</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregisters a previously registered callback function.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callbackType: <a href="index.html#gdcallback" class="tsd-signature-type" data-tsd-kind="Type alias">GDCallback</a></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="index.html#runtimescenecallback" class="tsd-signature-type" data-tsd-kind="Type alias">RuntimeSceneCallback</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -126,9 +314,6 @@
 				<ul>
 					<li class="current ">
 						<a href="index.html">Exports</a>
-					</li>
-					<li class=" tsd-kind-namespace">
-						<a href="modules/callbacks.html">Callbacks</a>
 					</li>
 				</ul>
 			</nav>
@@ -140,8 +325,26 @@
 					<li class=" tsd-kind-class">
 						<a href="classes/modmanager.html" class="tsd-kind-icon">Mod<wbr>Manager</a>
 					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="index.html#gdcallback" class="tsd-kind-icon">GDCallback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="index.html#runtimescenecallback" class="tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="index.html#currentscene" class="tsd-kind-icon">current<wbr>Scene</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="index.html#game" class="tsd-kind-icon">game</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="index.html#loadextension" class="tsd-kind-icon">load<wbr>Extension</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#registercallback" class="tsd-kind-icon">register<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#unregistercallback" class="tsd-kind-icon">unregister<wbr>Callback</a>
 					</li>
 				</ul>
 			</nav>
