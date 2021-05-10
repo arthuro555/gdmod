@@ -2,13 +2,13 @@ const fs = require("fs").promises;
 const { join } = require("path");
 const asar = require("asar");
 const chalk = require("chalk");
+const os = require("os")
 
 /**
  * @callback asarModifier
  * @param {string} - Temporary directory where the asar files are
  * @returns {Promise} - Asar repacks when returned promise resolves
  */
-
 /**
  * Extracts an asar to a temporary directory, executes a callback to modify the files, before repacking the asar.
  * @param {string} asarFile The path to the asar
@@ -16,7 +16,7 @@ const chalk = require("chalk");
  * @param {boolean} debug Should debug output be shown?
  */
 module.exports.editAsar = async (asarFile, editor, debug) => {
-  const tempDir = join(await fs.realpath(require("os").tmpdir()), "GDModTemp");
+  const tempDir = join(await fs.realpath(os.tmpdir()), "GDModTemp");
   const tempAsar = join(tempDir, "app.asar");
 
   // Make sure temp directory is empty
