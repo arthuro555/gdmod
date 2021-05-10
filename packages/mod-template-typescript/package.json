@@ -1,26 +1,19 @@
 {
-  "name": "@gdmod/mod-template-typescript",
-  "version": "0.2.1",
-  "description": "A template to get started modding",
-  "author": "Arthur Pacaud (arthuro555)",
-  "license": "MIT",
-  "main": "./src/index.ts",
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arthuro555/gdmod.git"
-  },
-  "scripts": {
-    "build": "gdmod-cli dev build"
-  },
-  "devDependencies": {
-    "@gdmod/cli": "^0.2.1",
-    "typescript": "^4.2.4",
-    "pixi.js": "^6.0.2"
-  },
-  "dependencies": {
-    "@gdmod/api": "^0.2.1"
-  }
+	"name": "@gdmod/mod-template-typescript",
+	"version": "0.2.1",
+	"description": "A template to get started modding",
+	"author": "Arthur Pacaud (arthuro555)",
+	"license": "MIT",
+	"main": "./src/index.ts",
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/arthuro555/gdmod.git"
+	},
+	"devDependencies": {
+		"pixi.js": "^6.0.2",
+		"typescript": "^4.2.4"
+	}
 }

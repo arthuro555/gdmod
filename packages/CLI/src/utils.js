@@ -2,7 +2,7 @@ const fs = require("fs").promises;
 const { join } = require("path");
 const asar = require("asar");
 const chalk = require("chalk");
-const os = require("os")
+const os = require("os");
 
 /**
  * @callback asarModifier
