@@ -48,17 +48,7 @@ async function buildBundle(to, config = {}) {
         globalExternals({
           "@gdmod/api": {
             varName: "GDAPI",
-            namedExports: [
-              "Mod",
-              "ModManager",
-              "registerCallback",
-              "unregisterCallback",
-              "GDCallback",
-              "RuntimeSceneCallback",
-              "loadExtension",
-              "parseModManifest",
-              "loadModFile",
-            ],
+            namedExports: require("../GDAPI_Signature.json"),
           },
         }),
       ],

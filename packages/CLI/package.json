@@ -9,6 +9,13 @@
     "type": "git",
     "url": "git+https://github.com/arthuro555/gdmod.git"
   },
+  "scripts": {
+    "start": "node ./scripts/watch.js"
+  },
+  "devDependencies": {
+    "@gdmod/api": "^0.2.1",
+    "chokidar": "^3.5.1"
+  },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.1",
     "@gdmod/local-loader": "^0.2.1",
