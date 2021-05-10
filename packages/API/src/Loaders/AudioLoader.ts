@@ -1,6 +1,7 @@
 import { JSZipObject } from "jszip";
 import type { Loader } from ".";
 import { game } from "../Utilities/GDJSAccess";
+import { extname } from "path";
 
 /**
  * Loads a mod audio file into GDevelops audio manager.
@@ -8,9 +9,10 @@ import { game } from "../Utilities/GDJSAccess";
  * @param resource - The GDevelop resource data of the file to load.
  */
 const AudioLoader: Loader = async (file, resource) => {
-  const audioFile = ((await file.file(
+  // DataURIs isn't ideal but blob urls aren't supported by howler.
+  const audioFile = await (file.file(
     "resources/" + resource.file
-  )) as JSZipObject).async("blob");
+  ) as JSZipObject).async("base64");
   const audioManager = game.getSoundManager();
 
   // Override the resource with the new URL
@@ -18,7 +20,9 @@ const AudioLoader: Loader = async (file, resource) => {
     { metadata: "", userAdded: false },
     resource,
     {
-      file: URL.createObjectURL(audioFile),
+      // Note that using the extension name is not standard compliant,
+      // but Howler requires this being the file extension not a real MIME type.
+      file: `data:audio/${extname(resource.file).substring(1)};base64,${audioFile}`,
     }
   );
 

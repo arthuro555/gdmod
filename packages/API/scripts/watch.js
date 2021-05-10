@@ -22,7 +22,7 @@ watch(__dirname + "/../src", {
   // Launch typegen in the background
   typeGen();
   console.info("ℹ A change has been detected, API is being rebuilt!");
-  const { warnings } = await build();
+  const { warnings } = await build().catch(console.error);
   if (warnings.length !== 0) {
     console.warn(
       "⚠ Build finished with warnings!\n" +
