@@ -1,7 +1,6 @@
-const fs = require("fs").promises;
-const { join } = require("path");
-const asar = require("asar");
-const chalk = require("chalk");
+import fs from "fs/promises";
+import { join } from "path";
+import chalk from "chalk";
 
 /**
  * @callback asarModifier
@@ -15,9 +14,17 @@ const chalk = require("chalk");
  * @param {asarModifier} editor The function to pass the temporary path to.
  * @param {boolean} debug Should debug output be shown?
  */
-module.exports.editAsar = async (asarFile, editor, debug) => {
-  const tempDir = join(await fs.realpath(require("os").tmpdir()), "GDModTemp");
-  const tempAsar = join(tempDir, "app.asar");
+export const editAsar = async (
+  asarFile: string,
+  editor: (pathToGame: string) => Promise<void>,
+  debug: boolean
+) => {
+  const { extractAll, createPackage } = await import("asar");
+  const tempDir: string = join(
+    await fs.realpath(require("os").tmpdir()),
+    "GDModTemp"
+  );
+  const tempAsar: string = join(tempDir, "app.asar");
 
   // Make sure temp directory is empty
   try {
@@ -29,7 +36,7 @@ module.exports.editAsar = async (asarFile, editor, debug) => {
   }
 
   // Read file
-  const asarFileContent = await fs.readFile(asarFile);
+  const asarFileContent: Buffer = await fs.readFile(asarFile);
 
   // Backup asar
   console.log(chalk.greenBright(chalk.italic("Backing up old asar file...")));
@@ -42,7 +49,7 @@ module.exports.editAsar = async (asarFile, editor, debug) => {
   // Unpack the asar
   try {
     console.log(chalk.greenBright(chalk.italic("Unpacking asar file...")));
-    asar.extractAll(tempAsar, tempDir);
+    extractAll(tempAsar, tempDir);
     await fs.unlink(tempAsar); // To not repack it later
   } catch (e) {
     if (debug) console.log(e);
@@ -57,7 +64,7 @@ module.exports.editAsar = async (asarFile, editor, debug) => {
     () => {
       // Success, repacking the asar
       console.log(chalk.greenBright(chalk.italic("Repacking asar file...")));
-      asar.createPackage(tempDir, tempAsar).then(async () => {
+      createPackage(tempDir, tempAsar).then(async () => {
         // Copy temporary new asar back to the original path
         await fs.writeFile(asarFile, await fs.readFile(tempAsar));
         console.log(chalk.greenBright(chalk.bold("DONE !")));

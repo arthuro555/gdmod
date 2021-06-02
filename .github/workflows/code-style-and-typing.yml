@@ -22,7 +22,6 @@ jobs:
         run: yarn
 
       - name: Check types
-        working-directory: ./packages/API
         run: yarn ts
 
   check-code-style:

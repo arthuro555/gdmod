@@ -1,5 +1,6 @@
 const { watch } = require("chokidar");
 const { generateGDAPISignature } = require("./gdapi-signature-gen");
+require("child_process").exec("yarn build --watch").on("message", console.log);
 
 watch(require.resolve("@gdmod/api/dist/GDApi"), {
   awaitWriteFinish: true,
