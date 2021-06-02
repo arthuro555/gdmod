@@ -20,9 +20,7 @@ class InstallWizard extends Command {
   rest = Option.Proxy();
 
   async execute() {
-    const results = await (
-      await import("inquirer")
-    ).prompt([
+    const results = await (await import("inquirer")).prompt([
       {
         type: "list",
         name: "type",
@@ -148,9 +146,11 @@ class InstallLoaderAsar extends Command {
 
   async execute() {
     try {
-      await (
-        await import("../utils")
-      ).editAsar(this.asarFile, installGDModElectron, this.debug);
+      await (await import("../utils")).editAsar(
+        this.asarFile,
+        installGDModElectron,
+        this.debug
+      );
       return 0;
     } catch (e) {
       if (this.debug) console.log(e);
