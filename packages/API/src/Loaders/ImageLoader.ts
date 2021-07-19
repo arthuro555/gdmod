@@ -10,9 +10,9 @@ declare const PIXI: typeof tPIXI;
  * @param resource - The GDevelop resource data of the file to load.
  */
 const ImageLoader: Loader = async function (file, resource) {
-  const resourceFile = await (file.file(
-    "resources/" + resource.file
-  ) as JSZipObject).async("blob");
+  const resourceFile = await (
+    file.file("resources/" + resource.file) as JSZipObject
+  ).async("blob");
   // Get an URL for the image Blob
   const blobURL = URL.createObjectURL(resourceFile);
 

@@ -6,7 +6,7 @@
     // Required by PixiJS, loaders needs this to use the more strict mini-signal types.
     "paths": {
       "mini-signals": [
-        "./node_modules/resource-loader/typings/mini-signals.d.ts"
+        "../../node_modules/resource-loader/typings/mini-signals.d.ts"
       ]
     },
     "moduleResolution": "node",

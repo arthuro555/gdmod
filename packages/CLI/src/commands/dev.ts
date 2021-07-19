@@ -59,7 +59,9 @@ async function buildMod() {
 
   // Copy resources
   await Promise.all(
-    (await readdir("./resources")).map(async (file) =>
+    (
+      await readdir("./resources")
+    ).map(async (file) =>
       zip.file("resources/" + file, await readFile("./resources/" + file))
     )
   );
