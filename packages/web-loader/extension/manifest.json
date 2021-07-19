@@ -37,6 +37,7 @@
   "web_accessible_resources": [
     "/vendor/localforage.min.js",
     "/js/injected.js",
+    "/api/polyfill.js",
     "/api/GDApi.js"
   ]
 }

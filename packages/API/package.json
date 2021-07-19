@@ -1,17 +1,21 @@
 {
   "name": "@gdmod/api",
   "version": "0.2.1",
-  "description": "The interface to mod games and load/run mods.",
-  "main": "src/index.ts",
+  "description": "Helper functions to mod GDevelop games and an API to create GDMod mods.",
+  "main": "./src/index.ts",
+  "module": "./dist/esm/index.js",
+  "unpkg": "./dist/GDApi.js",
+  "sideEffects": false,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arthuro555/gdmod.git"
   },
   "scripts": {
-    "start": "node ./scripts/watch.js",
+    "start": "node ./scripts/watch.cjs",
     "prepublish": "yarn build",
-    "build": "node scripts/build.js",
-    "ts": "tsc",
+    "build": "node scripts/build.cjs",
+    "ts": "node scripts/type-gen.cjs",
     "test": "jest",
     "docgen": "typedoc src/index.ts --name GDAPI --readme none --hideGenerator --excludePrivate --excludeInternal"
   },

@@ -13,7 +13,8 @@
     "url": "git+https://github.com/arthuro555/gdmod.git"
   },
   "scripts": {
-    "build": "gdmod-cli dev build"
+    "build": "gdmod-cli dev build",
+    "ts": "tsc"
   },
   "devDependencies": {
     "@gdmod/cli": "^0.2.1",

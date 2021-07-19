@@ -5,7 +5,7 @@ const declarations = __dirname + "/../types/GDAPI/index.d.ts";
 
 module.exports.typeGen = () => {
   return new Promise((resolve) => {
-    const p = exec("yarn ts", { cwd: __dirname + "/.." }).on(
+    const p = exec("yarn tsc", { cwd: __dirname + "/.." }).on(
       "exit",
       async (c) => {
         if (c !== 0)

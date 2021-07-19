@@ -1,3 +1,4 @@
 export * from "./Callbacks";
 export * from "./ExtensionsLoader";
-export { game, currentScene } from "./GDJSAccess";
+export * from "./GDJSAccess";
+export * from "./Polyfill";

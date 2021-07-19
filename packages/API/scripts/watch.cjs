@@ -1,6 +1,6 @@
 const { watch } = require("chokidar");
-const { build } = require("./build");
-const { typeGen } = require("./type-gen");
+const { build } = require("./build.cjs");
+const { typeGen } = require("./type-gen.cjs");
 
 let lock = false;
 let requested = false;
@@ -22,7 +22,10 @@ watch(__dirname + "/../src", {
   // Launch typegen in the background
   typeGen();
   console.info("ℹ A change has been detected, API is being rebuilt!");
-  const { warnings } = await build().catch(console.error);
+  const warnings = (await build().catch(console.error)).reduce(
+    (p, c) => p.concat(c.warnings),
+    []
+  );
   if (warnings.length !== 0) {
     console.warn(
       "⚠ Build finished with warnings!\n" +

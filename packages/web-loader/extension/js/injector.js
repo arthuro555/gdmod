@@ -29,8 +29,10 @@
       event.data["forwardTo"] === "GDMod" &&
       typeof event.data["payload"] !== "undefined"
     ) {
-      if (event.data.payload.id === "installAPI") injectScript("/api/GDApi.js");
-      else chrome.runtime.sendMessage(event.data.payload);
+      if (event.data.payload.id === "installAPI") {
+        injectScript("/api/polyfill.js");
+        injectScript("/api/GDApi.js");
+      } else chrome.runtime.sendMessage(event.data.payload);
     }
   });
 

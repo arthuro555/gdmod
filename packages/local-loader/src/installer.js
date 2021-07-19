@@ -37,8 +37,12 @@ module.exports.installGDMod = async function (outputDir) {
 
   // Copy over the API
   await fs.writeFile(
+    path.join(outputDir, "GDpolyfill.js"),
+    await fs.readFile(require.resolve("@gdmod/api/dist/polyfill.js"))
+  );
+  await fs.writeFile(
     path.join(outputDir, "GDApi.js"),
-    await fs.readFile(require.resolve("@gdmod/api/dist/GDApi"))
+    await fs.readFile(require.resolve("@gdmod/api/dist/GDApi.js"))
   );
 
   // Patch RuntimeGame access
@@ -64,7 +68,7 @@ module.exports.installGDMod = async function (outputDir) {
 
   await fs.writeFile(
     path.join(outputDir, "index.html"),
-    insertInclude(indexFile, "GDApi.js")
+    insertInclude(insertInclude(indexFile, "GDpolyfill.js"), "GDApi.js")
   );
 };
 
