@@ -76,15 +76,18 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property"><a href="index.html#currentscene" class="tsd-kind-icon">current<wbr>Scene</a></li>
-								<li class="tsd-kind-property"><a href="index.html#game" class="tsd-kind-icon">game</a></li>
+								<li class="tsd-kind-variable"><a href="index.html#currentscene" class="tsd-kind-icon">current<wbr>Scene</a></li>
+								<li class="tsd-kind-variable"><a href="index.html#game" class="tsd-kind-icon">game</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="index.html#getgame" class="tsd-kind-icon">get<wbr>Game</a></li>
+								<li class="tsd-kind-function"><a href="index.html#getscene" class="tsd-kind-icon">get<wbr>Scene</a></li>
+								<li class="tsd-kind-function"><a href="index.html#installpolyfills" class="tsd-kind-icon">install<wbr>Polyfills</a></li>
 								<li class="tsd-kind-function"><a href="index.html#loadextension" class="tsd-kind-icon">load<wbr>Extension</a></li>
 								<li class="tsd-kind-function"><a href="index.html#registercallback" class="tsd-kind-icon">register<wbr>Callback</a></li>
 								<li class="tsd-kind-function"><a href="index.html#unregistercallback" class="tsd-kind-icon">unregister<wbr>Callback</a></li>
@@ -101,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">GDCallback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;preEvents&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;postEvents&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneLoaded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;scenePaused&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneResumed&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneUnloading&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneUnloaded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;objectDeleted&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/Callbacks.ts#L6">Utilities/Callbacks.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/Callbacks.ts#L6">Utilities/Callbacks.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -118,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>runtimeScene<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeScene</span>, object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeObject</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/Callbacks.ts#L32">Utilities/Callbacks.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/Callbacks.ts#L32">Utilities/Callbacks.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -161,19 +164,20 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="currentscene" class="tsd-anchor"></a>
 					<h3>current<wbr>Scene</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Scene<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeScene</span></div>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Scene<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeScene</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/GDJSAccess.ts#L6">Utilities/GDJSAccess.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/GDJSAccess.ts#L21">Utilities/GDJSAccess.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The instance of the current RuntimeScene.</p>
+							<p>The instance of the current RuntimeScene.
+							Can be null on mods that are not loaded via a GDMod loader.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
@@ -182,18 +186,19 @@
 						</dl>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property">
+				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="game" class="tsd-anchor"></a>
 					<h3>game</h3>
-					<div class="tsd-signature tsd-kind-icon">game<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeGame</span></div>
+					<div class="tsd-signature tsd-kind-icon">game<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeGame</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/GDJSAccess.ts#L12">Utilities/GDJSAccess.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/GDJSAccess.ts#L14">Utilities/GDJSAccess.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The instance of the current RuntimeGame.</p>
+							<p>The instance of the current RuntimeGame.
+							Can be null on mods that are not loaded via a GDMod loader.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
@@ -206,6 +211,84 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="getgame" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Game</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Game<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RuntimeGame</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/GDJSAccess.ts#L28">Utilities/GDJSAccess.ts:28</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If <a href="index.html#game">game</a> is null, hack into the game to get it.
+									Intended for usage outside of a GDMod loader, as game can only be null there.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="index.html#game">game</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RuntimeGame</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="getscene" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Scene</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Scene<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RuntimeScene</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/GDJSAccess.ts#L47">Utilities/GDJSAccess.ts:47</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If <a href="index.html#currentscene">currentScene</a> is null, hack into the game to get it.
+									Intended for usage outside of a GDMod loader, as game can only be null there.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="index.html#currentscene">currentScene</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RuntimeScene</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="installpolyfills" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> install<wbr>Polyfills</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">install<wbr>Polyfills<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/Polyfill.ts#L6">Utilities/Polyfill.ts:6</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Polyfills missing GDevelop API features for games made with older versions of GDevelop.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="loadextension" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> load<wbr>Extension</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -215,7 +298,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/ExtensionsLoader.ts#L223">Utilities/ExtensionsLoader.ts:223</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/ExtensionsLoader.ts#L223">Utilities/ExtensionsLoader.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -249,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/Callbacks.ts#L42">Utilities/Callbacks.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/Callbacks.ts#L42">Utilities/Callbacks.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,7 +369,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/35681a4/packages/API/src/Utilities/Callbacks.ts#L52">Utilities/Callbacks.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/3852e7d/packages/API/src/Utilities/Callbacks.ts#L52">Utilities/Callbacks.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -331,11 +414,20 @@
 					<li class=" tsd-kind-type-alias">
 						<a href="index.html#runtimescenecallback" class="tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback</a>
 					</li>
-					<li class=" tsd-kind-property">
+					<li class=" tsd-kind-variable">
 						<a href="index.html#currentscene" class="tsd-kind-icon">current<wbr>Scene</a>
 					</li>
-					<li class=" tsd-kind-property">
+					<li class=" tsd-kind-variable">
 						<a href="index.html#game" class="tsd-kind-icon">game</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#getgame" class="tsd-kind-icon">get<wbr>Game</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#getscene" class="tsd-kind-icon">get<wbr>Scene</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#installpolyfills" class="tsd-kind-icon">install<wbr>Polyfills</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="index.html#loadextension" class="tsd-kind-icon">load<wbr>Extension</a>
