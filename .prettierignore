@@ -1,2 +1,5 @@
 **/*.min.js
 **/GDApi.js
+packages/API/dist/**/*
+packages/API/docs/**/*
+packages/web-loader/extension/api/*
