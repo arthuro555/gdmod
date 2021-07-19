@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "@gdmod/cli": "^0.2.1",
-    "typescript": "^4.2.4",
-    "pixi.js": "^6.0.2"
+    "pixi.js": "^6.0.2",
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "@gdmod/api": "^0.2.1"

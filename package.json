@@ -14,5 +14,5 @@
   },
   "workspaces": [
     "packages/*"
- ]  
+  ]
 }
