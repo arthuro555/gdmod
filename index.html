@@ -104,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">GDCallback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;preEvents&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;postEvents&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneLoaded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;scenePaused&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneResumed&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneUnloading&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sceneUnloaded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;objectDeleted&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/Callbacks.ts#L6">Utilities/Callbacks.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/Callbacks.ts#L6">Utilities/Callbacks.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -121,7 +121,7 @@
 					<div class="tsd-signature tsd-kind-icon">Runtime<wbr>Scene<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>runtimeScene<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeScene</span>, object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">gdjs.RuntimeObject</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/Callbacks.ts#L32">Utilities/Callbacks.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/Callbacks.ts#L32">Utilities/Callbacks.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -168,16 +168,16 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="currentscene" class="tsd-anchor"></a>
 					<h3>current<wbr>Scene</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Scene<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeScene</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Scene<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">gdjs.RuntimeScene</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/GDJSAccess.ts#L21">Utilities/GDJSAccess.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/GDJSAccess.ts#L16">Utilities/GDJSAccess.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The instance of the current RuntimeScene.
-							Can be null on mods that are not loaded via a GDMod loader.</p>
+							Can be null if used between the load of GDAPI and a game frame, since the game is hijacked at the scene update.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
@@ -189,16 +189,16 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="game" class="tsd-anchor"></a>
 					<h3>game</h3>
-					<div class="tsd-signature tsd-kind-icon">game<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RuntimeGame</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">game<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">gdjs.RuntimeGame</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/GDJSAccess.ts#L14">Utilities/GDJSAccess.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/GDJSAccess.ts#L9">Utilities/GDJSAccess.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The instance of the current RuntimeGame.
-							Can be null on mods that are not loaded via a GDMod loader.</p>
+							Can be null if used between the load of GDAPI and a game frame, since the game is hijacked at the scene update.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>see</dt>
@@ -220,13 +220,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/GDJSAccess.ts#L28">Utilities/GDJSAccess.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/GDJSAccess.ts#L22">Utilities/GDJSAccess.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>If <a href="index.html#game">game</a> is null, hack into the game to get it.
-									Intended for usage outside of a GDMod loader, as game can only be null there.</p>
+									<p>If <a href="index.html#game">game</a> is null, hack into the game to get it.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
@@ -248,13 +247,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/GDJSAccess.ts#L47">Utilities/GDJSAccess.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/GDJSAccess.ts#L40">Utilities/GDJSAccess.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>If <a href="index.html#currentscene">currentScene</a> is null, hack into the game to get it.
-									Intended for usage outside of a GDMod loader, as game can only be null there.</p>
+									<p>If <a href="index.html#currentscene">currentScene</a> is null, hack into the game to get it.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>see</dt>
@@ -276,7 +274,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/Polyfill.ts#L6">Utilities/Polyfill.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/Polyfill.ts#L6">Utilities/Polyfill.ts:6</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -298,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/ExtensionsLoader.ts#L223">Utilities/ExtensionsLoader.ts:223</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/ExtensionsLoader.ts#L223">Utilities/ExtensionsLoader.ts:223</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/Callbacks.ts#L42">Utilities/Callbacks.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/Callbacks.ts#L42">Utilities/Callbacks.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -369,7 +367,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/9d4d878/packages/API/src/Utilities/Callbacks.ts#L52">Utilities/Callbacks.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/arthuro555/gdmod/blob/d977a0b/packages/API/src/Utilities/Callbacks.ts#L52">Utilities/Callbacks.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
