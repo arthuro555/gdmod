@@ -1,7 +1,7 @@
 {
   "name": "@gdmod/api",
   "amdName": "gdapi",
-  "version": "0.2.1",
+  "version": "0.2.2-test.0",
   "description": "Helper functions to mod GDevelop games and an API to create GDMod mods.",
   "author": "arthuro555",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "exports": {
     ".": {
       "browser": "./dist/gdapi.module.js",
-			"umd": "./dist/gdapi.umd.js",
+      "umd": "./dist/gdapi.umd.js",
       "require": "./dist/gdapi.cjs",
       "import": "./dist/gdapi.mjs"
     },
