@@ -65,14 +65,6 @@
 
   // First we verify if the game is a GDevelop game. The gdjs namespace is present on all GDevelop games.
   if (window.gdjs !== undefined) {
-    // Monkey-patch the event loop start function. Use an IIFE to enclose the original function.
-    (function (original) {
-      gdjs.RuntimeGame.prototype.startGameLoop = function (...args) {
-        window.GDAPI_game = this;
-        original.apply(this, args);
-      };
-    })(gdjs.RuntimeGame.prototype.startGameLoop);
-
     // Set up communication between the UI and the webLoader.
     window.addEventListener("message", function (event) {
       const msg = event.data["message"];

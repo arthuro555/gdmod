@@ -7,7 +7,7 @@
   },
   "include": [
     "./src/**/*",
-    "./node_modules/@gdmod/api/types/GDJS/**/*",
-    "../../node_modules/@gdmod/api/types/GDJS/**/*"
+    "./node_modules/@gdmod/api/types/**/*",
+    "../../node_modules/@gdmod/api/types/**/*"
   ]
 }

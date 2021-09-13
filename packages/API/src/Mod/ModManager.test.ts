@@ -13,6 +13,8 @@ global.gdjs = {
 import { Mod, ModManager } from ".";
 
 describe("Mod manager", () => {
+  // Clear the GDJS access patch event listeners.
+  gdjs.callbacksRuntimeScenePreEvents.length = 0;
   const mod = new Mod();
   const spy = jest.spyOn(mod, "preEvent");
 
@@ -26,6 +28,7 @@ describe("Mod manager", () => {
 
   it("Registers mod methods as runtime callbacks", () => {
     expect(spy).not.toHaveBeenCalled();
+    console.log(gdjs.callbacksRuntimeScenePreEvents);
     gdjs.callbacksRuntimeScenePreEvents.forEach((cb) => cb(null as any));
     expect(spy).toHaveBeenCalled();
   });

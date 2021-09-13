@@ -38,6 +38,6 @@
     "/vendor/localforage.min.js",
     "/js/injected.js",
     "/api/polyfill.js",
-    "/api/GDApi.js"
+    "/api/gdapi.js"
   ]
 }

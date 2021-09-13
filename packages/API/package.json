@@ -1,10 +1,35 @@
 {
   "name": "@gdmod/api",
+  "amdName": "gdapi",
   "version": "0.2.1",
   "description": "Helper functions to mod GDevelop games and an API to create GDMod mods.",
-  "main": "./src/index.ts",
-  "module": "./dist/esm/index.js",
-  "unpkg": "./dist/GDApi.js",
+  "author": "arthuro555",
+  "license": "MIT",
+  "keywords": [
+    "GDevelop",
+    "modding",
+    "mod",
+    "api",
+    "gdmod"
+  ],
+  "source": "./src/module.entry.ts",
+  "exports": {
+    ".": {
+      "browser": "./dist/gdapi.module.js",
+			"umd": "./dist/gdapi.umd.js",
+      "require": "./dist/gdapi.cjs",
+      "import": "./dist/gdapi.mjs"
+    },
+    "./global": "./dist/gdapi.min.cjs",
+    "./polyfill": "./dist/polyfill.cjs",
+    "./package.json": "./package.json",
+    "./": "./"
+  },
+  "main": "./dist/gdapi.cjs",
+  "module": "./dist/gdapi.module.js",
+  "unpkg": "./dist/gdapi.umd.js",
+  "umd:main": "./dist/gdapi.umd.js",
+  "types": "./types/GDAPI/index.d.ts",
   "sideEffects": false,
   "type": "module",
   "repository": {
@@ -12,18 +37,17 @@
     "url": "git+https://github.com/arthuro555/gdmod.git"
   },
   "scripts": {
-    "start": "node ./scripts/watch.cjs",
+    "start": "microbundle watch -i ./src/iife.entry.ts -f iife -o ./dist/gdapi.min.js --external gdjs",
     "prepublish": "yarn build",
-    "build": "node scripts/build.cjs",
-    "ts": "node scripts/type-gen.cjs",
+    "build": "microbundle build --compress && yarn build:iife && yarn build:polyfill",
+    "build:iife": "microbundle build --compress -i ./src/iife.entry.ts -f iife -o ./dist/gdapi.min.js --external gdjs",
+    "build:polyfill": "microbundle build --compress -i ./src/polyfill.entry.ts -f iife -o ./dist/polyfill.js",
+    "ts": "tsc --noEmit",
     "test": "jest",
-    "docgen": "typedoc src/index.ts --name GDAPI --readme none --hideGenerator --excludePrivate --excludeInternal"
+    "docgen": "typedoc src/module.entry.ts --name GDAPI --readme none --hideGenerator --excludePrivate --excludeInternal"
   },
-  "author": "arthuro555",
-  "license": "MIT",
   "dependencies": {
     "jszip": "^3.6.0",
-    "path-browserify": "^1.0.1",
     "stream": "^0.0.2",
     "typanion": "^3.3.0"
   },
@@ -32,15 +56,16 @@
     "chokidar": "^3.5.1",
     "esbuild": "^0.8.55",
     "jest": "^26.6.3",
+    "microbundle": "^0.13.3",
     "pixi.js": "^6.0.2",
     "ts-jest": "^26.5.6",
     "typedoc": "^0.20.34",
     "typescript": "4.2.4"
   },
-  "browser": {
-    "path": "path-browserify"
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "mangle": {
+    "regex": "^_"
   }
 }

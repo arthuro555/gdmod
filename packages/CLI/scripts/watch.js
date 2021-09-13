@@ -2,7 +2,7 @@ const { watch } = require("chokidar");
 const { generateGDAPISignature } = require("./gdapi-signature-gen");
 require("child_process").exec("yarn build --watch").on("message", console.log);
 
-watch(require.resolve("@gdmod/api/dist/GDApi.js"), {
+watch(require.resolve("@gdmod/api/dist/gdapi.min.cjs"), {
   awaitWriteFinish: true,
 }).on("change", () => {
   console.info("ℹ API has been rebuilt, regenerating signatures!");

@@ -5,14 +5,14 @@ module.exports.generateGDAPISignature = async () => {
   global.gdjs = {
     RuntimeScene: class RuntimeScene {},
     RuntimeGame: class RuntimeGame {
-      _sceneStack=  {
+      _sceneStack = {
         getCurrentScene: () => null,
-      }
+      };
     },
     RuntimeObject: class RuntimeObject {},
     SceneStack: class SceneStack {},
     callbacksRuntimeSceneLoaded: [],
-    callbacksRuntimeSceneResumed: []
+    callbacksRuntimeSceneResumed: [],
   };
 
   // Mock PIXI to allow GDAPI to load
@@ -22,13 +22,15 @@ module.exports.generateGDAPISignature = async () => {
   global.GDAPI_game = new gdjs.RuntimeGame();
 
   // Require transpiled module
-  const GDAPI = require("@gdmod/api/dist/GDApi.cjs");
+  const GDAPI = require("@gdmod/api/dist/gdapi.cjs");
 
   // Write named exports names
   await writeFile(
     __dirname + "/../src/GDAPI_Signature.json",
     JSON.stringify(Object.keys(GDAPI))
   );
+
+  console.log("✅ Sucessfully extracted API signatures!");
 };
 
 if (require.main === module) module.exports.generateGDAPISignature();

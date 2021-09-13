@@ -1,7 +1,6 @@
 import { JSZipObject } from "jszip";
 import type { Loader } from ".";
 import { game } from "../Utilities/GDJSAccess";
-import { extname } from "path";
 
 /**
  * Loads a mod audio file into GDevelops audio manager.
@@ -22,9 +21,7 @@ const AudioLoader: Loader = async (file, resource) => {
     {
       // Note that using the extension name is not standard compliant,
       // but Howler requires this being the file extension not a real MIME type.
-      file: `data:audio/${extname(resource.file).substring(
-        1
-      )};base64,${audioFile}`,
+      file: `data:audio/${resource.file.split(".").pop()};base64,${audioFile}`,
     }
   );
 

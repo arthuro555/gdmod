@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
+    "incremental": true,
+    "pretty": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "declarationMap": true,
+    "sourceMap": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "outFile": "./types/GDAPI/index.js",
+    "noEmit": true,
     // Required by PixiJS, loaders needs this to use the more strict mini-signal types.
     "paths": {
       "mini-signals": [

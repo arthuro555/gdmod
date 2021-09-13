@@ -31,7 +31,7 @@
     ) {
       if (event.data.payload.id === "installAPI") {
         injectScript("/api/polyfill.js");
-        injectScript("/api/GDApi.js");
+        injectScript("/api/gdapi.js");
       } else chrome.runtime.sendMessage(event.data.payload);
     }
   });

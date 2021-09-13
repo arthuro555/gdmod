@@ -2,4 +2,4 @@
 docs
 scripts
 jest.config.cjs
-*.test.ts
+src

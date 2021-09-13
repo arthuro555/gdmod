@@ -1,3 +1,4 @@
 dist/
 docs/
-types/GDAPI
+types/GDAPI/*
+!types/GDAPI/index.d.ts

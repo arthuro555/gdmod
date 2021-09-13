@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "start": "yarn lerna run start --parallel --stream",
+    "start": "yarn lerna run build && yarn lerna run start --parallel --stream",
     "test": "yarn lerna run test --parallel --stream",
     "ts": "yarn lerna run ts --parallel --stream",
     "format": "prettier --write ./packages/API/**/*.cjs ./packages/API/src/**/*.ts ./packages/CLI/src/**/*.ts ./packages/local-loader/**/*.js ./packages/web-loader/**/*.js ./packages/web-loader/**/*.html \"./Mod Templates/**/*.js\" \"./Mod Templates/**/*.json\"",
