@@ -17,7 +17,7 @@ function getMain() {
   }
 }
 
-const DEFAULT_BUILD_CONFIGURATION: BuildOptions = {
+const getDefaultBuildConfiguration = (): BuildOptions => ({
   entryPoints: [getMain()],
   bundle: true,
   minify: true,
@@ -26,7 +26,7 @@ const DEFAULT_BUILD_CONFIGURATION: BuildOptions = {
   globalName: "Mod",
   banner: { js: "return (() => {" },
   footer: { js: "return Mod.default;\n})();\n" },
-};
+});
 
 /**
  * Builds a GDMod code bundle out of the main es-module.
@@ -40,7 +40,7 @@ async function buildBundle(to: string, config: BuildOptions = {}) {
   ]);
 
   return build(
-    merge({}, config, DEFAULT_BUILD_CONFIGURATION, {
+    merge({}, config, getDefaultBuildConfiguration(), {
       outfile: to,
       plugins: [
         globalExternals({

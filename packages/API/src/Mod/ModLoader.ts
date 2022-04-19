@@ -1,6 +1,8 @@
 import { JSZipObject, loadAsync as loadZIP } from "jszip";
 import { loadResources } from "../Loaders";
-import { Mod, ModManager, ModFile } from ".";
+import { Mod } from "./Mod";
+import { ModFile } from "./ManifestParser";
+import { ModManager } from "./ModManager";
 
 /**
  * Loads a mod parsed by {@link parseModManifest}.

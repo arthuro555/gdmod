@@ -1,5 +1,5 @@
 const path = require("path");
-const fs = require("fs/promises");
+const fs = require("fs").promises;
 
 /**
  * Inserts an include in a HTML document.
@@ -38,11 +38,11 @@ module.exports.installGDMod = async function (outputDir) {
   // Copy over the API
   await fs.writeFile(
     path.join(outputDir, "GDpolyfill.js"),
-    await fs.readFile(require.resolve("@gdmod/api/dist/polyfill.js"))
+    await fs.readFile(require.resolve("@gdmod/api/dist/polyfill.cjs"))
   );
   await fs.writeFile(
     path.join(outputDir, "GDApi.js"),
-    await fs.readFile(require.resolve("@gdmod/api/dist/GDApi.js"))
+    await fs.readFile(require.resolve("@gdmod/api/dist/gdapi.min.cjs"))
   );
 
   // Patch RuntimeGame access

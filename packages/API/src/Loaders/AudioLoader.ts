@@ -1,4 +1,3 @@
-import { JSZipObject } from "jszip";
 import type { Loader } from ".";
 import { game } from "../Utilities/GDJSAccess";
 
@@ -9,9 +8,9 @@ import { game } from "../Utilities/GDJSAccess";
  */
 const AudioLoader: Loader = async (file, resource) => {
   // DataURIs isn't ideal but blob urls aren't supported by howler.
-  const audioFile = await (
-    file.file("resources/" + resource.file) as JSZipObject
-  ).async("base64");
+  const audioFile = await file
+    .file("resources/" + resource.file)!
+    .async("base64");
   const audioManager = game.getSoundManager();
 
   // Override the resource with the new URL

@@ -1,5 +1,4 @@
-import { unregisterCallback } from ".";
-import { registerCallback } from "./Callbacks";
+import { registerCallback, unregisterCallback } from "./Callbacks";
 
 /**
  * The instance of the current RuntimeGame.

@@ -11,7 +11,8 @@
   },
   "scripts": {
     "start": "node ./scripts/watch.js",
-    "build": "esbuild ./src/index.ts --outfile=bin/index.js --target=node12 --bundle --minify --platform=node --external:original-fs --external:@gdmod/api/dist/GDApi --external:@gdmod/local-loader --external:@fal-works/esbuild-plugin-global-externals --external:esbuild --external:jszip --external:inquirer --external:asar",
+    "build": "esbuild ./src/index.ts --outfile=bin/index.js --platform=node --target=node14 --bundle --minify --external:original-fs --external:@gdmod/api/dist/GDApi --external:@gdmod/local-loader --external:@fal-works/esbuild-plugin-global-externals --external:esbuild --external:jszip --external:inquirer --external:asar",
+    "clean": "rm -r bin",
     "ts": "tsc"
   },
   "engines": {
@@ -42,7 +43,7 @@
     "jszip": "^3.6.0"
   },
   "bin": {
-    "gdmod-cli": "./bin/cli"
+    "gdmod-cli": "./bin/index.js"
   },
   "publishConfig": {
     "access": "public"

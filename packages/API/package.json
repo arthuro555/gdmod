@@ -38,7 +38,8 @@
   },
   "scripts": {
     "start": "microbundle watch -i ./src/iife.entry.ts -f iife -o ./dist/gdapi.min.js --external gdjs",
-    "prepublish": "yarn build",
+    "prepublish": "yarn clean && yarn build && yarn ts",
+    "clean": "rimraf dist",
     "build": "microbundle build --compress && yarn build:iife && yarn build:polyfill",
     "build:iife": "microbundle build --compress -i ./src/iife.entry.ts -f iife -o ./dist/gdapi.min.js --external gdjs",
     "build:polyfill": "microbundle build --compress -i ./src/polyfill.entry.ts -f iife -o ./dist/polyfill.js",
@@ -58,6 +59,7 @@
     "jest": "^26.6.3",
     "microbundle": "^0.13.3",
     "pixi.js": "^6.0.2",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.5.6",
     "typedoc": "^0.20.34",
     "typescript": "4.2.4"
