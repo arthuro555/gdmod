@@ -21,10 +21,7 @@ export const editAsar = async (
   editor: (pathToGame: string) => Promise<void>,
   debug: boolean
 ) => {
-  const tempDir: string = join(
-    await fs.realpath(tmpdir()),
-    "GDModTemp"
-  );
+  const tempDir: string = join(await fs.realpath(tmpdir()), "GDModTemp");
   const tempAsar: string = join(tempDir, "app.asar");
 
   // Make sure temp directory is empty

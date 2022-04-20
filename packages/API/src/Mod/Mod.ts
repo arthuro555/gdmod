@@ -16,7 +16,7 @@
  * return myMod;
  * ```
  */
- export class Mod {
+export class Mod {
   /**
    * Function called when the scene switched.
    * @param {gdjs.RuntimeScene} runtimeScene - The new scene.
