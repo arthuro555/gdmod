@@ -1,7 +1,7 @@
 {
   "name": "@gdmod/api",
   "amdName": "gdapi",
-  "version": "0.2.2-test.0",
+  "version": "0.3.0",
   "description": "Helper functions to mod GDevelop games and an API to create GDMod mods.",
   "author": "arthuro555",
   "license": "MIT",
