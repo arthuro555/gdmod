@@ -1,6 +1,8 @@
 import fs from "fs/promises";
 import { join } from "path";
 import chalk from "chalk";
+import { tmpdir } from "os";
+import { extractAll, createPackage } from "asar";
 
 /**
  * @callback asarModifier
@@ -19,9 +21,8 @@ export const editAsar = async (
   editor: (pathToGame: string) => Promise<void>,
   debug: boolean
 ) => {
-  const { extractAll, createPackage } = await import("asar");
   const tempDir: string = join(
-    await fs.realpath(require("os").tmpdir()),
+    await fs.realpath(tmpdir()),
     "GDModTemp"
   );
   const tempAsar: string = join(tempDir, "app.asar");

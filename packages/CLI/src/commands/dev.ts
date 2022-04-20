@@ -4,7 +4,9 @@ import { emptyDir, rm, readFile, readdir, createWriteStream } from "fs-extra";
 import merge from "lodash/merge";
 import ora from "ora";
 import type { Cli } from "clipanion";
-import type { BuildOptions } from "esbuild";
+import { build, BuildOptions } from "esbuild";
+import JSZip from "jszip";
+import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 
 function getMain() {
   try {
@@ -33,12 +35,7 @@ const getDefaultBuildConfiguration = (): BuildOptions => ({
  * @param {*} to
  * @param {*} config
  */
-async function buildBundle(to: string, config: BuildOptions = {}) {
-  const [{ build }, { globalExternals }] = await Promise.all([
-    import("esbuild"),
-    import("@fal-works/esbuild-plugin-global-externals"),
-  ]);
-
+function buildBundle(to: string, config: BuildOptions = {}) {
   return build(
     merge({}, config, getDefaultBuildConfiguration(), {
       outfile: to,
@@ -55,7 +52,7 @@ async function buildBundle(to: string, config: BuildOptions = {}) {
 }
 
 async function buildMod() {
-  const zip = new (await import("jszip")).default();
+  const zip = new JSZip();
 
   // Copy resources
   await Promise.all(

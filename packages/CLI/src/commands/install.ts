@@ -2,6 +2,8 @@ import { Command, Option } from "clipanion";
 import { installGDMod, installGDModElectron } from "@gdmod/local-loader";
 import chalk from "chalk";
 import fs from "fs/promises";
+import { prompt } from "inquirer";
+import { editAsar } from "../utils";
 import type { Cli } from "clipanion";
 
 class InstallWizard extends Command {
@@ -20,9 +22,7 @@ class InstallWizard extends Command {
   rest = Option.Proxy();
 
   async execute() {
-    const results = await (
-      await import("inquirer")
-    ).prompt([
+    const results = await prompt([
       {
         type: "list",
         name: "type",
@@ -148,9 +148,7 @@ class InstallLoaderAsar extends Command {
 
   async execute() {
     try {
-      await (
-        await import("../utils")
-      ).editAsar(this.asarFile, installGDModElectron, this.debug);
+      await editAsar(this.asarFile, installGDModElectron, this.debug);
       return 0;
     } catch (e) {
       if (this.debug) console.log(e);

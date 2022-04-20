@@ -13,6 +13,4 @@ installCommands(cli);
 cli.register(Builtins.VersionCommand);
 cli.register(Builtins.HelpCommand);
 
-export const run = () => cli.runExit(process.argv.slice(2), Cli.defaultContext);
-
-export default cli;
+cli.runExit(process.argv.slice(2), Cli.defaultContext);
